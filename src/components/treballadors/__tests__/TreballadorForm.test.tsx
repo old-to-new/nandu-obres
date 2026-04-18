@@ -12,6 +12,7 @@ const treballadorExistent: Treballador = {
   actiu: true,
   telefon: '600111222',
   notes: 'Bon conductor',
+  encarregat: 'nandu',
   created_at: '2026-01-01T00:00:00Z',
 }
 
@@ -38,6 +39,24 @@ describe('TreballadorForm — mode creacio', () => {
     render(<TreballadorForm action={mockAction} />)
     expect(screen.getByLabelText(/nom/i)).toBeRequired()
   })
+
+  it("renderitza el select d'equip", () => {
+    render(<TreballadorForm action={mockAction} />)
+    expect(screen.getByLabelText(/equip/i)).toBeInTheDocument()
+  })
+
+  it("el select d'equip conte les tres opcions (sense assignar, Nandu, Pare)", () => {
+    render(<TreballadorForm action={mockAction} />)
+    const select = screen.getByLabelText(/equip/i)
+    expect(select).toContainElement(screen.getByRole('option', { name: /sense assignar/i }))
+    expect(select).toContainElement(screen.getByRole('option', { name: /equip nandu/i }))
+    expect(select).toContainElement(screen.getByRole('option', { name: /equip pare/i }))
+  })
+
+  it('en mode creació, el valor per defecte és "sense assignar"', () => {
+    render(<TreballadorForm action={mockAction} />)
+    expect(screen.getByLabelText(/equip/i)).toHaveValue('')
+  })
 })
 
 describe('TreballadorForm — mode edicio', () => {
@@ -56,5 +75,19 @@ describe('TreballadorForm — mode edicio', () => {
   it('mostra boto "Actualitzar" en mode edicio', () => {
     render(<TreballadorForm action={mockAction} treballador={treballadorExistent} />)
     expect(screen.getByRole('button', { name: /actualitzar/i })).toBeInTheDocument()
+  })
+
+  it("pre-omple el select d'equip amb l'encarregat del treballador", () => {
+    render(<TreballadorForm action={mockAction} treballador={treballadorExistent} />)
+    expect(screen.getByLabelText(/equip/i)).toHaveValue('nandu')
+  })
+
+  it('pre-omple com a buit si encarregat és null', () => {
+    const treballadorSenseEquip: Treballador = {
+      ...treballadorExistent,
+      encarregat: null,
+    }
+    render(<TreballadorForm action={mockAction} treballador={treballadorSenseEquip} />)
+    expect(screen.getByLabelText(/equip/i)).toHaveValue('')
   })
 })

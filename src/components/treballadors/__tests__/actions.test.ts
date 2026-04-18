@@ -47,6 +47,7 @@ describe('createTreballador', () => {
       tipus: 'oficial',
       telefon: '600111222',
       notes: 'Conductor oficial',
+      encarregat: null,
     })
     expect(revalidatePath).toHaveBeenCalledWith('/treballadors')
     expect(redirect).toHaveBeenCalledWith('/treballadors')
@@ -62,6 +63,32 @@ describe('createTreballador', () => {
 
     expect(mockInsert).toHaveBeenCalledWith(
       expect.objectContaining({ telefon: null, notes: null })
+    )
+  })
+
+  it("passa encarregat \"nandu\" quan s'especifica", async () => {
+    const formData = new FormData()
+    formData.set('nom', 'Albert Font')
+    formData.set('tipus', 'oficial')
+    formData.set('encarregat', 'nandu')
+
+    await createTreballador(formData)
+
+    expect(mockInsert).toHaveBeenCalledWith(
+      expect.objectContaining({ encarregat: 'nandu' })
+    )
+  })
+
+  it('passa encarregat null quan el camp és buit (sense assignar)', async () => {
+    const formData = new FormData()
+    formData.set('nom', 'Joan Mas')
+    formData.set('tipus', 'peo')
+    formData.set('encarregat', '')
+
+    await createTreballador(formData)
+
+    expect(mockInsert).toHaveBeenCalledWith(
+      expect.objectContaining({ encarregat: null })
     )
   })
 
@@ -97,10 +124,37 @@ describe('updateTreballador', () => {
       tipus: 'oficial_2a',
       telefon: '600999888',
       notes: null,
+      encarregat: null,
     })
     expect(mockEq).toHaveBeenCalledWith('id', 'uuid-123')
     expect(revalidatePath).toHaveBeenCalledWith('/treballadors')
     expect(redirect).toHaveBeenCalledWith('/treballadors/uuid-123')
+  })
+
+  it('actualitza el camp encarregat a "pare"', async () => {
+    const formData = new FormData()
+    formData.set('nom', 'Pere Garriga')
+    formData.set('tipus', 'oficial_2a')
+    formData.set('encarregat', 'pare')
+
+    await updateTreballador('uuid-123', formData)
+
+    expect(mockUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({ encarregat: 'pare' })
+    )
+  })
+
+  it('actualitza encarregat a null quan el camp és buit', async () => {
+    const formData = new FormData()
+    formData.set('nom', 'Pere Garriga')
+    formData.set('tipus', 'oficial')
+    formData.set('encarregat', '')
+
+    await updateTreballador('uuid-123', formData)
+
+    expect(mockUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({ encarregat: null })
+    )
   })
 })
 

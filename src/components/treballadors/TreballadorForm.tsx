@@ -1,12 +1,18 @@
 'use client'
 
-import type { Treballador, TipusTreballador } from '@/lib/types/database'
+import type { Treballador, TipusTreballador, EncarregatTreballador } from '@/lib/types/database'
 
 const TIPUS_OPTIONS: { value: TipusTreballador; label: string }[] = [
   { value: 'oficial', label: 'Oficial' },
   { value: 'oficial_2a', label: 'Oficial 2a' },
   { value: 'peo', label: 'Peó' },
   { value: 'altre', label: 'Altre' },
+]
+
+const ENCARREGAT_OPTIONS: { value: EncarregatTreballador | ''; label: string }[] = [
+  { value: '', label: 'Sense assignar' },
+  { value: 'nandu', label: 'Equip Nandu' },
+  { value: 'pare', label: 'Equip Pare' },
 ]
 
 interface TreballadorFormProps {
@@ -51,6 +57,27 @@ export function TreballadorForm({ action, treballador }: TreballadorFormProps) {
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           {TIPUS_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label
+          htmlFor="encarregat"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Equip
+        </label>
+        <select
+          id="encarregat"
+          name="encarregat"
+          defaultValue={treballador?.encarregat ?? ''}
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        >
+          {ENCARREGAT_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
               {opt.label}
             </option>

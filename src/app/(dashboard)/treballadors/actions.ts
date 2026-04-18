@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import type { TipusTreballador } from '@/lib/types/database'
+import type { TipusTreballador, EncarregatTreballador } from '@/lib/types/database'
 
 export async function createTreballador(formData: FormData) {
   const supabase = await createClient()
@@ -12,12 +12,15 @@ export async function createTreballador(formData: FormData) {
   const tipus = formData.get('tipus') as TipusTreballador
   const telefon = (formData.get('telefon') as string) || null
   const notes = (formData.get('notes') as string) || null
+  const encarregatRaw = (formData.get('encarregat') as string) || null
+  const encarregat = (encarregatRaw as EncarregatTreballador | null) || null
 
   const { error } = await supabase.from('treballadors').insert({
     nom,
     tipus,
     telefon,
     notes,
+    encarregat,
   })
 
   if (error) throw new Error(error.message)
@@ -33,10 +36,12 @@ export async function updateTreballador(id: string, formData: FormData) {
   const tipus = formData.get('tipus') as TipusTreballador
   const telefon = (formData.get('telefon') as string) || null
   const notes = (formData.get('notes') as string) || null
+  const encarregatRaw = (formData.get('encarregat') as string) || null
+  const encarregat = (encarregatRaw as EncarregatTreballador | null) || null
 
   const { error } = await supabase
     .from('treballadors')
-    .update({ nom, tipus, telefon, notes })
+    .update({ nom, tipus, telefon, notes, encarregat })
     .eq('id', id)
 
   if (error) throw new Error(error.message)
