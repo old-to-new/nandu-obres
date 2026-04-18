@@ -8,6 +8,7 @@ const navItems = [
   { href: '/obres', label: 'Obres', icon: '🏗️' },
   { href: '/treballadors', label: 'Treballadors', icon: '👷' },
   { href: '/planificacio', label: 'Planificació', icon: '📅' },
+  { href: '/vehicles', label: 'Vehicles', icon: '🚐' },
 ] as const
 
 export default function Sidebar() {
