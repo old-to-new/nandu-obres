@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import ObraCard from '@/components/obres/ObraCard'
 import ObraFiltres from '@/components/obres/ObraFiltres'
+import EmptyState from '@/components/ui/EmptyState'
 import type { Obra, LiniaObra, EstatObra } from '@/lib/types/database'
 
 interface Props {
@@ -31,16 +32,21 @@ async function LlistatObres({ linia, estat }: { linia?: LiniaObra; estat?: Estat
   }
 
   if (!obres || obres.length === 0) {
-    return (
-      <div className="rounded-xl border border-dashed border-gray-300 bg-white p-12 text-center">
-        <p className="text-sm text-gray-500">No hi ha obres amb aquests filtres.</p>
-        <Link
-          href="/obres"
-          className="mt-2 inline-block text-sm text-blue-600 hover:underline"
-        >
-          Eliminar filtres
-        </Link>
-      </div>
+    const hasFilters = Boolean(linia || estat)
+    return hasFilters ? (
+      <EmptyState
+        title="No hi ha obres amb aquests filtres"
+        description="Prova a eliminar els filtres o crear una obra nova."
+        actionLabel="Eliminar filtres"
+        actionHref="/obres"
+      />
+    ) : (
+      <EmptyState
+        title="No hi ha obres"
+        description="Crea la primera obra per començar a registrar actes."
+        actionLabel="Nova obra"
+        actionHref="/obres/nova"
+      />
     )
   }
 
