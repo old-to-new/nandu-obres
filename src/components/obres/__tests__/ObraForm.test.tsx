@@ -4,9 +4,12 @@ import userEvent from '@testing-library/user-event'
 import ObraForm from '../ObraForm'
 import type { Obra } from '@/lib/types/database'
 
+// Stable mock ref so we can assert on it
+const mockPush = vi.fn()
+
 // Mocks
 vi.mock('next/navigation', () => ({
-  useRouter: () => ({ push: vi.fn() }),
+  useRouter: () => ({ push: mockPush }),
 }))
 vi.mock('@/app/(dashboard)/obres/actions', () => ({
   createObra: vi.fn(),
@@ -28,7 +31,10 @@ const obraExistent: Obra = {
 }
 
 describe('ObraForm — mode creació', () => {
-  beforeEach(() => vi.clearAllMocks())
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockPush.mockReset()
+  })
 
   it('renderitza tots els camps necessaris', () => {
     render(<ObraForm />)
@@ -58,7 +64,11 @@ describe('ObraForm — mode creació', () => {
   })
 
   it('crida createObra en mode creació i no mostra error si NEXT_REDIRECT', async () => {
-    const NEXT_REDIRECT_ERR = new Error('NEXT_REDIRECT')
+    // Replicar l'objecte que llança Next.js redirect() — isRedirectError comprova .digest
+    // Format: "NEXT_REDIRECT;<type>;<destination>;<statusCode>;" (trailing semicolon obligatori)
+    const NEXT_REDIRECT_ERR = Object.assign(new Error('NEXT_REDIRECT'), {
+      digest: 'NEXT_REDIRECT;push;/obres;307;',
+    })
     vi.mocked(createObra).mockRejectedValue(NEXT_REDIRECT_ERR)
 
     render(<ObraForm />)
@@ -100,7 +110,10 @@ describe('ObraForm — mode creació', () => {
 })
 
 describe('ObraForm — mode edició', () => {
-  beforeEach(() => vi.clearAllMocks())
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockPush.mockReset()
+  })
 
   it('pre-omple els camps amb les dades de l\'obra existent', () => {
     render(<ObraForm obra={obraExistent} />)
@@ -119,7 +132,7 @@ describe('ObraForm — mode edició', () => {
     expect(nomInput).toHaveValue('Casa Renovada')
   })
 
-  it('crida updateObra en mode edició', async () => {
+  it('crida updateObra en mode edició i navega a la pàgina de l\'obra', async () => {
     vi.mocked(updateObra).mockResolvedValue(undefined)
 
     render(<ObraForm obra={obraExistent} />)
@@ -128,6 +141,7 @@ describe('ObraForm — mode edició', () => {
 
     await waitFor(() => {
       expect(updateObra).toHaveBeenCalledWith('obra-uuid-1', expect.any(FormData))
+      expect(mockPush).toHaveBeenCalledWith('/obres/obra-uuid-1')
     })
   })
 })

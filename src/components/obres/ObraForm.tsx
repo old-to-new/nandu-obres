@@ -2,6 +2,7 @@
 
 import { useTransition, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { createObra, updateObra } from '@/app/(dashboard)/obres/actions'
 import type { Obra, LiniaObra, EstatObra } from '@/lib/types/database'
 
@@ -40,8 +41,8 @@ export default function ObraForm({ obra, onCancel }: Props) {
           await createObra(formData)
         }
       } catch (err) {
-        if (err instanceof Error && err.message !== 'NEXT_REDIRECT') {
-          setError(err.message)
+        if (!isRedirectError(err)) {
+          setError(err instanceof Error ? err.message : 'Error desconegut')
         }
       }
     })
