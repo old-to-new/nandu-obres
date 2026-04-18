@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import ObraDetailHeader from '@/components/obres/ObraDetailHeader'
 import DocumentUpload from '@/components/obres/DocumentUpload'
 import ActaHistorial from '@/components/actes/ActaHistorial'
+import ObraFotosPreview from '@/components/obres/ObraFotosPreview'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -21,6 +22,32 @@ export default async function ObraDetailPage({ params }: Props) {
     .single()
 
   if (error || !obra) notFound()
+
+  // Carregar les 4 últimes fotos de l'obra per al preview
+  const { data: fotosPreviewRaw } = await supabase
+    .from('acte_imatges')
+    .select(`
+      id,
+      acte_id,
+      url,
+      caption,
+      created_at,
+      acte:actes!inner(data, obra_id)
+    `)
+    .eq('acte.obra_id', obra.id)
+    .order('created_at', { ascending: false })
+    .limit(4)
+
+  const fotosPreview = (fotosPreviewRaw ?? []).map((img) => ({
+    id: img.id,
+    acte_id: img.acte_id,
+    url: img.url,
+    caption: img.caption,
+    created_at: img.created_at,
+    acte: {
+      data: (img.acte as { data: string; obra_id: string }).data,
+    },
+  }))
 
   // Carregar actes amb resum (num treballadors + hores totals)
   const { data: actesRaw } = await supabase
@@ -67,6 +94,9 @@ export default async function ObraDetailPage({ params }: Props) {
           />
         </div>
       </section>
+
+      {/* Secció Últimes fotos */}
+      <ObraFotosPreview obraId={obra.id} fotos={fotosPreview} />
 
       {/* Secció Actes */}
       <section>
