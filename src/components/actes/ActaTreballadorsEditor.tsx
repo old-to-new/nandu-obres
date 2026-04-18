@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import type { Treballador } from '@/lib/types/database'
+import { TIPUS_LABELS } from '@/lib/treballadors'
 
 export interface TreballadorEditorEntry {
   treballadorId: string
@@ -14,13 +15,6 @@ interface Props {
   treballadorsDisponibles: Treballador[]
   initialTreballadors: TreballadorEditorEntry[]
   onChange: (treballadors: TreballadorEditorEntry[]) => void
-}
-
-const TIPUS_LABELS: Record<Treballador['tipus'], string> = {
-  oficial: 'Oficial 1a',
-  oficial_2a: 'Oficial 2a',
-  peo: 'Peó',
-  altre: 'Altre',
 }
 
 export default function ActaTreballadorsEditor({

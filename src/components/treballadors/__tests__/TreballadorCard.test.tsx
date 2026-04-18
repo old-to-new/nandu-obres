@@ -25,7 +25,7 @@ describe('TreballadorCard', () => {
   it('mostra nom i tipus del treballador', () => {
     render(<TreballadorCard treballador={treballadorActiu} />)
     expect(screen.getByText('Pere Garriga')).toBeInTheDocument()
-    expect(screen.getByText('Oficial')).toBeInTheDocument()
+    expect(screen.getByText('Oficial 1a')).toBeInTheDocument()
   })
 
   it('mostra el telefon quan existeix', () => {
