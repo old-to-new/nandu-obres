@@ -78,4 +78,16 @@ describe('DiaResum', () => {
     render(<DiaResum data="2026-04-19" assignacions={assignacions} deleteAction={mockDeleteAction} />)
     expect(screen.getByText(/3 treballadors/i)).toBeInTheDocument()
   })
+
+  it('el nom de cada obra és un link navegable a /obres/[id]', () => {
+    render(<DiaResum data="2026-04-19" assignacions={assignacions} deleteAction={mockDeleteAction} />)
+
+    const link1 = screen.getByRole('link', { name: 'Obra Sarria' })
+    expect(link1).toBeInTheDocument()
+    expect(link1.getAttribute('href')).toBe('/obres/o1')
+
+    const link2 = screen.getByRole('link', { name: 'Rehabilitacio Gracia' })
+    expect(link2).toBeInTheDocument()
+    expect(link2.getAttribute('href')).toBe('/obres/o2')
+  })
 })
