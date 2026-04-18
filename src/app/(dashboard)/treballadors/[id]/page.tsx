@@ -5,6 +5,7 @@ import { TreballadorHistorial } from '@/components/treballadors/TreballadorHisto
 import { RangDatesSelector } from '@/components/treballadors/RangDatesSelector'
 import { toggleActiu } from '../actions'
 import { TIPUS_LABELS } from '@/lib/treballadors'
+import type { TipusTreballador } from '@/lib/types/database'
 
 interface TreballadorPageProps {
   params: Promise<{ id: string }>
@@ -62,7 +63,7 @@ export default async function TreballadorPage({
         <div>
           <h1 className="text-2xl font-bold text-gray-900">{treballador.nom}</h1>
           <p className="mt-0.5 text-sm text-gray-500">
-            {TIPUS_LABELS[treballador.tipus]}
+            {TIPUS_LABELS[treballador.tipus as TipusTreballador]}
             {!treballador.actiu && (
               <span className="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
                 Inactiu
