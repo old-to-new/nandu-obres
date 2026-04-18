@@ -1,10 +1,94 @@
-export default function ObresPage() {
+import { Suspense } from 'react'
+import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
+import ObraCard from '@/components/obres/ObraCard'
+import ObraFiltres from '@/components/obres/ObraFiltres'
+import type { Obra, LiniaObra, EstatObra } from '@/lib/types/database'
+
+interface Props {
+  searchParams: Promise<{
+    linia?: LiniaObra
+    estat?: EstatObra
+  }>
+}
+
+async function LlistatObres({ linia, estat }: { linia?: LiniaObra; estat?: EstatObra }) {
+  const supabase = await createClient()
+
+  let query = supabase.from('obres').select('*').order('created_at', { ascending: false })
+
+  if (linia) query = query.eq('linia', linia)
+  if (estat) query = query.eq('estat', estat)
+
+  const { data: obres, error } = await query
+
+  if (error) {
+    return (
+      <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600">
+        Error en carregar les obres: {error.message}
+      </div>
+    )
+  }
+
+  if (!obres || obres.length === 0) {
+    return (
+      <div className="rounded-xl border border-dashed border-gray-300 bg-white p-12 text-center">
+        <p className="text-sm text-gray-500">No hi ha obres amb aquests filtres.</p>
+        <Link
+          href="/obres"
+          className="mt-2 inline-block text-sm text-blue-600 hover:underline"
+        >
+          Eliminar filtres
+        </Link>
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {obres.map((obra: Obra) => (
+        <ObraCard key={obra.id} obra={obra} />
+      ))}
+    </div>
+  )
+}
+
+export default async function ObresPage({ searchParams }: Props) {
+  const { linia, estat } = await searchParams
+
   return (
     <div>
-      <h1 className="text-xl font-semibold text-gray-900">Obres</h1>
-      <p className="mt-1 text-sm text-gray-500">Gestió d&apos;obres i actes diàries</p>
-      <div className="mt-6 rounded-xl border border-dashed border-gray-300 bg-white p-12 text-center text-sm text-gray-400">
-        Fase 2 — Pròximament
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-semibold text-gray-900">Obres</h1>
+          <p className="mt-0.5 text-sm text-gray-500">Gestió d&apos;obres i actes diàries</p>
+        </div>
+        <Link
+          href="/obres/nova"
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          + Nova obra
+        </Link>
+      </div>
+
+      <div className="mt-4">
+        <Suspense>
+          <ObraFiltres />
+        </Suspense>
+      </div>
+
+      <div className="mt-4">
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-24 animate-pulse rounded-xl bg-gray-200" />
+              ))}
+            </div>
+          }
+        >
+          <LlistatObres linia={linia} estat={estat} />
+        </Suspense>
       </div>
     </div>
   )
