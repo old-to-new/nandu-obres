@@ -1,19 +1,13 @@
 import type { Acta, ActeTreballadorAmbNom, ActeImatge } from '@/lib/types/database'
 import Image from 'next/image'
 import Link from 'next/link'
+import { TIPUS_LABELS } from '@/lib/treballadors'
 
 interface Props {
   acta: Acta
   treballadors: ActeTreballadorAmbNom[]
   imatges: ActeImatge[]
   obraId: string
-}
-
-const TIPUS_LABELS: Record<string, string> = {
-  oficial: 'Oficial 1a',
-  oficial_2a: 'Oficial 2a',
-  peo: 'Peó',
-  altre: 'Altre',
 }
 
 export default function ActaDetailView({ acta, treballadors, imatges, obraId }: Props) {

@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { TreballadorHistorial } from '@/components/treballadors/TreballadorHistorial'
 import { RangDatesSelector } from '@/components/treballadors/RangDatesSelector'
 import { toggleActiu } from '../actions'
+import { TIPUS_LABELS } from '@/lib/treballadors'
 
 interface TreballadorPageProps {
   params: Promise<{ id: string }>
@@ -17,13 +18,6 @@ function getDefaultRang(): { inici: string; fi: string } {
   inicialDate.setDate(ara.getDate() - 30)
   const inici = inicialDate.toISOString().split('T')[0]
   return { inici, fi }
-}
-
-const TIPUS_LABELS: Record<string, string> = {
-  oficial: 'Oficial',
-  oficial_2a: 'Oficial 2a',
-  peo: 'Peó',
-  altre: 'Altre',
 }
 
 export default async function TreballadorPage({

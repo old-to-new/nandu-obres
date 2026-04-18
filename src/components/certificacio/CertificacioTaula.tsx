@@ -2,14 +2,7 @@
 
 import { Fragment, useState } from 'react'
 import type { CertificacioTreballador } from '@/lib/calculations'
-import type { TipusTreballador } from '@/lib/types/database'
-
-const TIPUS_LABELS: Record<TipusTreballador, string> = {
-  oficial: 'Oficial',
-  oficial_2a: 'Oficial 2a',
-  peo: 'Peó',
-  altre: 'Altre',
-}
+import { TIPUS_LABELS } from '@/lib/treballadors'
 
 interface Props {
   dades: CertificacioTreballador[]

@@ -1,13 +1,7 @@
 'use client'
 
-import type { Treballador, TipusTreballador } from '@/lib/types/database'
-
-const TIPUS_LABELS: Record<TipusTreballador, string> = {
-  oficial: 'Oficial',
-  oficial_2a: 'Oficial 2a',
-  peo: 'Peó',
-  altre: 'Altre',
-}
+import type { Treballador } from '@/lib/types/database'
+import { TIPUS_LABELS } from '@/lib/treballadors'
 
 interface EntradaCertificacio {
   hores: number

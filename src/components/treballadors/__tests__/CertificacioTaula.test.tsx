@@ -36,7 +36,7 @@ describe('CertificacioTaula', () => {
 
   it('mostra el tipus del treballador', () => {
     render(<CertificacioTaula treballador={treballador} entrades={entrades} dataInici="2026-04-01" dataFi="2026-04-30" />)
-    expect(screen.getByText('Oficial')).toBeInTheDocument()
+    expect(screen.getByText('Oficial 1a')).toBeInTheDocument()
   })
 
   it('mostra les columnes: Data, Obra, Hores, Comentari', () => {
