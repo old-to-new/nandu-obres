@@ -59,14 +59,14 @@ export async function uploadDocument(
   const path = `${obraId}/${tipus}.${extension}`
 
   const { error: uploadError } = await supabase.storage
-    .from('obra-docs')
+    .from('obres-documents')
     .upload(path, file, { upsert: true })
 
   if (uploadError) throw new Error(uploadError.message)
 
   const {
     data: { publicUrl },
-  } = supabase.storage.from('obra-docs').getPublicUrl(path)
+  } = supabase.storage.from('obres-documents').getPublicUrl(path)
 
   const camp = tipus === 'pressupost' ? 'pressupost_pdf_url' : 'projecte_pdf_url'
   const { error: updateError } = await supabase

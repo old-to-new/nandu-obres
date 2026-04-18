@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "nandu-obres-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "cwd": "/Users/joan/Projectes Joan Automate/_CLIENTS/06_nandu_construccio/nandu-obres"
+    }
+  ]
+}
