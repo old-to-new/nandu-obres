@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import type { Treballador } from '@/lib/types/database'
 import { guardarActa, type TreballadorActaInput } from '@/app/(dashboard)/obres/[id]/actions'
 import ActaTreballadorsEditor, { type TreballadorEditorEntry } from '@/components/actes/ActaTreballadorsEditor'
@@ -55,9 +54,7 @@ export default function NovaActaForm({
         })
         setSavedActeId(result.acteId)
       } catch (err) {
-        if (!isRedirectError(err)) {
-          setError(err instanceof Error ? err.message : 'Error desconegut')
-        }
+        setError(err instanceof Error ? err.message : 'Error desconegut')
       }
     })
   }

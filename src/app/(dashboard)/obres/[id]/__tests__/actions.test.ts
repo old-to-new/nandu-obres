@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
-vi.mock('next/navigation', () => ({ redirect: vi.fn() }))
 
 // Mocks granulars per a les cadenes de Supabase
 const mockFrom = vi.fn()
@@ -12,7 +11,6 @@ vi.mock('@/lib/supabase/server', () => ({
 
 import { guardarActa } from '../actions'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 
 // Tipus helpers per als tests
 interface TreballadorActa {
@@ -81,7 +79,6 @@ describe('guardarActa — crear nova acta (cas feliç)', () => {
     ])
 
     expect(revalidatePath).toHaveBeenCalledWith('/obres/obra-uuid-1')
-    expect(redirect).not.toHaveBeenCalled()
     expect(result).toEqual({ acteId: 'acta-uuid-1' })
   })
 })
