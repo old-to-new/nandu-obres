@@ -1,0 +1,70 @@
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import ObraForm from '../ObraForm'
+import type { Obra } from '@/lib/types/database'
+
+vi.mock('@/app/(dashboard)/obres/actions', () => ({
+  createObra: vi.fn(),
+  updateObra: vi.fn(),
+}))
+
+const obraExistent: Obra = {
+  id: 'obra-uuid-1',
+  nom: 'Casa Test',
+  client_nom: 'Client Test',
+  linia: 'obra_nova',
+  estat: 'activa',
+  pressupost_pdf_url: null,
+  projecte_pdf_url: null,
+  notes: 'Nota de prova',
+  created_at: '2026-04-18T10:00:00Z',
+}
+
+describe('ObraForm — mode creació', () => {
+  it('renderitza tots els camps necessaris', () => {
+    render(<ObraForm />)
+    expect(screen.getByLabelText(/nom de l'obra/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/client/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/línia/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/estat/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/notes/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /crear obra/i })).toBeInTheDocument()
+  })
+
+  it('els selects de línia contenen les 4 opcions', () => {
+    render(<ObraForm />)
+    const select = screen.getByLabelText(/línia/i)
+    expect(select).toContainElement(screen.getByText('Obra nova'))
+    expect(select).toContainElement(screen.getByText('Rehabilitació'))
+    expect(select).toContainElement(screen.getByText('Ascensors'))
+    expect(select).toContainElement(screen.getByText('Altres'))
+  })
+
+  it('els selects d\'estat contenen les 3 opcions', () => {
+    render(<ObraForm />)
+    const select = screen.getByLabelText(/estat/i)
+    expect(select).toContainElement(screen.getByText('Activa'))
+    expect(select).toContainElement(screen.getByText('Pausada'))
+    expect(select).toContainElement(screen.getByText('Finalitzada'))
+  })
+})
+
+describe('ObraForm — mode edició', () => {
+  it('pre-omple els camps amb les dades de l\'obra existent', () => {
+    render(<ObraForm obra={obraExistent} />)
+    expect(screen.getByLabelText(/nom de l'obra/i)).toHaveValue('Casa Test')
+    expect(screen.getByLabelText(/client/i)).toHaveValue('Client Test')
+    expect(screen.getByLabelText(/notes/i)).toHaveValue('Nota de prova')
+    expect(screen.getByRole('button', { name: /guardar canvis/i })).toBeInTheDocument()
+  })
+
+  it('permet modificar el nom i reflecteix el canvi', async () => {
+    render(<ObraForm obra={obraExistent} />)
+    const user = userEvent.setup()
+    const nomInput = screen.getByLabelText(/nom de l'obra/i)
+    await user.clear(nomInput)
+    await user.type(nomInput, 'Casa Renovada')
+    expect(nomInput).toHaveValue('Casa Renovada')
+  })
+})
