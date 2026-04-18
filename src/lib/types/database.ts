@@ -1,0 +1,80 @@
+export type TipusTreballador = 'oficial' | 'oficial_2a' | 'peo' | 'altre'
+export type LiniaObra = 'obra_nova' | 'rehabilitacio' | 'ascensors' | 'altres'
+export type EstatObra = 'activa' | 'pausada' | 'finalitzada'
+
+export interface Treballador {
+  id: string
+  nom: string
+  tipus: TipusTreballador
+  actiu: boolean
+  telefon: string | null
+  notes: string | null
+  created_at: string
+}
+
+export interface Vehicle {
+  id: string
+  nom: string
+  matricula: string
+  actiu: boolean
+  created_at: string
+}
+
+export interface Obra {
+  id: string
+  nom: string
+  client_nom: string
+  linia: LiniaObra
+  estat: EstatObra
+  pressupost_pdf_url: string | null
+  projecte_pdf_url: string | null
+  notes: string | null
+  created_at: string
+}
+
+export interface Acta {
+  id: string
+  obra_id: string
+  data: string
+  comentari_general: string | null
+  created_at: string
+}
+
+export interface ActeTreballador {
+  id: string
+  acte_id: string
+  treballador_id: string
+  hores: number
+  comentari: string | null
+  planificat: boolean
+  created_at: string
+}
+
+export interface ActeImatge {
+  id: string
+  acte_id: string
+  url: string
+  caption: string | null
+  created_at: string
+}
+
+export interface Planificacio {
+  id: string
+  data: string
+  obra_id: string
+  treballador_id: string
+  vehicle_id: string | null
+  tasca: string | null
+  created_at: string
+}
+
+// Tipus enriquits (per a queries amb joins)
+export interface ActeTreballadorAmbNom extends ActeTreballador {
+  treballador: Pick<Treballador, 'id' | 'nom' | 'tipus'>
+}
+
+export interface PlanificacioAmbDetalls extends Planificacio {
+  obra: Pick<Obra, 'id' | 'nom'>
+  treballador: Pick<Treballador, 'id' | 'nom'>
+  vehicle: Pick<Vehicle, 'id' | 'nom'> | null
+}
