@@ -9,15 +9,13 @@ interface PlanificacioPageProps {
   searchParams: Promise<{ data?: string }>
 }
 
-function getDema(): string {
-  const dema = new Date()
-  dema.setDate(dema.getDate() + 1)
-  return dema.toISOString().split('T')[0]
+function getAvui(): string {
+  return new Date().toISOString().split('T')[0]
 }
 
 export default async function PlanificacioPage({ searchParams }: PlanificacioPageProps) {
   const sp = await searchParams
-  const dataSeleccionada = sp.data ?? getDema()
+  const dataSeleccionada = sp.data ?? getAvui()
 
   const supabase = await createClient()
 
@@ -39,7 +37,7 @@ export default async function PlanificacioPage({ searchParams }: PlanificacioPag
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Planificacio</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Planificació</h1>
       </div>
 
       <DataSelector dataActual={dataSeleccionada} basePath="/planificacio" />

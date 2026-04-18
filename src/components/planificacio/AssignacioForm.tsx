@@ -21,7 +21,7 @@ export function AssignacioForm({
 }: AssignacioFormProps) {
   return (
     <form action={action} className="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
-      <h3 className="text-sm font-semibold text-gray-700">Afegir assignacio</h3>
+      <h3 className="text-sm font-semibold text-gray-700">Afegir assignació</h3>
 
       <input type="hidden" name="data" value={data} />
 
@@ -69,7 +69,7 @@ export function AssignacioForm({
           </select>
           {treballadorsJaAssignats.length > 0 && (
             <p className="mt-1 text-xs text-amber-600">
-              Els treballadors marcats ja tenen assignacio aquest dia.
+              Els treballadors marcats ja tenen assignació aquest dia.
             </p>
           )}
         </div>
@@ -102,7 +102,7 @@ export function AssignacioForm({
             name="tasca"
             type="text"
             className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Paleta, formigo, excavacio..."
+            placeholder="Paleta, formigó, excavació..."
           />
         </div>
       </div>

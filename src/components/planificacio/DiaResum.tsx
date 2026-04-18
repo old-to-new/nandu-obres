@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import type { PlanificacioAmbDetalls } from '@/lib/types/database'
 

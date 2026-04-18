@@ -8,15 +8,18 @@ interface Props {
   treballadors: ActeTreballadorAmbNom[]
   imatges: ActeImatge[]
   obraId: string
+  obraNom: string
 }
 
-export default function ActaDetailView({ acta, treballadors, imatges, obraId }: Props) {
-  const dataFormated = new Date(acta.data + 'T12:00:00').toLocaleDateString('ca-ES', {
+export default function ActaDetailView({ acta, treballadors, imatges, obraId, obraNom }: Props) {
+  const dataFormatedRaw = new Date(acta.data + 'T12:00:00').toLocaleDateString('ca-ES', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
     year: 'numeric',
   })
+  // capitalize only the first letter — not every word (breaks Catalan: "D'Abril")
+  const dataFormated = dataFormatedRaw.charAt(0).toUpperCase() + dataFormatedRaw.slice(1)
 
   const totalHores = treballadors.reduce((sum, t) => sum + Number(t.hores), 0)
 
@@ -28,11 +31,11 @@ export default function ActaDetailView({ acta, treballadors, imatges, obraId }: 
           <nav className="mb-1 flex items-center gap-1 text-sm text-gray-500">
             <Link href="/obres" className="hover:text-gray-900">Obres</Link>
             <span>/</span>
-            <Link href={`/obres/${obraId}`} className="hover:text-gray-900">Obra</Link>
+            <Link href={`/obres/${obraId}`} className="hover:text-gray-900">{obraNom}</Link>
             <span>/</span>
             <span className="text-gray-900">{dataFormated}</span>
           </nav>
-          <h1 className="text-xl font-semibold capitalize text-gray-900">{dataFormated}</h1>
+          <h1 className="text-xl font-semibold text-gray-900">{dataFormated}</h1>
           <p className="mt-0.5 text-sm text-gray-500">
             {treballadors.length} treballadors · {totalHores}h total
           </p>

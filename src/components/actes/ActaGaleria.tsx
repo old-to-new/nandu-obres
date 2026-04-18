@@ -72,7 +72,7 @@ export default function ActaGaleria({ imatges, obraId }: Props) {
     <>
       <div className="space-y-8">
         {dates.map((data) => {
-          const dataFormated = new Date(data + 'T12:00:00').toLocaleDateString(
+          const dataFormatedRaw = new Date(data + 'T12:00:00').toLocaleDateString(
             'ca-ES',
             {
               weekday: 'long',
@@ -80,6 +80,7 @@ export default function ActaGaleria({ imatges, obraId }: Props) {
               month: 'long',
             }
           )
+          const dataFormated = dataFormatedRaw.charAt(0).toUpperCase() + dataFormatedRaw.slice(1)
           const grup = imatgesPerData[data]
           const acteId = grup[0].acte_id
 

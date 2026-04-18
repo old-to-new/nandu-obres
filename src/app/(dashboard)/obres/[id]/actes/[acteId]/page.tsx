@@ -11,20 +11,23 @@ export default async function ActaDetailPage({ params }: Props) {
   const { id: obraId, acteId } = await params
   const supabase = await createClient()
 
-  // Carregar acta amb treballadors i imatges en una sola query
-  const { data: acta, error } = await supabase
-    .from('actes')
-    .select(`
-      *,
-      acte_treballadors(
+  // Carregar acta amb treballadors, imatges i nom de l'obra
+  const [{ data: acta, error }, { data: obra }] = await Promise.all([
+    supabase
+      .from('actes')
+      .select(`
         *,
-        treballador:treballadors(id, nom, tipus)
-      ),
-      acte_imatges(*)
-    `)
-    .eq('id', acteId)
-    .eq('obra_id', obraId)
-    .single()
+        acte_treballadors(
+          *,
+          treballador:treballadors(id, nom, tipus)
+        ),
+        acte_imatges(*)
+      `)
+      .eq('id', acteId)
+      .eq('obra_id', obraId)
+      .single(),
+    supabase.from('obres').select('nom').eq('id', obraId).single(),
+  ])
 
   if (error || !acta) notFound()
 
@@ -44,6 +47,7 @@ export default async function ActaDetailPage({ params }: Props) {
         treballadors={treballadors}
         imatges={imatges}
         obraId={obraId}
+        obraNom={obra?.nom ?? 'Obra'}
       />
 
       {/* Secció upload de fotos (client component) */}

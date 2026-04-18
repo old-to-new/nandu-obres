@@ -46,9 +46,9 @@ export function DataSelector({ dataActual, basePath }: DataSelectorProps) {
         type="button"
         onClick={() => navigateTo(addDays(dataActual, 1))}
         className="rounded-md border border-gray-300 px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-50"
-        aria-label="Dia seguent"
+        aria-label="Dia següent"
       >
-        Seguent ›
+        Següent ›
       </button>
     </div>
   )

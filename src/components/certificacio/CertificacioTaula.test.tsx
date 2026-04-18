@@ -51,7 +51,7 @@ describe('CertificacioTaula', () => {
     render(<CertificacioTaula dades={dadesMock} />)
     fireEvent.click(screen.getByText('Joan Martí'))
     expect(screen.getByText('Ha fet la coberta')).toBeInTheDocument()
-    expect(screen.getByText(/2026-04-01/)).toBeInTheDocument()
+    expect(screen.getByText(/01\/04\/2026/)).toBeInTheDocument()
   })
 
   it('clic a la mateixa fila col·lapsa el detall', () => {

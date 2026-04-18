@@ -29,12 +29,13 @@ export default function ActaHistorial({ actes, obraId }: Props) {
   return (
     <div className="divide-y divide-gray-100 rounded-lg bg-white" style={{ border: '1px solid var(--border)' }}>
       {actes.map((acta) => {
-        const dataFormated = new Date(acta.data + 'T12:00:00').toLocaleDateString('ca-ES', {
+        const dataFormatedRaw = new Date(acta.data + 'T12:00:00').toLocaleDateString('ca-ES', {
           weekday: 'short',
           day: 'numeric',
           month: 'short',
           year: 'numeric',
         })
+        const dataFormated = dataFormatedRaw.charAt(0).toUpperCase() + dataFormatedRaw.slice(1)
 
         return (
           <Link
@@ -43,7 +44,7 @@ export default function ActaHistorial({ actes, obraId }: Props) {
             className="flex items-center justify-between gap-3 px-4 py-3 first:rounded-t-lg last:rounded-b-lg hover:bg-gray-50"
           >
             <div>
-              <p className="font-medium capitalize" style={{ color: 'var(--text-primary)' }}>{dataFormated}</p>
+              <p className="font-medium" style={{ color: 'var(--text-primary)' }}>{dataFormated}</p>
               {acta.comentari_general && (
                 <p className="mt-0.5 max-w-xs truncate text-sm" style={{ color: 'var(--text-secondary)' }}>
                   {acta.comentari_general}

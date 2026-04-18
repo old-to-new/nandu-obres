@@ -1,6 +1,11 @@
 'use client'
 
 import { Fragment, useState } from 'react'
+
+function formatData(isoDate: string): string {
+  const [y, m, d] = isoDate.split('-')
+  return `${d}/${m}/${y}`
+}
 import type { CertificacioTreballador } from '@/lib/calculations'
 import { TIPUS_LABELS } from '@/lib/treballadors'
 
@@ -115,7 +120,7 @@ export default function CertificacioTaula({ dades }: Props) {
                               className="border-b border-gray-100 last:border-0"
                             >
                               <td className="py-2 px-3 text-gray-700">
-                                {acte.data}
+                                {formatData(acte.data)}
                               </td>
                               <td className="py-2 px-3 text-right text-gray-700">
                                 {acte.hores}h

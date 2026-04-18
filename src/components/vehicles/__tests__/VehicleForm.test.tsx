@@ -14,7 +14,7 @@ describe('VehicleForm — mode creacio', () => {
   it('renderitza camps Nom i Matricula', () => {
     render(<VehicleForm action={mockAction} />)
     expect(screen.getByLabelText(/nom/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/matricula/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/matr.cula/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /desar/i })).toBeInTheDocument()
   })
 
@@ -28,7 +28,7 @@ describe('VehicleForm — mode edicio', () => {
   it('pre-omple els camps', () => {
     render(<VehicleForm action={mockAction} vehicle={vehicleExistent} />)
     expect(screen.getByLabelText(/nom/i)).toHaveValue('Furgoneta Gran')
-    expect(screen.getByLabelText(/matricula/i)).toHaveValue('B-1234-XY')
+    expect(screen.getByLabelText(/matr.cula/i)).toHaveValue('B-1234-XY')
   })
 
   it('mostra boto Actualitzar en mode edicio', () => {

@@ -29,7 +29,7 @@ export function VehicleForm({ action, vehicle }: VehicleFormProps) {
 
       <div>
         <label htmlFor="matricula" className="block text-sm font-medium text-gray-700">
-          Matricula
+          Matrícula
         </label>
         <input
           id="matricula"
