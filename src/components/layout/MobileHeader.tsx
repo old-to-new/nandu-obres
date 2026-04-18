@@ -17,8 +17,33 @@ export default function MobileHeader() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-gray-200 bg-white px-4 md:hidden">
-      <span className="font-semibold text-gray-900">Gestió d&apos;Obres</span>
+    <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b bg-white px-4 md:hidden"
+      style={{ borderColor: 'var(--sidebar-border)' }}
+    >
+      {/* Logo */}
+      <div className="flex items-center gap-1">
+        <span
+          className="text-base font-bold uppercase tracking-widest"
+          style={{
+            fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
+            color: 'var(--brand-red)',
+            letterSpacing: '0.12em',
+          }}
+        >
+          Nandu
+        </span>
+        <span
+          className="text-base font-bold uppercase tracking-widest"
+          style={{
+            fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
+            color: 'var(--text-primary)',
+            letterSpacing: '0.12em',
+          }}
+        >
+          Obres
+        </span>
+      </div>
+
       <button
         onClick={() => setOpen(!open)}
         aria-label={open ? 'Tancar menú' : 'Obrir menú'}
@@ -28,31 +53,42 @@ export default function MobileHeader() {
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-14 border-b border-gray-200 bg-white shadow-sm">
+        <div className="absolute left-0 right-0 top-14 border-b bg-white shadow-sm"
+          style={{ borderColor: 'var(--sidebar-border)' }}
+        >
           <nav className="space-y-1 p-2">
             {navItems.map((item) => {
-              const isActive = pathname.startsWith(item.href)
+              const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  className="block px-3 py-2 text-sm font-medium transition-colors"
+                  style={
                     isActive
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                      ? {
+                          background: 'var(--sidebar-active-bg)',
+                          color: 'var(--sidebar-active-text)',
+                          borderLeft: '3px solid var(--brand-red)',
+                          paddingLeft: '9px',
+                        }
+                      : {
+                          color: 'var(--sidebar-inactive-text)',
+                        }
+                  }
                 >
                   {item.label}
                 </Link>
               )
             })}
           </nav>
-          <div className="border-t border-gray-200 p-2">
+          <div className="border-t p-2" style={{ borderColor: 'var(--sidebar-border)' }}>
             <form action={signOut}>
               <button
                 type="submit"
-                className="block w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-gray-600 hover:bg-gray-100"
+                className="block w-full px-3 py-2 text-left text-sm font-medium"
+                style={{ color: 'var(--sidebar-inactive-text)' }}
               >
                 Tancar sessió
               </button>

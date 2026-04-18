@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { PlanificacioAmbDetalls } from '@/lib/types/database'
 
 interface DiaResumProps {
@@ -41,7 +42,27 @@ export function DiaResum({ data, assignacions, deleteAction }: DiaResumProps) {
       {Object.entries(perObra).map(([obraId, { nom, assignacions: assigns }]) => (
         <div key={obraId} className="rounded-lg border border-gray-200 bg-white overflow-hidden">
           <div className="border-b border-gray-100 bg-gray-50 px-4 py-2">
-            <h3 className="text-sm font-semibold text-gray-800">{nom}</h3>
+            <h3 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+              <Link
+                href={`/obres/${obraId}`}
+                className="transition-colors duration-200"
+                style={{
+                  textDecorationLine: 'underline',
+                  textDecorationColor: 'var(--border-strong)',
+                  textUnderlineOffset: '2px',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--brand-red)'
+                  e.currentTarget.style.textDecorationColor = 'var(--brand-red)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-primary)'
+                  e.currentTarget.style.textDecorationColor = 'var(--border-strong)'
+                }}
+              >
+                {nom}
+              </Link>
+            </h3>
           </div>
           <div className="divide-y divide-gray-50">
             {assigns.map((a) => (
