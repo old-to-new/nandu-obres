@@ -45,7 +45,7 @@ export default async function ObraDetailPage({ params }: Props) {
     caption: img.caption,
     created_at: img.created_at,
     acte: {
-      data: (img.acte as { data: string; obra_id: string }).data,
+      data: (img.acte as unknown as { data: string; obra_id: string }).data,
     },
   }))
 
