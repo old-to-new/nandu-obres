@@ -1,13 +1,19 @@
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ObraForm from '../ObraForm'
 import type { Obra } from '@/lib/types/database'
 
+// Mocks
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}))
 vi.mock('@/app/(dashboard)/obres/actions', () => ({
   createObra: vi.fn(),
   updateObra: vi.fn(),
 }))
+
+import { createObra, updateObra } from '@/app/(dashboard)/obres/actions'
 
 const obraExistent: Obra = {
   id: 'obra-uuid-1',
@@ -22,6 +28,8 @@ const obraExistent: Obra = {
 }
 
 describe('ObraForm — mode creació', () => {
+  beforeEach(() => vi.clearAllMocks())
+
   it('renderitza tots els camps necessaris', () => {
     render(<ObraForm />)
     expect(screen.getByLabelText(/nom de l'obra/i)).toBeInTheDocument()
@@ -48,9 +56,52 @@ describe('ObraForm — mode creació', () => {
     expect(select).toContainElement(screen.getByText('Pausada'))
     expect(select).toContainElement(screen.getByText('Finalitzada'))
   })
+
+  it('crida createObra en mode creació i no mostra error si NEXT_REDIRECT', async () => {
+    const NEXT_REDIRECT_ERR = new Error('NEXT_REDIRECT')
+    vi.mocked(createObra).mockRejectedValue(NEXT_REDIRECT_ERR)
+
+    render(<ObraForm />)
+
+    fireEvent.change(screen.getByLabelText(/nom de l'obra/i), {
+      target: { value: 'Test Obra' },
+    })
+    fireEvent.change(screen.getByLabelText(/client/i), {
+      target: { value: 'Client Test' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /crear obra/i }))
+
+    await waitFor(() => {
+      expect(createObra).toHaveBeenCalledOnce()
+    })
+
+    // No hauria de mostrar missatge d'error per NEXT_REDIRECT
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('mostra missatge d\'error si createObra llança error real', async () => {
+    vi.mocked(createObra).mockRejectedValue(new Error('DB connection failed'))
+
+    render(<ObraForm />)
+
+    fireEvent.change(screen.getByLabelText(/nom de l'obra/i), {
+      target: { value: 'Test' },
+    })
+    fireEvent.change(screen.getByLabelText(/client/i), {
+      target: { value: 'Client' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /crear obra/i }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByText(/DB connection failed/i)).toBeInTheDocument()
+    })
+  })
 })
 
 describe('ObraForm — mode edició', () => {
+  beforeEach(() => vi.clearAllMocks())
+
   it('pre-omple els camps amb les dades de l\'obra existent', () => {
     render(<ObraForm obra={obraExistent} />)
     expect(screen.getByLabelText(/nom de l'obra/i)).toHaveValue('Casa Test')
@@ -66,5 +117,17 @@ describe('ObraForm — mode edició', () => {
     await user.clear(nomInput)
     await user.type(nomInput, 'Casa Renovada')
     expect(nomInput).toHaveValue('Casa Renovada')
+  })
+
+  it('crida updateObra en mode edició', async () => {
+    vi.mocked(updateObra).mockResolvedValue(undefined)
+
+    render(<ObraForm obra={obraExistent} />)
+
+    fireEvent.click(screen.getByRole('button', { name: /guardar canvis/i }))
+
+    await waitFor(() => {
+      expect(updateObra).toHaveBeenCalledWith('obra-uuid-1', expect.any(FormData))
+    })
   })
 })

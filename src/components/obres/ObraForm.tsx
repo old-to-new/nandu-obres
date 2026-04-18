@@ -1,6 +1,7 @@
 'use client'
 
-import { useTransition } from 'react'
+import { useTransition, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { createObra, updateObra } from '@/app/(dashboard)/obres/actions'
 import type { Obra, LiniaObra, EstatObra } from '@/lib/types/database'
 
@@ -24,14 +25,24 @@ const ESTATS: { value: EstatObra; label: string }[] = [
 
 export default function ObraForm({ obra, onCancel }: Props) {
   const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
   const isEditing = !!obra
 
   function handleSubmit(formData: FormData) {
+    setError(null)
     startTransition(async () => {
-      if (isEditing) {
-        await updateObra(obra.id, formData)
-      } else {
-        await createObra(formData)
+      try {
+        if (isEditing) {
+          await updateObra(obra.id, formData)
+          router.push(`/obres/${obra.id}`)
+        } else {
+          await createObra(formData)
+        }
+      } catch (err) {
+        if (err instanceof Error && err.message !== 'NEXT_REDIRECT') {
+          setError(err.message)
+        }
       }
     })
   }
@@ -121,6 +132,12 @@ export default function ObraForm({ obra, onCancel }: Props) {
           />
         </div>
       </div>
+
+      {error && (
+        <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       <div className="flex justify-end gap-3 border-t border-gray-200 pt-4">
         {onCancel && (
