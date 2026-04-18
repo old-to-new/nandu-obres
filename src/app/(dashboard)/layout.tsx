@@ -3,7 +3,7 @@ import MobileHeader from '@/components/layout/MobileHeader'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen" style={{ background: 'var(--surface-brand)' }}>
       {/* Sidebar — visible des de md en amunt */}
       <div className="hidden md:flex md:flex-shrink-0">
         <Sidebar />
