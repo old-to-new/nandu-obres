@@ -10,6 +10,7 @@ const treballadorActiu: Treballador = {
   actiu: true,
   telefon: '600111222',
   notes: null,
+  encarregat: null,
   created_at: '2026-01-01T00:00:00Z',
 }
 
@@ -19,6 +20,7 @@ const treballadorInactiu: Treballador = {
   nom: 'Joan Mas',
   actiu: false,
   tipus: 'peo',
+  encarregat: 'pare',
 }
 
 describe('TreballadorCard', () => {
