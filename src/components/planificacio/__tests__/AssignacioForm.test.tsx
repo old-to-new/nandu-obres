@@ -11,8 +11,8 @@ const obres: Obra[] = [
 ]
 
 const treballadors: Treballador[] = [
-  { id: 't1', nom: 'Pere Garriga', tipus: 'oficial', actiu: true, telefon: null, notes: null, created_at: '' },
-  { id: 't2', nom: 'Joan Mas', tipus: 'peo', actiu: true, telefon: null, notes: null, created_at: '' },
+  { id: 't1', nom: 'Pere Garriga', tipus: 'oficial', actiu: true, telefon: null, notes: null, encarregat: null, created_at: '' },
+  { id: 't2', nom: 'Joan Mas', tipus: 'peo', actiu: true, telefon: null, notes: null, encarregat: null, created_at: '' },
 ]
 
 const vehicles: Vehicle[] = [

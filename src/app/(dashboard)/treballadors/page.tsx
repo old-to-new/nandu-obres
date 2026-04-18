@@ -1,14 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
-import TreballadorsPageContent from '@/components/treballadors/TreballadorsPageContent'
+import TreballadorsLlista from '@/components/treballadors/TreballadorsLlista'
 
-interface TreballadorsPageProps {
-  searchParams: Promise<{ inactius?: string }>
-}
-
-export default async function TreballadorsPage({ searchParams }: TreballadorsPageProps) {
-  const { inactius } = await searchParams
-  const mostraInactius = inactius === '1'
-
+export default async function TreballadorsPage() {
   const supabase = await createClient()
   const { data: treballadors, error } = await supabase
     .from('treballadors')
@@ -17,10 +10,5 @@ export default async function TreballadorsPage({ searchParams }: TreballadorsPag
 
   if (error) throw new Error(error.message)
 
-  return (
-    <TreballadorsPageContent
-      treballadors={treballadors ?? []}
-      mostraInactius={mostraInactius}
-    />
-  )
+  return <TreballadorsLlista treballadors={treballadors ?? []} />
 }

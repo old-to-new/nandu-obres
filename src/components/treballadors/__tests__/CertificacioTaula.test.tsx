@@ -12,7 +12,7 @@ Object.defineProperty(window, 'print', {
 
 const treballador: Treballador = {
   id: 'uuid-1', nom: 'Pere Garriga', tipus: 'oficial',
-  actiu: true, telefon: null, notes: null,
+  actiu: true, telefon: null, notes: null, encarregat: null,
   created_at: '2026-01-01T00:00:00Z',
 }
 
