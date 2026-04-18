@@ -55,7 +55,13 @@ export default function ObraDetailHeader({ obra }: Props) {
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <Link
+          href={`/obres/${obra.id}/certificacio`}
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          Certificació
+        </Link>
         <Link
           href={`/obres/${obra.id}/galeria`}
           className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
