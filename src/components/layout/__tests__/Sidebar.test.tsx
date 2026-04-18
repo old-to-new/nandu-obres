@@ -11,17 +11,20 @@ vi.mock('@/app/(auth)/login/actions', () => ({
 }))
 
 describe('Sidebar', () => {
-  it('mostra les 3 seccions de navegació', () => {
+  it('mostra les seccions de navegació', () => {
     render(<Sidebar />)
-    expect(screen.getByText('Obres')).toBeInTheDocument()
+    // Use getAllByText since 'Obres' now appears in both logo and nav
+    expect(screen.getAllByText('Obres').length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText('Treballadors')).toBeInTheDocument()
     expect(screen.getByText('Planificació')).toBeInTheDocument()
   })
 
-  it('marca la ruta activa amb bg-blue-50', () => {
+  it('marca la ruta activa amb el color de marca', () => {
     render(<Sidebar />)
-    const obresLink = screen.getByRole('link', { name: /obres/i })
-    expect(obresLink).toHaveClass('bg-blue-50')
+    // The active link uses inline style with brand-red token instead of bg-blue-50 class
+    // Emoji is aria-hidden so accessible name is just the text label
+    const obresLink = screen.getByRole('link', { name: 'Obres' })
+    expect(obresLink).toHaveStyle({ background: 'var(--sidebar-active-bg)' })
   })
 
   it('mostra el botó de tancar sessió', () => {
