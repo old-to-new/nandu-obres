@@ -1,4 +1,5 @@
 export type TipusTreballador = 'oficial' | 'oficial_2a' | 'peo' | 'altre'
+export type EncarregatTreballador = 'nandu' | 'pare'
 export type LiniaObra = 'obra_nova' | 'rehabilitacio' | 'ascensors' | 'altres'
 export type EstatObra = 'activa' | 'pausada' | 'finalitzada'
 
@@ -9,6 +10,7 @@ export interface Treballador {
   actiu: boolean
   telefon: string | null
   notes: string | null
+  encarregat: EncarregatTreballador | null
   created_at: string
 }
 
