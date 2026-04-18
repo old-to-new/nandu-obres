@@ -27,7 +27,7 @@ describe('guardarActa — crear nova acta (cas feliç)', () => {
     vi.clearAllMocks()
   })
 
-  it('insereix acta + treballadors en una seqüència i redirigeix al detall', async () => {
+  it('insereix acta + treballadors en una seqüència i retorna acteId (sense redirect)', async () => {
     // Mock: insert acta → retorna id
     const mockActaInsert = vi.fn().mockReturnValue({
       select: vi.fn().mockReturnValue({
@@ -58,7 +58,7 @@ describe('guardarActa — crear nova acta (cas feliç)', () => {
       { treballadorId: 'treb-2', hores: 7.5, comentari: '', planificat: false },
     ]
 
-    await guardarActa({
+    const result = await guardarActa({
       obraId: 'obra-uuid-1',
       acteId: null, // nova acta
       data: '2026-04-18',
@@ -81,7 +81,8 @@ describe('guardarActa — crear nova acta (cas feliç)', () => {
     ])
 
     expect(revalidatePath).toHaveBeenCalledWith('/obres/obra-uuid-1')
-    expect(redirect).toHaveBeenCalledWith('/obres/obra-uuid-1/actes/acta-uuid-1')
+    expect(redirect).not.toHaveBeenCalled()
+    expect(result).toEqual({ acteId: 'acta-uuid-1' })
   })
 })
 

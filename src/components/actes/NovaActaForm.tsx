@@ -2,9 +2,11 @@
 
 import { useState, useCallback, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import type { Treballador } from '@/lib/types/database'
 import { guardarActa, type TreballadorActaInput } from '@/app/(dashboard)/obres/[id]/actions'
 import ActaTreballadorsEditor, { type TreballadorEditorEntry } from '@/components/actes/ActaTreballadorsEditor'
+import ActaFotosUpload from '@/components/actes/ActaFotosUpload'
 
 interface Props {
   obraId: string
@@ -27,6 +29,7 @@ export default function NovaActaForm({
   const [hasChanges, setHasChanges] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
+  const [savedActeId, setSavedActeId] = useState<string | null>(null)
   const router = useRouter()
 
   const handleTreballadorsChange = useCallback((nousTreballadors: TreballadorEditorEntry[]) => {
@@ -38,7 +41,7 @@ export default function NovaActaForm({
     setError(null)
     startTransition(async () => {
       try {
-        await guardarActa({
+        const result = await guardarActa({
           obraId,
           acteId: null,
           data,
@@ -50,15 +53,52 @@ export default function NovaActaForm({
             planificat: t.planificat,
           })),
         })
-        // guardarActa fa redirect, no arriba aquí si va bé
+        setSavedActeId(result.acteId)
       } catch (err) {
-        if (err instanceof Error && err.message !== 'NEXT_REDIRECT') {
-          setError(err.message)
+        if (!isRedirectError(err)) {
+          setError(err instanceof Error ? err.message : 'Error desconegut')
         }
       }
     })
   }
 
+  // Fase 2: upload de fotos
+  if (savedActeId) {
+    return (
+      <div className="mx-auto max-w-2xl space-y-6">
+        {/* Capçalera */}
+        <div className="flex items-center gap-3">
+          <div>
+            <h1 className="text-xl font-semibold text-gray-900">Nova acta — Afegir fotos</h1>
+            <p className="mt-0.5 text-sm text-gray-500">{obraNom}</p>
+          </div>
+        </div>
+
+        {/* Upload de fotos */}
+        <div className="rounded-xl border border-gray-200 bg-white p-5">
+          <h2 className="mb-4 font-semibold text-gray-900">Fotos del dia (opcional)</h2>
+          <ActaFotosUpload
+            obraId={obraId}
+            acteId={savedActeId}
+            fotosInicials={[]}
+          />
+        </div>
+
+        {/* Botó finalitzar */}
+        <div className="sticky bottom-4 flex justify-end">
+          <button
+            type="button"
+            onClick={() => router.push(`/obres/${obraId}/actes/${savedActeId}`)}
+            className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-blue-700"
+          >
+            Finalitzar acta →
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // Fase 1: formulari de creació
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       {/* Capçalera */}

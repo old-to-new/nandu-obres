@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
 export interface TreballadorActaInput {
@@ -19,7 +18,7 @@ export interface GuardarActaInput {
   treballadors: TreballadorActaInput[]
 }
 
-export async function guardarActa(input: GuardarActaInput) {
+export async function guardarActa(input: GuardarActaInput): Promise<{ acteId: string }> {
   const supabase = await createClient()
 
   let acteId: string
@@ -77,7 +76,7 @@ export async function guardarActa(input: GuardarActaInput) {
   }
 
   revalidatePath(`/obres/${input.obraId}`)
-  redirect(`/obres/${input.obraId}/actes/${acteId}`)
+  return { acteId }
 }
 
 export async function uploadFoto(obraId: string, acteId: string, formData: FormData) {
