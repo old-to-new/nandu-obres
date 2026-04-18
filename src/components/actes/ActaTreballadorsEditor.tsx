@@ -85,7 +85,7 @@ export default function ActaTreballadorsEditor({
                   <span className="font-medium text-gray-900 truncate">{treballador.nom}</span>
                   <span className="text-xs text-gray-500">{TIPUS_LABELS[treballador.tipus]}</span>
                   {entry.planificat && (
-                    <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+                    <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-600">
                       Planificat
                     </span>
                   )}
@@ -110,7 +110,7 @@ export default function ActaTreballadorsEditor({
                       onChange={(e) =>
                         updateHores(entry.treballadorId, parseFloat(e.target.value) || 0)
                       }
-                      className={`w-20 rounded border px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 ${
+                      className={`w-20 rounded border px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-red-500 ${
                         horesNoPrevistes
                           ? 'border-yellow-400 bg-yellow-50'
                           : 'border-gray-300'
@@ -140,7 +140,7 @@ export default function ActaTreballadorsEditor({
                       value={entry.comentari}
                       onChange={(e) => updateComentari(entry.treballadorId, e.target.value)}
                       placeholder="ex: Encofrat planta baixa"
-                      className="flex-1 rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      className="flex-1 rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-red-500"
                     />
                   </div>
                 </div>
@@ -174,7 +174,7 @@ export default function ActaTreballadorsEditor({
               afegirTreballador(e.target.value)
               e.target.value = ''
             }}
-            className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           >
             <option value="">+ Afegir treballador...</option>
             {disponiblesPerAfegir.map((t) => (

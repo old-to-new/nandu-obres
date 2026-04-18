@@ -66,12 +66,12 @@ export default async function ObresPage({ searchParams }: Props) {
     <div>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-gray-900">Obres</h1>
+          <h1 className="brand-display text-2xl">Obres</h1>
           <p className="mt-0.5 text-sm text-gray-500">Gestió d&apos;obres i actes diàries</p>
         </div>
         <Link
           href="/obres/nova"
-          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+          className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
         >
           + Nova obra
         </Link>

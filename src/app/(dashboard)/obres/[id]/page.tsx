@@ -106,7 +106,7 @@ export default async function ObraDetailPage({ params }: Props) {
           </h2>
           <Link
             href={`/obres/${id}/actes/nova`}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
           >
             + Nova acta
           </Link>

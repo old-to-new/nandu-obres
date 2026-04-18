@@ -12,32 +12,41 @@
   /* === Backgrounds === */
   --background: #ffffff;
   --surface: #ffffff;
-  --surface-raised: #f9fafb;   /* gray-50 — subtle page bg */
-  --surface-brand: #f7f4f5;    /* marcijou.com light warm gray */
+  --surface-raised: #faf9f7;   /* warm off-white — sections, cards */
+  --surface-brand: #f7f4f4;    /* marcijou.com warm gray tint */
+  --surface-sunken: #f1efed;   /* darker warm gray — subtle wells */
 
-  /* === Brand === */
+  /* === Brand (Marc i Jou red) === */
   --brand-red: #e43832;
-  --brand-red-dark: #c9201a;   /* hover/active darkened 10% */
-  --brand-red-subtle: #fef2f2; /* red-50 — active nav bg */
+  --brand-red-dark: #c9201a;
+  --brand-red-darker: #a51914;
+  --brand-red-subtle: #fdecec;   /* nav active bg */
+  --brand-red-tint: #fbf5f5;     /* extremely subtle tint */
 
-  /* === Text === */
-  --foreground: #1f2937;       /* gray-800 — primary text */
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;   /* gray-500 — captions, meta */
-  --text-muted: #9ca3af;       /* gray-400 — placeholders (use sparingly — fails WCAG AA alone) */
-  --text-on-brand: #ffffff;    /* white text on brand-red bg */
+  /* === Text (warm grays — not cool slate) === */
+  --foreground: #2a2624;       /* near-black warm */
+  --text-primary: #2a2624;     /* main copy */
+  --text-secondary: #686666;   /* marcijou body color */
+  --text-muted: #9a9694;       /* warm muted */
+  --text-on-brand: #ffffff;
+  --text-on-dark: #f5f3f0;
 
-  /* === Borders === */
-  --border: #e5e7eb;           /* gray-200 — default borders */
-  --border-strong: #d1d5db;    /* gray-300 — inputs, focused borders */
+  /* === Borders (warm) === */
+  --border: #e8e4e1;
+  --border-strong: #d4cfca;
+  --border-stronger: #b5aea7;
 
   /* === Sidebar === */
   --sidebar-bg: #ffffff;
-  --sidebar-border: #e5e7eb;
-  --sidebar-active-bg: #fef2f2;   /* brand-red-subtle */
-  --sidebar-active-text: #b91c1c; /* red-700 */
-  --sidebar-inactive-text: #4b5563; /* gray-600 */
-  --sidebar-hover-bg: #f9fafb;    /* gray-50 */
+  --sidebar-border: #e8e4e1;
+  --sidebar-active-bg: #fdecec;
+  --sidebar-active-text: #a51914;
+  --sidebar-inactive-text: #4d4845;
+  --sidebar-hover-bg: #faf9f7;
+
+  /* === Focus ring === */
+  --ring-brand: #e43832;
+  --ring-offset: #ffffff;
 }
 
 body {
@@ -45,19 +54,67 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body, 'Open Sans', Arial, sans-serif);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading, 'Oswald', Arial, sans-serif);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0.005em;
+  color: var(--text-primary);
 }
 
 /* ==========================================
-   Print styles — Certificació (Fase 6)
-   Amagar navegació i UI no imprimible, format A4
+   Brand display — Marc i Jou inspired
+   Use for major page titles and section labels
+========================================== */
+.brand-display {
+  font-family: var(--font-heading, 'Oswald', Arial, sans-serif);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+
+.brand-eyebrow {
+  font-family: var(--font-heading, 'Oswald', Arial, sans-serif);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--brand-red);
+}
+
+.brand-divider {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2px;
+  background-color: var(--brand-red);
+  border-radius: 1px;
+}
+
+/* ==========================================
+   Selection color — brand
+========================================== */
+::selection {
+  background-color: var(--brand-red);
+  color: var(--text-on-brand);
+}
+
+/* ==========================================
+   Focus visible — brand-aware
+========================================== */
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ==========================================
+   Print styles — Certificació
 ========================================== */
 @media print {
   nav,

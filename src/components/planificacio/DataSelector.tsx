@@ -39,7 +39,7 @@ export function DataSelector({ dataActual, basePath }: DataSelectorProps) {
         type="date"
         value={dataActual}
         onChange={handleInputChange}
-        className="rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
       />
 
       <button

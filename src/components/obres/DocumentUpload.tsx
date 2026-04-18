@@ -57,7 +57,7 @@ export default function DocumentUpload({ obraId, tipus, label, urlActual }: Prop
 
         <label
           htmlFor={`upload-${tipus}`}
-          className={`cursor-pointer rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-100 ${
+          className={`cursor-pointer rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-100 ${
             isPending ? 'cursor-not-allowed opacity-50' : ''
           }`}
         >

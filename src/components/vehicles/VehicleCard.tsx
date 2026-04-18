@@ -20,7 +20,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         )}
         <Link
           href={`/vehicles/${vehicle.id}/editar`}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-red-600 hover:underline"
         >
           Editar
         </Link>

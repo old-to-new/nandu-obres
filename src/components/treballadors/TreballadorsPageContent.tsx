@@ -18,10 +18,10 @@ export default function TreballadorsPageContent({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Treballadors</h1>
+        <h1 className="brand-display text-2xl">Treballadors</h1>
         <Link
           href="/treballadors/nou"
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
         >
           Nou treballador
         </Link>
@@ -30,7 +30,7 @@ export default function TreballadorsPageContent({
       <div className="flex items-center gap-2">
         <Link
           href={mostraInactius ? '/treballadors' : '/treballadors?inactius=1'}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-red-600 hover:underline"
         >
           {mostraInactius ? 'Amagar inactius' : 'Veure inactius'}
         </Link>

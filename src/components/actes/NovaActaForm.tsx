@@ -86,7 +86,7 @@ export default function NovaActaForm({
           <button
             type="button"
             onClick={() => router.push(`/obres/${obraId}/actes/${savedActeId}`)}
-            className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-blue-700"
+            className="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-red-700"
           >
             Finalitzar acta →
           </button>
@@ -131,7 +131,7 @@ export default function NovaActaForm({
               setData(e.target.value)
               setHasChanges(true)
             }}
-            className="w-full max-w-xs rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full max-w-xs rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           />
         </div>
       </div>
@@ -161,7 +161,7 @@ export default function NovaActaForm({
               setHasChanges(true)
             }}
             placeholder="Observacions generals sobre el dia de treball..."
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           />
         </div>
       </div>
@@ -172,7 +172,7 @@ export default function NovaActaForm({
           type="button"
           onClick={handleGuardar}
           disabled={isPending || !hasChanges || treballadors.length === 0}
-          className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-blue-700 disabled:opacity-50"
+          className="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-red-700 disabled:opacity-50"
         >
           {isPending ? 'Guardant...' : 'Guardar acta'}
         </button>

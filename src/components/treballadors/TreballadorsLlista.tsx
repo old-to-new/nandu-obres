@@ -32,7 +32,7 @@ export default function TreballadorsLlista({ treballadors }: TreballadorsLlistaP
       {/* Capçalera */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Treballadors</h1>
+          <h1 className="brand-display text-2xl">Treballadors</h1>
           <p className="mt-0.5 text-sm text-gray-500">
             {treballadorsVisibles.length}{' '}
             {treballadorsVisibles.length === 1 ? 'treballador' : 'treballadors'}
@@ -40,7 +40,7 @@ export default function TreballadorsLlista({ treballadors }: TreballadorsLlistaP
         </div>
         <Link
           href="/treballadors/nou"
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
         >
           Nou treballador
         </Link>
@@ -64,7 +64,7 @@ export default function TreballadorsLlista({ treballadors }: TreballadorsLlistaP
                 className={[
                   'px-3 py-1.5 text-sm font-medium transition first:rounded-l-lg last:rounded-r-lg',
                   isActive
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-red-600 text-white'
                     : 'text-gray-600 hover:bg-gray-50',
                 ].join(' ')}
               >

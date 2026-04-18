@@ -37,7 +37,7 @@ export default async function PlanificacioPage({ searchParams }: PlanificacioPag
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Planificació</h1>
+        <h1 className="brand-display text-2xl">Planificació</h1>
       </div>
 
       <DataSelector dataActual={dataSeleccionada} basePath="/planificacio" />

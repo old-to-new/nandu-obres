@@ -45,8 +45,8 @@ export function TreballadorHistorial({ entrades }: TreballadorHistorialProps) {
   return (
     <div className="space-y-6">
       {/* Resum */}
-      <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
-        <p className="text-sm text-blue-700">Total hores en el rang</p>
+      <div className="rounded-lg border border-red-100 bg-red-50 p-4">
+        <p className="text-sm text-red-700">Total hores en el rang</p>
         <p className="mt-1 text-3xl font-bold text-blue-900">{totalHores}h</p>
       </div>
 
@@ -58,7 +58,7 @@ export function TreballadorHistorial({ entrades }: TreballadorHistorialProps) {
         <div className="space-y-1">
           {Object.entries(horesPerObra).map(([obraId, { nom, hores }]) => (
             <div key={obraId} className="flex justify-between rounded-md bg-gray-50 px-3 py-2">
-              <Link href={`/obres/${obraId}`} className="text-sm text-blue-600 hover:underline">
+              <Link href={`/obres/${obraId}`} className="text-sm text-red-600 hover:underline">
                 {nom}
               </Link>
               <span className="text-sm font-semibold text-gray-800">{hores}h</span>
@@ -92,7 +92,7 @@ export function TreballadorHistorial({ entrades }: TreballadorHistorialProps) {
                     {entrada.acta ? (
                       <Link
                         href={`/obres/${entrada.acta.obra.id}`}
-                        className="text-blue-600 hover:underline"
+                        className="text-red-600 hover:underline"
                       >
                         {entrada.acta.obra.nom}
                       </Link>

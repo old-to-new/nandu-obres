@@ -13,6 +13,6 @@ export const ENCARREGAT_LABELS: Record<EncarregatTreballador, string> = {
 }
 
 export const ENCARREGAT_COLORS: Record<EncarregatTreballador, string> = {
-  nandu: 'bg-blue-50 text-blue-700 ring-blue-600/20',
-  pare: 'bg-orange-50 text-orange-700 ring-orange-600/20',
+  nandu: 'bg-stone-100 text-stone-700 ring-stone-600/20',
+  pare: 'bg-amber-50 text-amber-700 ring-amber-600/20',
 }

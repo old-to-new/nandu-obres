@@ -36,10 +36,10 @@ export function CertificacioTaula({
     <div className="space-y-6">
       {/* Controls — no s'imprimeixen */}
       <div className="flex items-center justify-between print:hidden">
-        <h1 className="text-2xl font-bold text-gray-900">Certificació</h1>
+        <h1 className="brand-display text-2xl">Certificació</h1>
         <button
           onClick={() => window.print()}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
         >
           Imprimir
         </button>

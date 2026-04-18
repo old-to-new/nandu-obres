@@ -18,7 +18,7 @@ export default function ActaHistorial({ actes, obraId }: Props) {
         <p className="text-sm text-gray-400">No hi ha actes registrades per a aquesta obra.</p>
         <Link
           href={`/obres/${obraId}/actes/nova`}
-          className="mt-2 inline-block text-sm text-blue-600 hover:underline"
+          className="mt-2 inline-block text-sm text-red-600 hover:underline"
         >
           Crea la primera acta
         </Link>

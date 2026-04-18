@@ -24,7 +24,7 @@ export default function ObraFotosPreview({ obraId, fotos }: Props) {
         </h2>
         <Link
           href={galeriaHref}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-red-600 hover:underline"
         >
           Veure totes →
         </Link>

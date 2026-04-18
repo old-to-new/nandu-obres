@@ -57,7 +57,7 @@ export default function ActaDetailView({ acta, treballadors, imatges, obraId, ob
                     <span className="font-medium text-gray-900">{t.treballador.nom}</span>
                     <span className="text-xs text-gray-500">{TIPUS_LABELS[t.treballador.tipus]}</span>
                     {t.planificat && (
-                      <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-600">
+                      <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs text-red-600">
                         Planificat
                       </span>
                     )}

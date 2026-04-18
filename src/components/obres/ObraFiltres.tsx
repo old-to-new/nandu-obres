@@ -43,7 +43,7 @@ export default function ObraFiltres() {
           id="filtre-linia"
           value={searchParams.get('linia') ?? ''}
           onChange={(e) => handleChange('linia', e.target.value)}
-          className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
         >
           {LINIES.map((l) => (
             <option key={l.value} value={l.value}>
@@ -61,7 +61,7 @@ export default function ObraFiltres() {
           id="filtre-estat"
           value={searchParams.get('estat') ?? ''}
           onChange={(e) => handleChange('estat', e.target.value)}
-          className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
         >
           {ESTATS.map((e) => (
             <option key={e.value} value={e.value}>

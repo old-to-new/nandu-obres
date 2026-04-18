@@ -23,11 +23,11 @@ describe('ENCARREGAT_LABELS', () => {
 
 describe('ENCARREGAT_COLORS', () => {
   it('retorna classes de color per nandu', () => {
-    expect(ENCARREGAT_COLORS['nandu']).toContain('blue')
+    expect(ENCARREGAT_COLORS['nandu']).toContain('stone')
   })
 
   it('retorna classes de color per pare', () => {
-    expect(ENCARREGAT_COLORS['pare']).toContain('orange')
+    expect(ENCARREGAT_COLORS['pare']).toContain('amber')
   })
 
   it('els dos valors son strings no buits', () => {

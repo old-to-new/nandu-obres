@@ -36,7 +36,7 @@ export function DiaResum({ data, assignacions, deleteAction }: DiaResumProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <p className="text-sm text-gray-500">{formatData(data)}</p>
-        <span className="rounded-full bg-blue-50 px-3 py-0.5 text-sm font-medium text-blue-700">
+        <span className="rounded-full bg-red-50 px-3 py-0.5 text-sm font-medium text-red-700">
           {assignacions.length} treballadors
         </span>
       </div>

@@ -92,7 +92,7 @@ export default function ActaGaleria({ imatges, obraId }: Props) {
                 </h3>
                 <Link
                   href={`/obres/${obraId}/actes/${acteId}`}
-                  className="text-xs text-blue-600 hover:underline"
+                  className="text-xs text-red-600 hover:underline"
                 >
                   Veure acta →
                 </Link>
@@ -106,7 +106,7 @@ export default function ActaGaleria({ imatges, obraId }: Props) {
                     aria-label={img.caption ?? "Foto d'obra"}
                     title={`Pujada el ${formatHora(img.created_at)}`}
                     onClick={() => openLightbox(data, idx)}
-                    className="group relative aspect-square cursor-zoom-in overflow-hidden rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    className="group relative aspect-square cursor-zoom-in overflow-hidden rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                   >
                     <Image
                       src={img.url}

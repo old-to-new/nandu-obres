@@ -47,7 +47,7 @@ export function RangDatesSelector({ dataInici, dataFi, basePath }: RangDatesSele
       </div>
       <button
         type="submit"
-        className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+        className="rounded-md bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700"
       >
         Filtrar
       </button>

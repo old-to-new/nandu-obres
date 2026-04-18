@@ -62,7 +62,7 @@ export default function ObraForm({ obra, onCancel }: Props) {
             required
             defaultValue={obra?.nom ?? ''}
             placeholder="ex: Casa Puigdomenech"
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           />
         </div>
 
@@ -77,7 +77,7 @@ export default function ObraForm({ obra, onCancel }: Props) {
             required
             defaultValue={obra?.client_nom ?? ''}
             placeholder="ex: Família Puigdomenech"
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           />
         </div>
 
@@ -90,7 +90,7 @@ export default function ObraForm({ obra, onCancel }: Props) {
             name="linia"
             required
             defaultValue={obra?.linia ?? 'obra_nova'}
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           >
             {LINIES.map((l) => (
               <option key={l.value} value={l.value}>
@@ -109,7 +109,7 @@ export default function ObraForm({ obra, onCancel }: Props) {
             name="estat"
             required
             defaultValue={obra?.estat ?? 'activa'}
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           >
             {ESTATS.map((e) => (
               <option key={e.value} value={e.value}>
@@ -129,7 +129,7 @@ export default function ObraForm({ obra, onCancel }: Props) {
             rows={3}
             defaultValue={obra?.notes ?? ''}
             placeholder="Informació addicional sobre l'obra..."
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           />
         </div>
       </div>
@@ -153,7 +153,7 @@ export default function ObraForm({ obra, onCancel }: Props) {
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+          className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-50"
         >
           {isPending ? 'Guardant...' : isEditing ? 'Guardar canvis' : 'Crear obra'}
         </button>
