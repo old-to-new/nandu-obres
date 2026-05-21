@@ -1,5 +1,19 @@
 # Deploy Manual — Nandu Obres
 
+> [!IMPORTANT]
+> **Document històric (abril 2026).** Aquest manual descriu el deploy
+> original sota l'organització de Joan. Al maig de 2026 el projecte va
+> ser migrat a l'org OTN Global Connect (Supabase + Vercel + GitHub).
+> Per a l'estat actual veure:
+>
+> - [`docs/MIGRATION_2026_05.md`](docs/MIGRATION_2026_05.md)
+> - [`docs/deploy/VERCEL_DEPLOY.md`](docs/deploy/VERCEL_DEPLOY.md)
+>
+> Conserveu aquest document com a referència de la primera engegada
+> (RLS, buckets, usuaris, Auth redirect URLs — tot encara aplica perquè
+> el project ref de Supabase no ha canviat). Però per a coses com paths
+> locals o vincle amb Vercel, mireu els docs nous.
+
 **Projecte:** Nandu Obres (app de gestió d'obres, actes, planificació)
 **Data preparació:** 2026-04-18 (AUTO_MODE — Fase 7)
 **Estat:** Preparat. Deploy manual pendent per Joan.

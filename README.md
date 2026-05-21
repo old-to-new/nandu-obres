@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nandu Obres
 
-## Getting Started
+App de gestió d'obres, actes diàries i planificació de treballadors per a
+Nandu Construcció. Next.js 16 + Supabase + Vercel.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Server Components, Server Actions).
+- **Supabase** — Auth + Postgres + Storage. Project ref `qmybcdgskfxitqroujoh`
+  a l'org OTN Global Connect.
+- **Tailwind CSS v4** + Lucide icons.
+- **Vitest** + Testing Library per a tests unitaris (183 actuals).
+- **Playwright** per a e2e (a `e2e/`).
+
+## Quickstart
 
 ```bash
+git clone https://github.com/old-to-new/nandu-obres.git
+cd nandu-obres
+npm install
+npx vercel link                                      # un cop, per vincular amb el projecte Vercel
+npx vercel env pull --environment=development        # genera .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Obre [http://localhost:3000](http://localhost:3000) i fes login amb un
+usuari de Supabase Auth.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev         # Next dev server (port 3000)
+npm run build       # Build de producció
+npm run lint        # ESLint
+npm test            # Vitest watch
+npm run test:run    # Vitest una sola passada
+```
 
-## Learn More
+## Documentació
 
-To learn more about Next.js, take a look at the following resources:
+- [`docs/MIGRATION_2026_05.md`](docs/MIGRATION_2026_05.md) — Migració de
+  l'org de Joan a OTN, i estat actual de Supabase + GitHub + Vercel.
+- [`docs/deploy/VERCEL_DEPLOY.md`](docs/deploy/VERCEL_DEPLOY.md) — Deploy
+  i env vars actuals.
+- [`docs/architecture/document-upload.md`](docs/architecture/document-upload.md)
+  — Per què la pujada de plànols/pressupost va directa del client a
+  Supabase Storage (no via Server Action).
+- [`docs/checklists/SECURITY_CHECKLIST.md`](docs/checklists/SECURITY_CHECKLIST.md)
+- [`docs/checklists/GDPR_CHECKLIST.md`](docs/checklists/GDPR_CHECKLIST.md)
+- [`DEPLOY_MANUAL.md`](DEPLOY_MANUAL.md) — Manual de deploy original
+  (2026-04, abans de migració OTN). Conserva valor com a referència
+  però el `docs/deploy/VERCEL_DEPLOY.md` és el font de veritat actual.
+- [`AGENTS.md`](AGENTS.md) — Instruccions per a agents que treballen al repo.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Llicència
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proprietary — All Rights Reserved. Veure [`LICENSE`](LICENSE). El repo és
+públic per raons de hosting (Vercel Hobby), però el codi **no** és open
+source.

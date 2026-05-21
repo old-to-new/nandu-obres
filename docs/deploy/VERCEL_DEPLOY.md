@@ -1,37 +1,73 @@
 # Vercel Deploy — Nandu Obres
 
-Data preparació: 2026-04-18
-Estat: **Preparat — deploy manual pendent per Joan** (AUTO_MODE no pot fer deploy real)
+**Estat actual** (2026-05): desplegat a l'equip Vercel d'OTN Global Connect
+(pla Hobby), connectat al repo públic
+[`old-to-new/nandu-obres`](https://github.com/old-to-new/nandu-obres).
 
-## URLs (pendent)
+## URLs
 
-- Producció: `https://nandu-obres.vercel.app` (o domini personalitzat)
+- Producció: `https://nandu-obres.vercel.app` (o el domini que es configuri)
 - Supabase: `https://qmybcdgskfxitqroujoh.supabase.co`
 - Supabase Dashboard: https://supabase.com/dashboard/project/qmybcdgskfxitqroujoh
+- GitHub: https://github.com/old-to-new/nandu-obres
 
-## Variables d'entorn (configurar a Vercel)
+## Variables d'entorn
 
-| Variable | Valor | Scope |
+Els valors viuen a Vercel. Per al dev local, fes `npx vercel link` un cop i
+després `npx vercel env pull --environment=development` per obtenir un
+`.env.local` actualitzat.
+
+| Variable | Scope | Notes |
 |----------|-------|-------|
-| `NEXT_PUBLIC_SUPABASE_URL` | `https://qmybcdgskfxitqroujoh.supabase.co` | Production, Preview, Development |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | _(Dashboard > API > anon public)_ | Production, Preview, Development |
+| `NEXT_PUBLIC_SUPABASE_URL` | Production + Preview + Development | `https://qmybcdgskfxitqroujoh.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Production + Preview + Development | Publishable key `sb_publishable_*` (no JWT) |
 
-**NO configurar `SUPABASE_SERVICE_ROLE_KEY`** llevat que s'hi afegeixi lògica server-only que ho requereixi explícitament.
+**No configurar `SUPABASE_SERVICE_ROLE_KEY`** llevat que s'hi afegeixi
+lògica server-only que ho requereixi explícitament.
 
 ## Supabase Auth Redirect URLs
 
-Configurar a **Authentication > URL Configuration**:
+Configurat a **Authentication > URL Configuration**:
 
 - **Site URL:** `https://nandu-obres.vercel.app`
 - **Additional Redirect URLs:**
   - `https://nandu-obres.vercel.app/auth/callback`
   - `http://localhost:3000/auth/callback` (per dev)
 
-## Redeploy
+Cal actualitzar-los si es canvia el domini de producció.
 
-- Git push a `main` → redeploy automàtic (un cop connectat el repo a Vercel)
-- O manual: `vercel --prod` des del directori `nandu-obres/`
+## Deploy
 
-## Veure `DEPLOY_MANUAL.md` a l'arrel del projecte
+- **Automàtic:** push a `main` → deploy a producció.
+- **Preview:** qualsevol branch o PR → deploy preview amb env vars de Preview.
+- **Manual:** `npx vercel --prod` des del directori arrel del projecte.
 
-per les instruccions pas-a-pas completes.
+## Workflow de GitHub Actions
+
+Hi ha `.github/workflows/deploy.yml` que també desplega via CLI. Actualment
+la integració Git nativa de Vercel ja desplega sola; el workflow pot causar
+deploys duplicats. Decisió pendent:
+
+- Eliminar el workflow i confiar només en Vercel native Git (recomanat).
+- O mantenir-lo i desactivar el deploy automàtic de Vercel (Settings > Git
+  > "Ignored Build Step"), reconfigurant els secrets `VERCEL_ORG_ID`,
+  `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` al nou repo.
+
+## Restriccions del pla Hobby
+
+- **Body de Server Actions:** 4.5 MB. La pujada de documents evita aquest
+  límit pujant directament del client a Supabase Storage. Veure
+  [`../architecture/document-upload.md`](../architecture/document-upload.md).
+- **Repos privats d'org no suportats** — el repo ha de ser públic o,
+  alternativament, sota un compte personal. Si demà es vol privatitzar
+  l'org-repo, cal Vercel Pro (~$20/mes per usuari) o canviar de host
+  (Cloudflare Pages, Render, self-host).
+
+## Rollback
+
+```bash
+npx vercel ls           # llista deploys recents
+npx vercel promote <url-deploy-anterior>
+```
+
+O via dashboard: Deployments → triar deploy → "Promote to Production".
