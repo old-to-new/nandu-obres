@@ -3,7 +3,18 @@ import { render, screen } from '@testing-library/react'
 import DocumentUpload from '../DocumentUpload'
 
 vi.mock('@/app/(dashboard)/obres/actions', () => ({
-  uploadDocument: vi.fn().mockResolvedValue(undefined),
+  setDocumentUrl: vi.fn().mockResolvedValue(undefined),
+}))
+
+vi.mock('@/lib/supabase/client', () => ({
+  createBrowserClient: () => ({
+    storage: {
+      from: () => ({
+        upload: vi.fn().mockResolvedValue({ error: null }),
+        getPublicUrl: () => ({ data: { publicUrl: 'https://test/x.pdf' } }),
+      }),
+    },
+  }),
 }))
 
 describe('DocumentUpload', () => {

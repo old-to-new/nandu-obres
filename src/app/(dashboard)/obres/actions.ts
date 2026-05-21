@@ -45,33 +45,17 @@ export async function updateObra(id: string, formData: FormData) {
   revalidatePath(`/obres/${id}`)
 }
 
-export async function uploadDocument(
+export async function setDocumentUrl(
   obraId: string,
   tipus: 'pressupost' | 'projecte',
-  formData: FormData
+  url: string
 ) {
   const supabase = await createClient()
-
-  const file = formData.get('file') as File
-  if (!file || file.size === 0) throw new Error('Cap fitxer seleccionat')
-
-  const extension = file.name.split('.').pop() ?? 'pdf'
-  const path = `${obraId}/${tipus}.${extension}`
-
-  const { error: uploadError } = await supabase.storage
-    .from('obres-documents')
-    .upload(path, file, { upsert: true })
-
-  if (uploadError) throw new Error(uploadError.message)
-
-  const {
-    data: { publicUrl },
-  } = supabase.storage.from('obres-documents').getPublicUrl(path)
 
   const camp = tipus === 'pressupost' ? 'pressupost_pdf_url' : 'projecte_pdf_url'
   const { error: updateError } = await supabase
     .from('obres')
-    .update({ [camp]: publicUrl })
+    .update({ [camp]: url })
     .eq('id', obraId)
 
   if (updateError) throw new Error(updateError.message)

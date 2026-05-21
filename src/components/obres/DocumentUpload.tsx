@@ -1,7 +1,8 @@
 'use client'
 
-import { useRef, useTransition, useState } from 'react'
-import { uploadDocument } from '@/app/(dashboard)/obres/actions'
+import { useRef, useState, useTransition } from 'react'
+import { setDocumentUrl } from '@/app/(dashboard)/obres/actions'
+import { createBrowserClient } from '@/lib/supabase/client'
 
 interface Props {
   obraId: string
@@ -10,28 +11,55 @@ interface Props {
   urlActual: string | null
 }
 
+const BUCKET = 'obres-documents'
+
 export default function DocumentUpload({ obraId, tipus, label, urlActual }: Props) {
   const [isPending, startTransition] = useTransition()
+  const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [localUrl, setLocalUrl] = useState(urlActual)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const busy = isPending || uploading
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
 
     setError(null)
-    const formData = new FormData()
-    formData.set('file', file)
+    setUploading(true)
 
-    startTransition(async () => {
-      try {
-        await uploadDocument(obraId, tipus, formData)
-        setLocalUrl(URL.createObjectURL(file))
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error en pujar el fitxer')
-      }
-    })
+    try {
+      const supabase = createBrowserClient()
+      const extension = file.name.split('.').pop()?.toLowerCase() ?? 'pdf'
+      const path = `${obraId}/${tipus}.${extension}`
+
+      const { error: uploadError } = await supabase.storage
+        .from(BUCKET)
+        .upload(path, file, { upsert: true, contentType: file.type || undefined })
+
+      if (uploadError) throw new Error(uploadError.message)
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from(BUCKET).getPublicUrl(path)
+
+      const urlWithCacheBust = `${publicUrl}?t=${Date.now()}`
+
+      startTransition(async () => {
+        try {
+          await setDocumentUrl(obraId, tipus, urlWithCacheBust)
+          setLocalUrl(urlWithCacheBust)
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Error en desar la URL')
+        }
+      })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error en pujar el fitxer')
+    } finally {
+      setUploading(false)
+      if (inputRef.current) inputRef.current.value = ''
+    }
   }
 
   const acceptTypes = 'application/pdf,image/*'
@@ -58,17 +86,17 @@ export default function DocumentUpload({ obraId, tipus, label, urlActual }: Prop
         <label
           htmlFor={`upload-${tipus}`}
           className={`cursor-pointer rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-100 ${
-            isPending ? 'cursor-not-allowed opacity-50' : ''
+            busy ? 'cursor-not-allowed opacity-50' : ''
           }`}
         >
-          {isPending ? 'Pujant...' : localUrl ? 'Substituir' : 'Seleccionar fitxer'}
+          {busy ? 'Pujant...' : localUrl ? 'Substituir' : 'Seleccionar fitxer'}
           <input
             id={`upload-${tipus}`}
             ref={inputRef}
             type="file"
             accept={acceptTypes}
             onChange={handleFileChange}
-            disabled={isPending}
+            disabled={busy}
             aria-label="Seleccionar fitxer"
             className="sr-only"
           />
