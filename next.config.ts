@@ -13,6 +13,13 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      // Default Next.js limit is 1MB — fotos de mòbil comprimides (WebP) poden
+      // quedar entre 1-3MB; Vercel serverless cap a 4.5MB de totes formes.
+      bodySizeLimit: '10mb',
+    },
+  },
   images: {
     remotePatterns: [
       {
