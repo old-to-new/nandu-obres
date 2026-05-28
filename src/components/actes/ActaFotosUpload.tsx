@@ -5,6 +5,46 @@ import Image from 'next/image'
 import { uploadFoto, eliminarFoto } from '@/app/(dashboard)/obres/[id]/actions'
 import type { ActeImatge } from '@/lib/types/database'
 
+const MAX_DIM = 1920
+const WEBP_QUALITY = 0.82
+
+function compressImatge(file: File): Promise<File> {
+  return new Promise((resolve, reject) => {
+    const img = new window.Image()
+    const objectUrl = URL.createObjectURL(file)
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl)
+      let { width, height } = img
+      if (width > MAX_DIM || height > MAX_DIM) {
+        if (width >= height) {
+          height = Math.round((height * MAX_DIM) / width)
+          width = MAX_DIM
+        } else {
+          width = Math.round((width * MAX_DIM) / height)
+          height = MAX_DIM
+        }
+      }
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      const ctx = canvas.getContext('2d')
+      if (!ctx) { resolve(file); return }
+      ctx.drawImage(img, 0, 0, width, height)
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) { resolve(file); return }
+          const baseName = file.name.replace(/\.[^.]+$/, '')
+          resolve(new File([blob], `${baseName}.webp`, { type: 'image/webp' }))
+        },
+        'image/webp',
+        WEBP_QUALITY
+      )
+    }
+    img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Error carregant imatge')) }
+    img.src = objectUrl
+  })
+}
+
 interface Props {
   obraId: string
   acteId: string
@@ -24,12 +64,18 @@ export default function ActaFotosUpload({ obraId, acteId, fotosInicials }: Props
     const input = e.target
     startTransition(async () => {
       for (const file of files) {
+        let compressed: File
+        try {
+          compressed = await compressImatge(file)
+        } catch {
+          compressed = file
+        }
         const formData = new FormData()
-        formData.set('file', file)
+        formData.set('file', compressed)
         try {
           await uploadFoto(obraId, acteId, formData)
           // Afegir thumbnail local optimista (URL.createObjectURL)
-          const localUrl = URL.createObjectURL(file)
+          const localUrl = URL.createObjectURL(compressed)
           setFotos((prev) => [
             ...prev,
             {
