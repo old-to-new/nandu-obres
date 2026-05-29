@@ -49,16 +49,21 @@ export async function setDocumentUrl(
   obraId: string,
   tipus: 'pressupost' | 'projecte',
   url: string
-) {
-  const supabase = await createClient()
+): Promise<{ error: string | null }> {
+  try {
+    const supabase = await createClient()
 
-  const camp = tipus === 'pressupost' ? 'pressupost_pdf_url' : 'projecte_pdf_url'
-  const { error: updateError } = await supabase
-    .from('obres')
-    .update({ [camp]: url })
-    .eq('id', obraId)
+    const camp = tipus === 'pressupost' ? 'pressupost_pdf_url' : 'projecte_pdf_url'
+    const { error: updateError } = await supabase
+      .from('obres')
+      .update({ [camp]: url })
+      .eq('id', obraId)
 
-  if (updateError) throw new Error(updateError.message)
+    if (updateError) return { error: `DB error: ${updateError.message}` }
 
-  revalidatePath(`/obres/${obraId}`)
+    revalidatePath(`/obres/${obraId}`)
+    return { error: null }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Error desconegut al servidor' }
+  }
 }

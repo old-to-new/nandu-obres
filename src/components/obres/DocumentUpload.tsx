@@ -48,10 +48,14 @@ export default function DocumentUpload({ obraId, tipus, label, urlActual }: Prop
 
       startTransition(async () => {
         try {
-          await setDocumentUrl(obraId, tipus, urlWithCacheBust)
-          setLocalUrl(urlWithCacheBust)
+          const result = await setDocumentUrl(obraId, tipus, urlWithCacheBust)
+          if (result.error) {
+            setError(`Error servidor: ${result.error}`)
+          } else {
+            setLocalUrl(urlWithCacheBust)
+          }
         } catch (err) {
-          setError(err instanceof Error ? err.message : 'Error en desar la URL')
+          setError(`Error inesperat: ${err instanceof Error ? err.message : String(err)}`)
         }
       })
     } catch (err) {
