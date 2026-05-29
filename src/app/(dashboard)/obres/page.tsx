@@ -10,16 +10,18 @@ interface Props {
   searchParams: Promise<{
     linia?: LiniaObra
     estat?: EstatObra
+    cerca?: string
   }>
 }
 
-async function LlistatObres({ linia, estat }: { linia?: LiniaObra; estat?: EstatObra }) {
+async function LlistatObres({ linia, estat, cerca }: { linia?: LiniaObra; estat?: EstatObra; cerca?: string }) {
   const supabase = await createClient()
 
   let query = supabase.from('obres').select('*').order('created_at', { ascending: false })
 
   if (linia) query = query.eq('linia', linia)
   if (estat) query = query.eq('estat', estat)
+  if (cerca) query = query.or(`nom.ilike.%${cerca}%,client_nom.ilike.%${cerca}%`)
 
   const { data: obres, error } = await query
 
@@ -32,7 +34,7 @@ async function LlistatObres({ linia, estat }: { linia?: LiniaObra; estat?: Estat
   }
 
   if (!obres || obres.length === 0) {
-    const hasFilters = Boolean(linia || estat)
+    const hasFilters = Boolean(linia || estat || cerca)
     return hasFilters ? (
       <EmptyState
         title="No hi ha obres amb aquests filtres"
@@ -60,7 +62,7 @@ async function LlistatObres({ linia, estat }: { linia?: LiniaObra; estat?: Estat
 }
 
 export default async function ObresPage({ searchParams }: Props) {
-  const { linia, estat } = await searchParams
+  const { linia, estat, cerca } = await searchParams
 
   return (
     <div>
@@ -93,7 +95,7 @@ export default async function ObresPage({ searchParams }: Props) {
             </div>
           }
         >
-          <LlistatObres linia={linia} estat={estat} />
+          <LlistatObres linia={linia} estat={estat} cerca={cerca} />
         </Suspense>
       </div>
     </div>
