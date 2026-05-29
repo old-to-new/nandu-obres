@@ -1,13 +1,6 @@
 'use client'
 
-import type { Treballador, TipusTreballador, EncarregatTreballador } from '@/lib/types/database'
-
-const TIPUS_OPTIONS: { value: TipusTreballador; label: string }[] = [
-  { value: 'oficial', label: 'Oficial' },
-  { value: 'oficial_2a', label: 'Oficial 2a' },
-  { value: 'peo', label: 'Peó' },
-  { value: 'altre', label: 'Altre' },
-]
+import type { Treballador, EncarregatTreballador, Categoria } from '@/lib/types/database'
 
 const ENCARREGAT_OPTIONS: { value: EncarregatTreballador | ''; label: string }[] = [
   { value: '', label: 'Sense assignar' },
@@ -18,9 +11,10 @@ const ENCARREGAT_OPTIONS: { value: EncarregatTreballador | ''; label: string }[]
 interface TreballadorFormProps {
   action: (formData: FormData) => Promise<void>
   treballador?: Treballador
+  tipusTreballador: Categoria[]
 }
 
-export function TreballadorForm({ action, treballador }: TreballadorFormProps) {
+export function TreballadorForm({ action, treballador, tipusTreballador }: TreballadorFormProps) {
   const isEdit = !!treballador
 
   return (
@@ -56,9 +50,9 @@ export function TreballadorForm({ action, treballador }: TreballadorFormProps) {
           defaultValue={treballador?.tipus ?? 'oficial'}
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
         >
-          {TIPUS_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
+          {tipusTreballador.map((opt) => (
+            <option key={opt.valor} value={opt.valor}>
+              {opt.etiqueta}
             </option>
           ))}
         </select>

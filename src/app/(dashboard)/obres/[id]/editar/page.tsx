@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { fetchAllCategories } from '@/lib/categories'
 import ObraForm from '@/components/obres/ObraForm'
 import Link from 'next/link'
 
@@ -11,11 +12,10 @@ export default async function EditarObraPage({ params }: Props) {
   const { id } = await params
   const supabase = await createClient()
 
-  const { data: obra, error } = await supabase
-    .from('obres')
-    .select('*')
-    .eq('id', id)
-    .single()
+  const [{ data: obra, error }, { linies, estats }] = await Promise.all([
+    supabase.from('obres').select('*').eq('id', id).single(),
+    fetchAllCategories(),
+  ])
 
   if (error || !obra) notFound()
 
@@ -32,7 +32,7 @@ export default async function EditarObraPage({ params }: Props) {
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <ObraForm obra={obra} />
+        <ObraForm obra={obra} linies={linies} estats={estats} />
       </div>
     </div>
   )

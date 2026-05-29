@@ -1,6 +1,9 @@
+import { fetchAllCategories } from '@/lib/categories'
 import ObraForm from '@/components/obres/ObraForm'
 
-export default function NovaObraPage() {
+export default async function NovaObraPage() {
+  const { linies, estats } = await fetchAllCategories()
+
   return (
     <div className="mx-auto max-w-2xl">
       <div className="mb-6">
@@ -9,7 +12,7 @@ export default function NovaObraPage() {
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <ObraForm />
+        <ObraForm linies={linies} estats={estats} />
       </div>
     </div>
   )

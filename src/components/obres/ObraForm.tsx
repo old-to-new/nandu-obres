@@ -4,27 +4,16 @@ import { useTransition, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { createObra, updateObra } from '@/app/(dashboard)/obres/actions'
-import type { Obra, LiniaObra, EstatObra } from '@/lib/types/database'
+import type { Obra, Categoria } from '@/lib/types/database'
 
 interface Props {
   obra?: Obra
   onCancel?: () => void
+  linies: Categoria[]
+  estats: Categoria[]
 }
 
-const LINIES: { value: LiniaObra; label: string }[] = [
-  { value: 'obra_nova', label: 'Obra nova' },
-  { value: 'rehabilitacio', label: 'Rehabilitació' },
-  { value: 'ascensors', label: 'Ascensors' },
-  { value: 'altres', label: 'Altres' },
-]
-
-const ESTATS: { value: EstatObra; label: string }[] = [
-  { value: 'activa', label: 'Activa' },
-  { value: 'pausada', label: 'Pausada' },
-  { value: 'finalitzada', label: 'Finalitzada' },
-]
-
-export default function ObraForm({ obra, onCancel }: Props) {
+export default function ObraForm({ obra, onCancel, linies, estats }: Props) {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -92,9 +81,9 @@ export default function ObraForm({ obra, onCancel }: Props) {
             defaultValue={obra?.linia ?? 'obra_nova'}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           >
-            {LINIES.map((l) => (
-              <option key={l.value} value={l.value}>
-                {l.label}
+            {linies.map((l) => (
+              <option key={l.valor} value={l.valor}>
+                {l.etiqueta}
               </option>
             ))}
           </select>
@@ -111,9 +100,9 @@ export default function ObraForm({ obra, onCancel }: Props) {
             defaultValue={obra?.estat ?? 'activa'}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
           >
-            {ESTATS.map((e) => (
-              <option key={e.value} value={e.value}>
-                {e.label}
+            {estats.map((e) => (
+              <option key={e.valor} value={e.valor}>
+                {e.etiqueta}
               </option>
             ))}
           </select>

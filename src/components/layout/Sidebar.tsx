@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { HardHat, Users, CalendarDays, Truck, LogOut } from 'lucide-react'
+import { HardHat, Users, CalendarDays, Truck, Settings, LogOut } from 'lucide-react'
 import { signOut } from '@/app/(auth)/login/actions'
 
 const navItems = [
@@ -10,6 +10,7 @@ const navItems = [
   { href: '/treballadors', label: 'Treballadors', Icon: Users },
   { href: '/planificacio', label: 'Planificació', Icon: CalendarDays },
   { href: '/vehicles', label: 'Vehicles', Icon: Truck },
+  { href: '/ajustos', label: 'Ajustos', Icon: Settings },
 ] as const
 
 export default function Sidebar() {

@@ -25,7 +25,7 @@ export function TreballadorCard({ treballador }: TreballadorCardProps) {
             {treballador.nom}
           </p>
           <p className="mt-0.5 text-sm" style={{ color: 'var(--text-secondary)' }}>
-            {TIPUS_LABELS[treballador.tipus]}
+            {TIPUS_LABELS[treballador.tipus] ?? treballador.tipus}
           </p>
           {treballador.telefon && (
             <p className="mt-1 text-sm text-gray-600">{treballador.telefon}</p>

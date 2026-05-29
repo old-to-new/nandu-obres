@@ -2,24 +2,14 @@
 
 import { useRef } from 'react'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import type { LiniaObra, EstatObra } from '@/lib/types/database'
+import type { Categoria } from '@/lib/types/database'
 
-const LINIES: { value: LiniaObra | ''; label: string }[] = [
-  { value: '', label: 'Totes les línies' },
-  { value: 'obra_nova', label: 'Obra nova' },
-  { value: 'rehabilitacio', label: 'Rehabilitació' },
-  { value: 'ascensors', label: 'Ascensors' },
-  { value: 'altres', label: 'Altres' },
-]
+interface Props {
+  linies: Categoria[]
+  estats: Categoria[]
+}
 
-const ESTATS: { value: EstatObra | ''; label: string }[] = [
-  { value: '', label: 'Tots els estats' },
-  { value: 'activa', label: 'Activa' },
-  { value: 'pausada', label: 'Pausada' },
-  { value: 'finalitzada', label: 'Finalitzada' },
-]
-
-export default function ObraFiltres() {
+export default function ObraFiltres({ linies, estats }: Props) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -79,9 +69,10 @@ export default function ObraFiltres() {
           onChange={(e) => handleSelectChange('linia', e.target.value)}
           className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
         >
-          {LINIES.map((l) => (
-            <option key={l.value} value={l.value}>
-              {l.label}
+          <option value="">Totes les línies</option>
+          {linies.map((l) => (
+            <option key={l.valor} value={l.valor}>
+              {l.etiqueta}
             </option>
           ))}
         </select>
@@ -98,9 +89,10 @@ export default function ObraFiltres() {
           onChange={(e) => handleSelectChange('estat', e.target.value)}
           className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
         >
-          {ESTATS.map((e) => (
-            <option key={e.value} value={e.value}>
-              {e.label}
+          <option value="">Tots els estats</option>
+          {estats.map((e) => (
+            <option key={e.valor} value={e.valor}>
+              {e.etiqueta}
             </option>
           ))}
         </select>

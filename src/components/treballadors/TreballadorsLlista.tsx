@@ -103,7 +103,7 @@ export default function TreballadorsLlista({ treballadors }: TreballadorsLlistaP
                 {/* Nom + tipus */}
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-gray-900">{t.nom}</p>
-                  <p className="text-sm text-gray-500">{TIPUS_LABELS[t.tipus]}</p>
+                  <p className="text-sm text-gray-500">{TIPUS_LABELS[t.tipus] ?? t.tipus}</p>
                 </div>
 
                 {/* Badges */}

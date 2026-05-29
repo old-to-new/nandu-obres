@@ -10,6 +10,7 @@ const navItems = [
   { href: '/treballadors', label: 'Treballadors' },
   { href: '/planificacio', label: 'Planificació' },
   { href: '/vehicles', label: 'Vehicles' },
+  { href: '/ajustos', label: 'Ajustos' },
 ] as const
 
 export default function MobileHeader() {

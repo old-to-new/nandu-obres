@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nandu Obres — Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================
+     Claude design system — applied to Nandu Obres
+     Fonts: Fraunces (serif, Tiempos-alike) + Inter
+     Crema base #F0EEE6 · Rust accent #C15F3C
+  ============================================ */
+  :root {
+    --crema: #F0EEE6;
+    --crema-soft: #F5F3EC;
+    --crema-deep: #E8E4D8;
+    --paper: #FAF9F5;
+    --rust: #C15F3C;
+    --rust-soft: #E8A282;
+    --rust-tint: #F4E5DC;
+    --ink: #1F1E1C;
+    --ink-soft: #44423C;
+    --ink-mute: #79766E;
+    --ink-faint: #B5B0A4;
+    --line: #D9D4C4;
+    --line-soft: #E5E0D2;
+    --green: #5C7C4E;
+    --green-tint: #E5EBDD;
+    --amber: #B68C2C;
+    --amber-tint: #F4E9CD;
+    --grey-tint: #DCD9CF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #1a1a1a;
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .stage {
+    width: 100vw; height: 100vh;
+    display: grid; place-items: center;
+    background: radial-gradient(ellipse at center, #2a2a28 0%, #141413 100%);
+  }
+
+  /* Vertical 9:16 canvas */
+  .canvas {
+    position: relative;
+    width: min(56.25vh, 100vw);
+    aspect-ratio: 9 / 16;
+    background: var(--crema);
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.04);
+  }
+
+  /* Background pattern — subtle grain */
+  .canvas::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(193,95,60,.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(193,95,60,.03) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ============================================
+     Header band — brand + tagline
+  ============================================ */
+  .header {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 5% 7% 0;
+    z-index: 10;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 4%;
+  }
+  .brand-mark {
+    width: 28px; height: 28px;
+    background: var(--rust);
+    border-radius: 6px;
+    display: grid; place-items: center;
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+    font-style: italic;
+  }
+  .brand-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .brand-name .accent {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .tagline {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(20px, 3.4vh, 30px);
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    min-height: 2.4em;
+  }
+  .tagline .italic {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  /* Tagline scene track */
+  .tagline-scene {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .tagline-scene.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .tagline-track {
+    position: relative;
+    min-height: 2.4em;
+  }
+
+  /* ============================================
+     Phone frame — central device
+  ============================================ */
+  .phone-wrap {
+    position: absolute;
+    top: 30%; left: 50%;
+    transform: translate(-50%, 0);
+    width: 78%;
+    aspect-ratio: 9 / 17;
+    z-index: 5;
+  }
+  .phone {
+    position: relative;
+    width: 100%; height: 100%;
+    background: var(--ink);
+    border-radius: 36px;
+    padding: 8px;
+    box-shadow:
+      0 30px 60px -20px rgba(31,30,28,.35),
+      0 12px 25px -8px rgba(31,30,28,.25),
+      inset 0 0 0 1px rgba(255,255,255,.06);
+  }
+  .phone-screen {
+    position: relative;
+    width: 100%; height: 100%;
+    background: var(--paper);
+    border-radius: 28px;
+    overflow: hidden;
+  }
+  .phone-notch {
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 32%;
+    height: 18px;
+    background: var(--ink);
+    border-radius: 0 0 14px 14px;
+    z-index: 20;
+  }
+
+  /* ============================================
+     Scenes — stacked, only one visible at a time
+  ============================================ */
+  .scene {
+    position: absolute;
+    inset: 0;
+    padding: 36px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .55s ease;
+  }
+  .scene.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Scene header (app top bar) */
+  .app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 14px;
+  }
+  .app-title {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .app-title .italic { font-style: italic; color: var(--rust); }
+  .app-action {
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .app-back {
+    color: var(--ink-soft);
+    font-size: 11px;
+    font-weight: 400;
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  /* ============================================
+     SCENE 1 — INTRO / SPLASH
+  ============================================ */
+  .scene-intro {
+    align-items: center;
+    justify-content: center;
+    padding: 36px 28px 28px;
+  }
+  .intro-stack {
+    text-align: center;
+  }
+  .intro-mark {
+    width: 64px; height: 64px;
+    background: var(--rust);
+    border-radius: 16px;
+    display: grid; place-items: center;
+    margin: 0 auto 22px;
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 32px;
+    font-style: italic;
+    box-shadow: 0 10px 24px -8px rgba(193,95,60,.45);
+  }
+  .intro-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .intro-title .italic { font-style: italic; color: var(--rust); }
+  .intro-sub {
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.02em;
+  }
+  .intro-divider {
+    width: 32px; height: 2px;
+    background: var(--rust);
+    margin: 18px auto;
+    border-radius: 1px;
+  }
+
+  /* ============================================
+     SCENE 2 — OBRES LIST
+  ============================================ */
+  .filter-row {
+    display: flex; gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--crema-soft);
+    color: var(--ink-soft);
+    border: 1px solid var(--line-soft);
+    font-weight: 500;
+  }
+  .chip.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .obra-list {
+    display: flex; flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    overflow: hidden;
+  }
+  .obra-card {
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    padding: 12px 14px;
+    transition: transform .4s ease, box-shadow .4s ease;
+  }
+  .obra-card.highlight {
+    border-color: var(--rust-soft);
+    box-shadow: 0 0 0 3px var(--rust-tint);
+    transform: translateY(-1px);
+  }
+  .obra-head {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 8px;
+    margin-bottom: 8px;
+  }
+  .obra-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .obra-client {
+    font-size: 10.5px;
+    color: var(--ink-mute);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+  .status {
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .status-active { background: var(--green-tint); color: var(--green); }
+  .status-paused { background: var(--amber-tint); color: var(--amber); }
+  .status-done { background: var(--grey-tint); color: var(--ink-mute); }
+
+  .obra-meta {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 6px;
+  }
+  .tag {
+    font-size: 9.5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--crema-soft);
+    color: var(--ink-soft);
+    font-weight: 500;
+    border: 1px solid var(--line-soft);
+  }
+  .meta-date {
+    font-size: 9.5px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================
+     SCENE 3 — DETALL OBRA
+  ============================================ */
+  .breadcrumb {
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  .breadcrumb .crumb-current { color: var(--ink); }
+  .detail-head {
+    margin-bottom: 14px;
+  }
+  .detail-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .detail-sub {
+    font-size: 10.5px;
+    color: var(--ink-mute);
+  }
+
+  .detail-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .stat {
+    background: var(--crema-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    padding: 8px 6px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-num .accent { color: var(--rust); font-style: italic; }
+  .stat-label {
+    font-size: 8.5px;
+    color: var(--ink-mute);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .section-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 11.5px;
+    color: var(--rust);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+
+  .acte-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 10px;
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    margin-bottom: 5px;
+  }
+  .acte-date {
+    font-size: 10.5px;
+    color: var(--ink);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  .acte-info {
+    font-size: 9.5px;
+    color: var(--ink-mute);
+    margin-top: 1px;
+  }
+  .acte-hours {
+    font-family: 'Fraunces', serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--rust);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================
+     SCENE 4 — NOVA ACTA (FORM)
+  ============================================ */
+  .form-group {
+    margin-bottom: 12px;
+  }
+  .form-label {
+    font-size: 9.5px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  .form-field {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 9px 11px;
+    font-size: 11.5px;
+    color: var(--ink);
+    transition: border-color .3s, box-shadow .3s;
+  }
+  .form-field.focused {
+    border-color: var(--rust);
+    box-shadow: 0 0 0 3px var(--rust-tint);
+  }
+  .form-field .placeholder { color: var(--ink-faint); }
+
+  .trab-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 10px;
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-radius: 9px;
+    margin-bottom: 5px;
+  }
+  .trab-row.selected {
+    border-color: var(--rust-soft);
+    background: var(--rust-tint);
+  }
+  .trab-name {
+    font-size: 11px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .trab-tipus {
+    font-size: 9px;
+    color: var(--ink-mute);
+    margin-top: 1px;
+  }
+  .hour-input {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 10.5px;
+    color: var(--ink-mute);
+  }
+  .hour-input .num {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 12px;
+    min-width: 18px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .hour-input.selected .num { color: var(--rust); }
+
+  .save-btn {
+    margin-top: auto;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: background .3s;
+  }
+  .save-btn.pressed {
+    background: var(--rust);
+    transform: scale(0.985);
+  }
+
+  /* ============================================
+     SCENE 5 — CERTIFICACIÓ
+  ============================================ */
+  .cert-period {
+    background: var(--crema-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    padding: 9px 12px;
+    margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cert-period-label {
+    font-size: 9px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .cert-period-dates {
+    font-size: 11px;
+    color: var(--ink);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    font-family: 'Fraunces', serif;
+  }
+  .cert-period-dates .arrow { color: var(--rust); margin: 0 4px; font-style: italic; }
+
+  .cert-table {
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    overflow: hidden;
+    flex: 1;
+  }
+  .cert-row {
+    display: grid;
+    grid-template-columns: 1.6fr 0.9fr 0.7fr;
+    align-items: center;
+    padding: 9px 11px;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 10.5px;
+  }
+  .cert-row:last-child { border-bottom: none; }
+  .cert-row.header {
+    background: var(--crema-soft);
+    font-size: 9px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .cert-row.highlight {
+    background: var(--rust-tint);
+    transition: background .5s ease;
+  }
+  .cert-name {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .cert-tipus {
+    font-size: 9px;
+    color: var(--ink-mute);
+    margin-top: 1px;
+    font-weight: 400;
+  }
+  .cert-hours {
+    text-align: right;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+  }
+  .cert-row.total {
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom: none;
+  }
+  .cert-row.total .cert-name { color: var(--paper); font-family: 'Fraunces', serif; font-style: italic; }
+  .cert-row.total .cert-hours { color: var(--rust-soft); font-size: 13px; }
+
+  .cert-actions {
+    display: flex; gap: 8px;
+    margin-top: 10px;
+  }
+  .cert-btn {
+    flex: 1;
+    text-align: center;
+    padding: 9px;
+    border-radius: 10px;
+    font-size: 10.5px;
+    font-weight: 500;
+  }
+  .cert-btn.primary {
+    background: var(--rust);
+    color: var(--paper);
+  }
+  .cert-btn.secondary {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+
+  /* ============================================
+     SCENE 6 — PLANIFICACIÓ
+  ============================================ */
+  .week-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .day-label {
+    text-align: center;
+    font-size: 8.5px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .day-num {
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .day-label.today .day-num { color: var(--rust); font-style: italic; }
+
+  .timeline {
+    display: flex; flex-direction: column;
+    gap: 5px;
+    flex: 1;
+  }
+  .planning-row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 8px;
+    align-items: center;
+  }
+  .planning-worker {
+    font-size: 9.5px;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+  .planning-worker-tipus {
+    font-size: 8px;
+    color: var(--ink-mute);
+    margin-top: 1px;
+  }
+  .planning-bars {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    height: 24px;
+  }
+  .plan-cell {
+    background: var(--crema-soft);
+    border-radius: 5px;
+    position: relative;
+    border: 1px solid var(--line-soft);
+  }
+  .plan-cell.filled {
+    background: var(--rust-tint);
+    border-color: var(--rust-soft);
+  }
+  .plan-cell.filled.dark {
+    background: var(--rust);
+    border-color: var(--rust);
+  }
+  .plan-cell.weekend {
+    background: transparent;
+    border-style: dashed;
+    opacity: .5;
+  }
+
+  /* ============================================
+     SCENE 7 — TREBALLADORS
+  ============================================ */
+  .worker-list {
+    display: flex; flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  .worker-card {
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .worker-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--rust-tint);
+    color: var(--rust);
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 13px;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .worker-info { flex: 1; min-width: 0; }
+  .worker-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .worker-meta {
+    font-size: 9.5px;
+    color: var(--ink-mute);
+    margin-top: 1px;
+  }
+  .worker-hours {
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .worker-hours .unit {
+    font-size: 9px;
+    color: var(--ink-mute);
+    font-style: italic;
+    margin-left: 1px;
+  }
+
+  /* ============================================
+     SCENE 8 — OUTRO
+  ============================================ */
+  .scene-outro {
+    align-items: center;
+    justify-content: center;
+    padding: 36px 28px 28px;
+    text-align: center;
+  }
+  .outro-pretitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--rust);
+    font-size: 13px;
+    margin-bottom: 10px;
+    letter-spacing: 0.01em;
+  }
+  .outro-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .outro-title .italic { font-style: italic; color: var(--rust); }
+  .outro-divider {
+    width: 28px; height: 2px;
+    background: var(--rust);
+    margin: 0 auto 14px;
+    border-radius: 1px;
+  }
+  .outro-sub {
+    font-size: 11px;
+    color: var(--ink-mute);
+    line-height: 1.4;
+  }
+
+  /* ============================================
+     Footer + progress
+  ============================================ */
+  .footer {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 3% 7% 5%;
+    z-index: 10;
+  }
+  .progress-track {
+    height: 2px;
+    background: var(--line);
+    border-radius: 1px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--rust);
+    width: 0%;
+    transition: width .2s linear;
+  }
+  .footer-row {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-scene {
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .footer-scene .num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--rust);
+    font-size: 12px;
+    margin-right: 4px;
+  }
+  .footer-time {
+    font-family: 'Fraunces', serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================
+     Controls — small floating hint
+  ============================================ */
+  .controls {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    z-index: 100;
+    color: var(--ink-faint);
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    background: rgba(20,20,19,.7);
+    padding: 8px 14px;
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.06);
+    color: #B5B0A4;
+    transition: opacity .3s;
+  }
+  .controls.hidden { opacity: 0; pointer-events: none; }
+  .controls kbd {
+    background: rgba(255,255,255,.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 10px;
+    margin: 0 2px;
+  }
+
+  /* ============================================
+     Entrance animations
+  ============================================ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes drawIn {
+    from { transform: scaleX(0); transform-origin: left; }
+    to { transform: scaleX(1); transform-origin: left; }
+  }
+
+  .scene.active .anim-1 { animation: fadeUp .6s ease both; animation-delay: .1s; opacity: 0; }
+  .scene.active .anim-2 { animation: fadeUp .6s ease both; animation-delay: .25s; opacity: 0; }
+  .scene.active .anim-3 { animation: fadeUp .6s ease both; animation-delay: .4s; opacity: 0; }
+  .scene.active .anim-4 { animation: fadeUp .6s ease both; animation-delay: .55s; opacity: 0; }
+  .scene.active .anim-5 { animation: fadeUp .6s ease both; animation-delay: .7s; opacity: 0; }
+  .scene.active .anim-6 { animation: fadeUp .6s ease both; animation-delay: .85s; opacity: 0; }
+  .scene.active .anim-7 { animation: fadeUp .6s ease both; animation-delay: 1.0s; opacity: 0; }
+  .scene.active .anim-8 { animation: fadeUp .6s ease both; animation-delay: 1.15s; opacity: 0; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="canvas">
+
+    <!-- HEADER: brand + animated tagline -->
+    <div class="header">
+      <div class="brand">
+        <div class="brand-mark">N</div>
+        <div class="brand-name">Nandu <span class="accent">Obres</span></div>
+      </div>
+
+      <div class="tagline-track">
+        <div class="tagline tagline-scene" data-scene="0">
+          Una eina <span class="italic">tranquil·la</span><br />per a obres complexes.
+        </div>
+        <div class="tagline tagline-scene" data-scene="1">
+          Totes les obres,<br /><span class="italic">una sola vista.</span>
+        </div>
+        <div class="tagline tagline-scene" data-scene="2">
+          El detall que <span class="italic">importa,</span><br />sense soroll.
+        </div>
+        <div class="tagline tagline-scene" data-scene="3">
+          Registrar el dia,<br /><span class="italic">en segons.</span>
+        </div>
+        <div class="tagline tagline-scene" data-scene="4">
+          Certificacions <span class="italic">netes,</span><br />llestes per signar.
+        </div>
+        <div class="tagline tagline-scene" data-scene="5">
+          Planificar la setmana,<br /><span class="italic">amb claredat.</span>
+        </div>
+        <div class="tagline tagline-scene" data-scene="6">
+          L'equip, sempre <span class="italic">a la vista.</span>
+        </div>
+        <div class="tagline tagline-scene" data-scene="7">
+          Nandu Obres.<br /><span class="italic">Així d'evident.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE FRAME -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+
+          <!-- SCENE 0 — INTRO -->
+          <div class="scene scene-intro" data-scene="0">
+            <div class="intro-stack">
+              <div class="intro-mark anim-1">N</div>
+              <div class="intro-title anim-2">Nandu <span class="italic">Obres</span></div>
+              <div class="intro-divider anim-3"></div>
+              <div class="intro-sub anim-4">Gestió diària · Marc i Jou</div>
+            </div>
+          </div>
+
+          <!-- SCENE 1 — LLISTAT OBRES -->
+          <div class="scene" data-scene="1">
+            <div class="app-bar anim-1">
+              <div class="app-title">Obres</div>
+              <div class="app-action">+ Nova</div>
+            </div>
+
+            <div class="filter-row anim-2">
+              <div class="chip active">Totes</div>
+              <div class="chip">Obra nova</div>
+              <div class="chip">Rehabilitació</div>
+              <div class="chip">Ascensors</div>
+            </div>
+
+            <div class="obra-list">
+              <div class="obra-card anim-3">
+                <div class="obra-head">
+                  <div>
+                    <div class="obra-name">Edifici Plaça Catalunya 12</div>
+                    <div class="obra-client">Promocions Vendrell SL</div>
+                  </div>
+                  <span class="status status-active">Activa</span>
+                </div>
+                <div class="obra-meta">
+                  <span class="tag">Obra nova</span>
+                  <span class="meta-date">14/03/2026</span>
+                </div>
+              </div>
+
+              <div class="obra-card anim-4 highlight">
+                <div class="obra-head">
+                  <div>
+                    <div class="obra-name">Rehabilitació façana<br />C/ Major 45</div>
+                    <div class="obra-client">Com. Propietaris Major 45</div>
+                  </div>
+                  <span class="status status-active">Activa</span>
+                </div>
+                <div class="obra-meta">
+                  <span class="tag">Rehabilitació</span>
+                  <span class="meta-date">02/03/2026</span>
+                </div>
+              </div>
+
+              <div class="obra-card anim-5">
+                <div class="obra-head">
+                  <div>
+                    <div class="obra-name">Ascensor Av. Diagonal 234</div>
+                    <div class="obra-client">Building Group SA</div>
+                  </div>
+                  <span class="status status-paused">Pausada</span>
+                </div>
+                <div class="obra-meta">
+                  <span class="tag">Ascensors</span>
+                  <span class="meta-date">21/02/2026</span>
+                </div>
+              </div>
+
+              <div class="obra-card anim-6">
+                <div class="obra-head">
+                  <div>
+                    <div class="obra-name">Coberta nau Mas Blau</div>
+                    <div class="obra-client">Industrials Castelldefels</div>
+                  </div>
+                  <span class="status status-active">Activa</span>
+                </div>
+                <div class="obra-meta">
+                  <span class="tag">Obra nova</span>
+                  <span class="meta-date">18/02/2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCENE 2 — DETALL OBRA -->
+          <div class="scene" data-scene="2">
+            <div class="breadcrumb anim-1">
+              Obres / <span class="crumb-current">Rehabilitació façana C/ Major 45</span>
+            </div>
+
+            <div class="detail-head anim-2">
+              <div class="detail-title">Rehabilitació<br />façana C/ Major 45</div>
+              <div class="detail-sub">Com. Propietaris Major 45 · <span style="color: var(--green); font-weight: 500;">Activa</span></div>
+            </div>
+
+            <div class="detail-stats anim-3">
+              <div class="stat">
+                <div class="stat-num">18</div>
+                <div class="stat-label">Actes</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num"><span class="accent">214</span></div>
+                <div class="stat-label">Hores</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">6</div>
+                <div class="stat-label">Equip</div>
+              </div>
+            </div>
+
+            <div class="section-label anim-4">— Darreres actes</div>
+
+            <div class="acte-row anim-5">
+              <div>
+                <div class="acte-date">Dimarts, 10 març</div>
+                <div class="acte-info">4 treballadors · bastida lateral</div>
+              </div>
+              <div class="acte-hours">32h</div>
+            </div>
+            <div class="acte-row anim-6">
+              <div>
+                <div class="acte-date">Dilluns, 9 març</div>
+                <div class="acte-info">5 treballadors · arrebossats</div>
+              </div>
+              <div class="acte-hours">40h</div>
+            </div>
+            <div class="acte-row anim-7">
+              <div>
+                <div class="acte-date">Divendres, 6 març</div>
+                <div class="acte-info">3 treballadors · acabats balcó</div>
+              </div>
+              <div class="acte-hours">24h</div>
+            </div>
+            <div class="acte-row anim-8">
+              <div>
+                <div class="acte-date">Dijous, 5 març</div>
+                <div class="acte-info">4 treballadors · pintures</div>
+              </div>
+              <div class="acte-hours">28h</div>
+            </div>
+          </div>
+
+          <!-- SCENE 3 — NOVA ACTA -->
+          <div class="scene" data-scene="3">
+            <div class="app-bar anim-1">
+              <div class="app-back">‹ Cancel·lar</div>
+              <div class="app-title" style="font-size: 14px;">Nova <span class="italic">acta</span></div>
+              <div style="width: 50px;"></div>
+            </div>
+
+            <div class="form-group anim-2">
+              <div class="form-label">Data</div>
+              <div class="form-field"><strong>Dimecres, 11 març 2026</strong></div>
+            </div>
+
+            <div class="form-group anim-3">
+              <div class="form-label">Comentari</div>
+              <div class="form-field focused">Tancament zona oest · acabats interiors</div>
+            </div>
+
+            <div class="form-group anim-4" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
+              <div class="form-label">Treballadors</div>
+              <div style="overflow: hidden; display: flex; flex-direction: column;">
+                <div class="trab-row selected anim-5">
+                  <div>
+                    <div class="trab-name">Jordi Puig</div>
+                    <div class="trab-tipus">Oficial 1a</div>
+                  </div>
+                  <div class="hour-input selected">
+                    <span class="num">8</span>h
+                  </div>
+                </div>
+                <div class="trab-row selected anim-6">
+                  <div>
+                    <div class="trab-name">Marc Soler</div>
+                    <div class="trab-tipus">Oficial 2a</div>
+                  </div>
+                  <div class="hour-input selected">
+                    <span class="num">8</span>h
+                  </div>
+                </div>
+                <div class="trab-row selected anim-7">
+                  <div>
+                    <div class="trab-name">Antoni Vidal</div>
+                    <div class="trab-tipus">Peó</div>
+                  </div>
+                  <div class="hour-input selected">
+                    <span class="num">6</span>h
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="save-btn pressed anim-8">Guardar acta</div>
+          </div>
+
+          <!-- SCENE 4 — CERTIFICACIÓ -->
+          <div class="scene" data-scene="4">
+            <div class="breadcrumb anim-1">
+              Obres / Rehabilitació... / <span class="crumb-current">Certificació</span>
+            </div>
+
+            <div class="detail-head anim-2" style="margin-bottom: 10px;">
+              <div class="detail-title" style="font-size: 16px;">Certificació <span style="font-style: italic; color: var(--rust);">març 2026</span></div>
+              <div class="detail-sub">Com. Propietaris Major 45</div>
+            </div>
+
+            <div class="cert-period anim-3">
+              <div>
+                <div class="cert-period-label">Període</div>
+                <div class="cert-period-dates">01/03 <span class="arrow">→</span> 11/03</div>
+              </div>
+              <div style="font-size: 11px; color: var(--rust); font-style: italic; font-family: 'Fraunces', serif;">11 dies</div>
+            </div>
+
+            <div class="cert-table anim-4">
+              <div class="cert-row header">
+                <div>Treballador</div>
+                <div style="text-align: right;">Tipus</div>
+                <div style="text-align: right;">Hores</div>
+              </div>
+              <div class="cert-row">
+                <div>
+                  <div class="cert-name">Jordi Puig</div>
+                  <div class="cert-tipus">Oficial 1a</div>
+                </div>
+                <div style="text-align: right; color: var(--ink-mute); font-size: 9.5px;">88h</div>
+                <div class="cert-hours">88</div>
+              </div>
+              <div class="cert-row highlight">
+                <div>
+                  <div class="cert-name">Marc Soler</div>
+                  <div class="cert-tipus">Oficial 2a</div>
+                </div>
+                <div style="text-align: right; color: var(--ink-mute); font-size: 9.5px;">80h</div>
+                <div class="cert-hours">80</div>
+              </div>
+              <div class="cert-row">
+                <div>
+                  <div class="cert-name">Antoni Vidal</div>
+                  <div class="cert-tipus">Peó</div>
+                </div>
+                <div style="text-align: right; color: var(--ink-mute); font-size: 9.5px;">66h</div>
+                <div class="cert-hours">66</div>
+              </div>
+              <div class="cert-row">
+                <div>
+                  <div class="cert-name">Ramon Casals</div>
+                  <div class="cert-tipus">Encarregat</div>
+                </div>
+                <div style="text-align: right; color: var(--ink-mute); font-size: 9.5px;">44h</div>
+                <div class="cert-hours">44</div>
+              </div>
+              <div class="cert-row total">
+                <div class="cert-name">Total període</div>
+                <div style="text-align: right; font-size: 9.5px; opacity: .7;">4 pers.</div>
+                <div class="cert-hours">278h</div>
+              </div>
+            </div>
+
+            <div class="cert-actions anim-7">
+              <div class="cert-btn secondary">Exportar</div>
+              <div class="cert-btn primary">Imprimir</div>
+            </div>
+          </div>
+
+          <!-- SCENE 5 — PLANIFICACIÓ -->
+          <div class="scene" data-scene="5">
+            <div class="app-bar anim-1">
+              <div class="app-title">Planificació</div>
+              <div class="app-action">Setmana 11</div>
+            </div>
+
+            <div class="week-header anim-2">
+              <div class="day-label">Dl<div class="day-num">9</div></div>
+              <div class="day-label">Dt<div class="day-num">10</div></div>
+              <div class="day-label today">Dc<div class="day-num">11</div></div>
+              <div class="day-label">Dj<div class="day-num">12</div></div>
+              <div class="day-label">Dv<div class="day-num">13</div></div>
+              <div class="day-label">Ds<div class="day-num" style="opacity:.4;">14</div></div>
+              <div class="day-label">Dg<div class="day-num" style="opacity:.4;">15</div></div>
+            </div>
+
+            <div class="section-label anim-3" style="margin-top: 6px;">— Plaça Catalunya 12</div>
+
+            <div class="timeline">
+              <div class="planning-row anim-4">
+                <div>
+                  <div class="planning-worker">Jordi Puig</div>
+                  <div class="planning-worker-tipus">Oficial 1a</div>
+                </div>
+                <div class="planning-bars">
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell weekend"></div>
+                  <div class="plan-cell weekend"></div>
+                </div>
+              </div>
+
+              <div class="planning-row anim-5">
+                <div>
+                  <div class="planning-worker">Marc Soler</div>
+                  <div class="planning-worker-tipus">Oficial 2a</div>
+                </div>
+                <div class="planning-bars">
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell weekend"></div>
+                  <div class="plan-cell weekend"></div>
+                </div>
+              </div>
+
+              <div class="planning-row anim-6">
+                <div>
+                  <div class="planning-worker">Antoni Vidal</div>
+                  <div class="planning-worker-tipus">Peó</div>
+                </div>
+                <div class="planning-bars">
+                  <div class="plan-cell"></div>
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell filled dark"></div>
+                  <div class="plan-cell weekend"></div>
+                  <div class="plan-cell weekend"></div>
+                </div>
+              </div>
+
+              <div class="section-label anim-7" style="margin-top: 8px;">— C/ Major 45</div>
+
+              <div class="planning-row anim-8">
+                <div>
+                  <div class="planning-worker">Ramon Casals</div>
+                  <div class="planning-worker-tipus">Encarregat</div>
+                </div>
+                <div class="planning-bars">
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell filled"></div>
+                  <div class="plan-cell weekend"></div>
+                  <div class="plan-cell weekend"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCENE 6 — TREBALLADORS -->
+          <div class="scene" data-scene="6">
+            <div class="app-bar anim-1">
+              <div class="app-title">Treballadors</div>
+              <div class="app-action">+ Afegir</div>
+            </div>
+
+            <div class="filter-row anim-2">
+              <div class="chip active">Tots</div>
+              <div class="chip">Oficials</div>
+              <div class="chip">Peons</div>
+            </div>
+
+            <div class="worker-list">
+              <div class="worker-card anim-3">
+                <div class="worker-avatar">J</div>
+                <div class="worker-info">
+                  <div class="worker-name">Jordi Puig</div>
+                  <div class="worker-meta">Oficial 1a · 12 obres</div>
+                </div>
+                <div class="worker-hours">168<span class="unit">h</span></div>
+              </div>
+              <div class="worker-card anim-4">
+                <div class="worker-avatar">M</div>
+                <div class="worker-info">
+                  <div class="worker-name">Marc Soler</div>
+                  <div class="worker-meta">Oficial 2a · 9 obres</div>
+                </div>
+                <div class="worker-hours">152<span class="unit">h</span></div>
+              </div>
+              <div class="worker-card anim-5">
+                <div class="worker-avatar">A</div>
+                <div class="worker-info">
+                  <div class="worker-name">Antoni Vidal</div>
+                  <div class="worker-meta">Peó · 7 obres</div>
+                </div>
+                <div class="worker-hours">140<span class="unit">h</span></div>
+              </div>
+              <div class="worker-card anim-6">
+                <div class="worker-avatar">R</div>
+                <div class="worker-info">
+                  <div class="worker-name">Ramon Casals</div>
+                  <div class="worker-meta">Encarregat · 14 obres</div>
+                </div>
+                <div class="worker-hours">176<span class="unit">h</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCENE 7 — OUTRO -->
+          <div class="scene scene-outro" data-scene="7">
+            <div class="outro-pretitle anim-1">— Per a Marc i Jou</div>
+            <div class="outro-title anim-2">L'obra,<br /><span class="italic">documentada.</span></div>
+            <div class="outro-divider anim-3"></div>
+            <div class="outro-sub anim-4">Actes · Certificacions · Planificació<br />Tot en un sol lloc.</div>
+            <div style="margin-top: 28px;" class="anim-5">
+              <div class="brand-mark" style="margin: 0 auto;">N</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER: progress + scene counter -->
+    <div class="footer">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+      <div class="footer-row">
+        <div class="footer-scene"><span class="num" id="scene-num">01</span> <span id="scene-name">Introducció</span></div>
+        <div class="footer-time"><span id="time-cur">0:00</span> / 1:00</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="controls" id="controls">
+  <kbd>Espai</kbd> pausa · <kbd>R</kbd> reinicia
+</div>
+
+<script>
+  // ============================================
+  // Timeline — total 60s
+  // ============================================
+  const scenes = [
+    { id: 0, name: 'Introducció',     duration: 4500 },
+    { id: 1, name: 'Llistat d\'obres', duration: 8000 },
+    { id: 2, name: 'Detall d\'obra',   duration: 8500 },
+    { id: 3, name: 'Nova acta',        duration: 8000 },
+    { id: 4, name: 'Certificació',     duration: 12000 },
+    { id: 5, name: 'Planificació',     duration: 8500 },
+    { id: 6, name: 'Treballadors',     duration: 6500 },
+    { id: 7, name: 'Tancament',        duration: 4000 },
+  ];
+  const TOTAL_MS = scenes.reduce((s, x) => s + x.duration, 0); // 60000
+
+  const sceneEls = document.querySelectorAll('.scene[data-scene]');
+  const taglineEls = document.querySelectorAll('.tagline-scene');
+  const progressEl = document.getElementById('progress');
+  const sceneNumEl = document.getElementById('scene-num');
+  const sceneNameEl = document.getElementById('scene-name');
+  const timeCurEl = document.getElementById('time-cur');
+  const controlsEl = document.getElementById('controls');
+
+  let startTime = performance.now();
+  let elapsedAtPause = 0;
+  let paused = false;
+  let rafId = null;
+  let activeScene = -1;
+
+  function fmtTime(ms) {
+    const s = Math.floor(ms / 1000);
+    return `0:${String(s).padStart(2, '0')}`;
+  }
+
+  function showScene(idx) {
+    if (idx === activeScene) return;
+    activeScene = idx;
+    sceneEls.forEach((el, i) => el.classList.toggle('active', i === idx));
+    taglineEls.forEach((el, i) => el.classList.toggle('active', i === idx));
+    sceneNumEl.textContent = String(idx + 1).padStart(2, '0');
+    sceneNameEl.textContent = scenes[idx].name;
+  }
+
+  function tick(now) {
+    if (paused) return;
+    const elapsed = (now - startTime) + elapsedAtPause;
+
+    // Find current scene
+    let acc = 0;
+    let currentIdx = scenes.length - 1;
+    for (let i = 0; i < scenes.length; i++) {
+      if (elapsed < acc + scenes[i].duration) {
+        currentIdx = i;
+        break;
+      }
+      acc += scenes[i].duration;
+    }
+
+    showScene(currentIdx);
+
+    // Progress
+    const pct = Math.min(100, (elapsed / TOTAL_MS) * 100);
+    progressEl.style.width = pct + '%';
+    timeCurEl.textContent = fmtTime(Math.min(elapsed, TOTAL_MS));
+
+    if (elapsed >= TOTAL_MS) {
+      // Loop
+      startTime = performance.now();
+      elapsedAtPause = 0;
+      // brief outro pause then loop
+      setTimeout(() => {
+        if (!paused) {
+          showScene(0);
+        }
+      }, 50);
+    }
+
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function play() {
+    paused = false;
+    startTime = performance.now();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function pause() {
+    paused = true;
+    elapsedAtPause += performance.now() - startTime;
+    cancelAnimationFrame(rafId);
+  }
+
+  function reset() {
+    cancelAnimationFrame(rafId);
+    paused = false;
+    elapsedAtPause = 0;
+    activeScene = -1;
+    showScene(0);
+    progressEl.style.width = '0%';
+    timeCurEl.textContent = '0:00';
+    startTime = performance.now();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // Keyboard controls
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      paused ? play() : pause();
+    } else if (e.code === 'KeyR') {
+      reset();
+    } else if (e.code === 'ArrowRight') {
+      // skip to next scene
+      pause();
+      const next = Math.min(scenes.length - 1, activeScene + 1);
+      let acc = 0;
+      for (let i = 0; i < next; i++) acc += scenes[i].duration;
+      elapsedAtPause = acc;
+      startTime = performance.now();
+      paused = false;
+      rafId = requestAnimationFrame(tick);
+    } else if (e.code === 'ArrowLeft') {
+      pause();
+      const prev = Math.max(0, activeScene - 1);
+      let acc = 0;
+      for (let i = 0; i < prev; i++) acc += scenes[i].duration;
+      elapsedAtPause = acc;
+      startTime = performance.now();
+      paused = false;
+      rafId = requestAnimationFrame(tick);
+    }
+  });
+
+  // Auto-hide controls
+  let hideTimer = setTimeout(() => controlsEl.classList.add('hidden'), 4000);
+  document.addEventListener('mousemove', () => {
+    controlsEl.classList.remove('hidden');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => controlsEl.classList.add('hidden'), 3000);
+  });
+
+  // Start
+  showScene(0);
+  play();
+</script>
+
+</body>
+</html>

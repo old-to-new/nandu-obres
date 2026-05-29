@@ -5,20 +5,20 @@ interface Props {
   obra: Obra
 }
 
-const LINIA_LABELS: Record<Obra['linia'], string> = {
+const LINIA_LABELS: Record<string, string> = {
   obra_nova: 'Obra nova',
   rehabilitacio: 'Rehabilitació',
   ascensors: 'Ascensors',
   altres: 'Altres',
 }
 
-const ESTAT_STYLES: Record<Obra['estat'], string> = {
+const ESTAT_STYLES: Record<string, string> = {
   activa: 'bg-green-100 text-green-700',
   pausada: 'bg-yellow-100 text-yellow-700',
   finalitzada: 'bg-gray-100 text-gray-600',
 }
 
-const ESTAT_LABELS: Record<Obra['estat'], string> = {
+const ESTAT_LABELS: Record<string, string> = {
   activa: 'Activa',
   pausada: 'Pausada',
   finalitzada: 'Finalitzada',
@@ -41,12 +41,12 @@ export default function ObraDetailHeader({ obra }: Props) {
 
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <span
-            className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${ESTAT_STYLES[obra.estat]}`}
+            className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${ESTAT_STYLES[obra.estat] ?? 'bg-blue-100 text-blue-700'}`}
           >
-            {ESTAT_LABELS[obra.estat]}
+            {ESTAT_LABELS[obra.estat] ?? obra.estat}
           </span>
           <span className="rounded border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs text-gray-600">
-            {LINIA_LABELS[obra.linia]}
+            {LINIA_LABELS[obra.linia] ?? obra.linia}
           </span>
         </div>
 

@@ -1,21 +1,33 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { fetchAllCategories, toLabelsMap } from '@/lib/categories'
 import ObraCard from '@/components/obres/ObraCard'
 import ObraFiltres from '@/components/obres/ObraFiltres'
 import EmptyState from '@/components/ui/EmptyState'
-import type { Obra, LiniaObra, EstatObra } from '@/lib/types/database'
+import type { Obra } from '@/lib/types/database'
 
 interface Props {
   searchParams: Promise<{
-    linia?: LiniaObra
-    estat?: EstatObra
+    linia?: string
+    estat?: string
     cerca?: string
   }>
 }
 
-async function LlistatObres({ linia, estat, cerca }: { linia?: LiniaObra; estat?: EstatObra; cerca?: string }) {
+async function LlistatObres({
+  linia,
+  estat,
+  cerca,
+}: {
+  linia?: string
+  estat?: string
+  cerca?: string
+}) {
   const supabase = await createClient()
+  const { linies, estats } = await fetchAllCategories()
+  const liniesMap = toLabelsMap(linies)
+  const estatsMap = toLabelsMap(estats)
 
   let query = supabase.from('obres').select('*').order('created_at', { ascending: false })
 
@@ -55,7 +67,12 @@ async function LlistatObres({ linia, estat, cerca }: { linia?: LiniaObra; estat?
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {obres.map((obra: Obra) => (
-        <ObraCard key={obra.id} obra={obra} />
+        <ObraCard
+          key={obra.id}
+          obra={obra}
+          liniaLabel={liniesMap[obra.linia] ?? obra.linia}
+          estatLabel={estatsMap[obra.estat] ?? obra.estat}
+        />
       ))}
     </div>
   )
@@ -63,6 +80,7 @@ async function LlistatObres({ linia, estat, cerca }: { linia?: LiniaObra; estat?
 
 export default async function ObresPage({ searchParams }: Props) {
   const { linia, estat, cerca } = await searchParams
+  const { linies, estats } = await fetchAllCategories()
 
   return (
     <div>
@@ -81,7 +99,7 @@ export default async function ObresPage({ searchParams }: Props) {
 
       <div className="mt-4">
         <Suspense>
-          <ObraFiltres />
+          <ObraFiltres linies={linies} estats={estats} />
         </Suspense>
       </div>
 

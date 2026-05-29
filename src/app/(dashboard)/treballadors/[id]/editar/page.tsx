@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { fetchAllCategories } from '@/lib/categories'
 import { TreballadorForm } from '@/components/treballadors/TreballadorForm'
 import { updateTreballador } from '../../actions'
 
@@ -11,11 +12,10 @@ export default async function EditarTreballadorPage({ params }: EditarTreballado
   const { id } = await params
   const supabase = await createClient()
 
-  const { data: treballador, error } = await supabase
-    .from('treballadors')
-    .select('*')
-    .eq('id', id)
-    .single()
+  const [{ data: treballador, error }, { tipusTreballador }] = await Promise.all([
+    supabase.from('treballadors').select('*').eq('id', id).single(),
+    fetchAllCategories(),
+  ])
 
   if (error || !treballador) notFound()
 
@@ -27,7 +27,7 @@ export default async function EditarTreballadorPage({ params }: EditarTreballado
         <h1 className="text-2xl font-bold text-gray-900">Editar treballador</h1>
         <p className="mt-1 text-sm text-gray-500">{treballador.nom}</p>
       </div>
-      <TreballadorForm action={action} treballador={treballador} />
+      <TreballadorForm action={action} treballador={treballador} tipusTreballador={tipusTreballador} />
     </div>
   )
 }

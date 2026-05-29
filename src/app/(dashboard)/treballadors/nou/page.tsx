@@ -1,7 +1,10 @@
+import { fetchAllCategories } from '@/lib/categories'
 import { createTreballador } from '../actions'
 import { TreballadorForm } from '@/components/treballadors/TreballadorForm'
 
-export default function NouTreballadorPage() {
+export default async function NouTreballadorPage() {
+  const { tipusTreballador } = await fetchAllCategories()
+
   return (
     <div className="mx-auto max-w-lg space-y-6">
       <div>
@@ -10,7 +13,7 @@ export default function NouTreballadorPage() {
           Afegeix un nou treballador a l&apos;empresa.
         </p>
       </div>
-      <TreballadorForm action={createTreballador} />
+      <TreballadorForm action={createTreballador} tipusTreballador={tipusTreballador} />
     </div>
   )
 }

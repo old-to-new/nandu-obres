@@ -1,6 +1,7 @@
-import type { TipusTreballador, EncarregatTreballador } from '@/lib/types/database'
+import type { EncarregatTreballador } from '@/lib/types/database'
 
-export const TIPUS_LABELS: Record<TipusTreballador, string> = {
+/** Fallback per a valors coneguts. Nous valors dinàmics mostren el valor directament. */
+export const TIPUS_LABELS: Record<string, string> = {
   oficial: 'Oficial 1a',
   oficial_2a: 'Oficial 2a',
   peo: 'Peó',

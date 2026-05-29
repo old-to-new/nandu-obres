@@ -1,7 +1,16 @@
-export type TipusTreballador = 'oficial' | 'oficial_2a' | 'peo' | 'altre'
+export type TipusTreballador = string
 export type EncarregatTreballador = 'nandu' | 'pare'
-export type LiniaObra = 'obra_nova' | 'rehabilitacio' | 'ascensors' | 'altres'
-export type EstatObra = 'activa' | 'pausada' | 'finalitzada'
+export type LiniaObra = string
+export type EstatObra = string
+
+export interface Categoria {
+  id: string
+  tipus: string
+  valor: string
+  etiqueta: string
+  ordre: number
+  created_at: string
+}
 
 export interface Treballador {
   id: string
