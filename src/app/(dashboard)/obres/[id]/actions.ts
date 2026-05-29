@@ -79,6 +79,8 @@ export async function guardarActa(input: GuardarActaInput): Promise<{ acteId: st
   return { acteId }
 }
 
+// uploadFoto mantingut per compatibilitat però substituït per saveImatge +
+// upload directe des del client (evita passar el fitxer per Vercel serverless).
 export async function uploadFoto(obraId: string, acteId: string, formData: FormData) {
   const supabase = await createClient()
 
@@ -107,6 +109,25 @@ export async function uploadFoto(obraId: string, acteId: string, formData: FormD
     .insert({ acte_id: acteId, url: publicUrl, caption })
 
   if (dbError) throw new Error(dbError.message)
+
+  revalidatePath(`/obres/${obraId}/actes/${acteId}`)
+}
+
+// Acció lleugera: rep només la URL (el fitxer ja és a Supabase Storage).
+// El client fa l'upload directe i crida aquesta acció amb la URL resultant.
+export async function saveImatge(
+  obraId: string,
+  acteId: string,
+  url: string,
+  caption: string | null
+) {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('acte_imatges')
+    .insert({ acte_id: acteId, url, caption })
+
+  if (error) throw new Error(error.message)
 
   revalidatePath(`/obres/${obraId}/actes/${acteId}`)
 }

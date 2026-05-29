@@ -2,8 +2,11 @@
 
 import { useState, useTransition } from 'react'
 import Image from 'next/image'
-import { uploadFoto, eliminarFoto } from '@/app/(dashboard)/obres/[id]/actions'
+import { saveImatge, eliminarFoto } from '@/app/(dashboard)/obres/[id]/actions'
+import { createBrowserClient } from '@/lib/supabase/client'
 import type { ActeImatge } from '@/lib/types/database'
+
+const BUCKET = 'actes-imatges'
 
 const MAX_DIM = 1920
 const WEBP_QUALITY = 0.82
@@ -30,11 +33,26 @@ function compressImatge(file: File): Promise<File> {
       const ctx = canvas.getContext('2d')
       if (!ctx) { resolve(file); return }
       ctx.drawImage(img, 0, 0, width, height)
+
+      const baseName = file.name.replace(/\.[^.]+$/, '')
+
+      // Intentem WebP (millor compressió). iOS < 17 i alguns Android no el suporten
+      // en canvas → blob serà null o PNG. Fem fallback a JPEG (suport universal).
       canvas.toBlob(
-        (blob) => {
-          if (!blob) { resolve(file); return }
-          const baseName = file.name.replace(/\.[^.]+$/, '')
-          resolve(new File([blob], `${baseName}.webp`, { type: 'image/webp' }))
+        (webpBlob) => {
+          if (webpBlob && webpBlob.type === 'image/webp') {
+            resolve(new File([webpBlob], `${baseName}.webp`, { type: 'image/webp' }))
+            return
+          }
+          // Fallback JPEG
+          canvas.toBlob(
+            (jpegBlob) => {
+              if (!jpegBlob) { resolve(file); return }
+              resolve(new File([jpegBlob], `${baseName}.jpg`, { type: 'image/jpeg' }))
+            },
+            'image/jpeg',
+            WEBP_QUALITY
+          )
         },
         'image/webp',
         WEBP_QUALITY
@@ -63,18 +81,36 @@ export default function ActaFotosUpload({ obraId, acteId, fotosInicials }: Props
     setError(null)
     const input = e.target
     startTransition(async () => {
+      const supabase = createBrowserClient()
+
       for (const file of files) {
+        // 1. Comprimir al navegador (WebP → JPEG fallback)
         let compressed: File
         try {
           compressed = await compressImatge(file)
         } catch {
           compressed = file
         }
-        const formData = new FormData()
-        formData.set('file', compressed)
+
+        // 2. Upload directe client → Supabase Storage (no passa per Vercel)
+        const timestamp = Date.now()
+        const safeName = compressed.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+        const path = `${obraId}/${acteId}/${timestamp}-${safeName}`
+
+        const { error: uploadError } = await supabase.storage
+          .from(BUCKET)
+          .upload(path, compressed, { contentType: compressed.type || undefined })
+
+        if (uploadError) {
+          setError(`Error pujant "${file.name}": ${uploadError.message}`)
+          break
+        }
+
+        const { data: { publicUrl } } = supabase.storage.from(BUCKET).getPublicUrl(path)
+
+        // 3. Server Action lleugera: només desa la URL a la BD
         try {
-          await uploadFoto(obraId, acteId, formData)
-          // Afegir thumbnail local optimista (URL.createObjectURL)
+          await saveImatge(obraId, acteId, publicUrl, null)
           const localUrl = URL.createObjectURL(compressed)
           setFotos((prev) => [
             ...prev,
