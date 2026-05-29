@@ -13,7 +13,7 @@
 -- 1. Pujar el límit de mida dels buckets a 50 MB
 -- ============================================================
 UPDATE storage.buckets
-  SET file_size_limit = 52428800  -- 50 MB en bytes
+  SET file_size_limit = 10485760  -- 10 MB en bytes
 WHERE id IN ('obres-documents', 'actes-imatges');
 
 -- ============================================================
