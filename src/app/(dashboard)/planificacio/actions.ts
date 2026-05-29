@@ -11,6 +11,7 @@ export async function createAssignacio(formData: FormData) {
   const treballador_id = formData.get('treballador_id') as string
   const vehicle_id = (formData.get('vehicle_id') as string) || null
   const tasca = (formData.get('tasca') as string) || null
+  const crear_acta_auto = formData.get('crear_acta_auto') === 'on'
 
   const { error } = await supabase.from('planificacio').insert({
     data,
@@ -18,6 +19,7 @@ export async function createAssignacio(formData: FormData) {
     treballador_id,
     vehicle_id,
     tasca,
+    crear_acta_auto,
   })
 
   if (error) throw new Error(error.message)

@@ -8,21 +8,21 @@ const mockDeleteAction = vi.fn()
 const assignacions: PlanificacioAmbDetalls[] = [
   {
     id: 'p1', data: '2026-04-19', obra_id: 'o1', treballador_id: 't1',
-    vehicle_id: 'v1', tasca: 'Paleta', created_at: '2026-01-01T00:00:00Z',
+    vehicle_id: 'v1', tasca: 'Paleta', crear_acta_auto: true, created_at: '2026-01-01T00:00:00Z',
     obra: { id: 'o1', nom: 'Obra Sarria' },
     treballador: { id: 't1', nom: 'Pere Garriga' },
     vehicle: { id: 'v1', nom: 'Furgoneta Gran' },
   },
   {
     id: 'p2', data: '2026-04-19', obra_id: 'o1', treballador_id: 't2',
-    vehicle_id: null, tasca: null, created_at: '2026-01-01T00:00:00Z',
+    vehicle_id: null, tasca: null, crear_acta_auto: true, created_at: '2026-01-01T00:00:00Z',
     obra: { id: 'o1', nom: 'Obra Sarria' },
     treballador: { id: 't2', nom: 'Joan Mas' },
     vehicle: null,
   },
   {
     id: 'p3', data: '2026-04-19', obra_id: 'o2', treballador_id: 't3',
-    vehicle_id: 'v1', tasca: 'Formigonat', created_at: '2026-01-01T00:00:00Z',
+    vehicle_id: 'v1', tasca: 'Formigonat', crear_acta_auto: false, created_at: '2026-01-01T00:00:00Z',
     obra: { id: 'o2', nom: 'Rehabilitacio Gracia' },
     treballador: { id: 't3', nom: 'Miquel Puig' },
     vehicle: { id: 'v1', nom: 'Furgoneta Gran' },

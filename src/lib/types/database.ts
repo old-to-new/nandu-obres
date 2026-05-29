@@ -76,6 +76,7 @@ export interface Planificacio {
   treballador_id: string
   vehicle_id: string | null
   tasca: string | null
+  crear_acta_auto: boolean
   created_at: string
 }
 

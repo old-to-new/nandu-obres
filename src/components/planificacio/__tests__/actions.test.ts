@@ -44,6 +44,7 @@ describe('createAssignacio', () => {
       treballador_id: 'treb-uuid-1',
       vehicle_id: 'vehicle-uuid-1',
       tasca: 'Paleta',
+      crear_acta_auto: false,
     })
     expect(revalidatePath).toHaveBeenCalledWith('/planificacio')
   })

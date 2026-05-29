@@ -6,5 +6,11 @@
   "regions": ["fra1"],
   "github": {
     "silent": false
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/crons/generar-actes",
+      "schedule": "0 22 * * *"
+    }
+  ]
 }

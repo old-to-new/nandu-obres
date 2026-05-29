@@ -107,7 +107,19 @@ export function AssignacioForm({
         </div>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between gap-4">
+        <label className="flex cursor-pointer items-center gap-2">
+          <input
+            id="crear_acta_auto"
+            name="crear_acta_auto"
+            type="checkbox"
+            defaultChecked
+            className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
+          />
+          <span className="text-xs font-medium text-gray-600">
+            Generar acta automàtica al final del dia
+          </span>
+        </label>
         <button
           type="submit"
           className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"

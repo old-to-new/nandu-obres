@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ObraForm from '../ObraForm'
-import type { Obra } from '@/lib/types/database'
+import type { Obra, Categoria } from '@/lib/types/database'
 
 // Stable mock ref so we can assert on it
 const mockPush = vi.fn()
@@ -17,6 +17,19 @@ vi.mock('@/app/(dashboard)/obres/actions', () => ({
 }))
 
 import { createObra, updateObra } from '@/app/(dashboard)/obres/actions'
+
+const mockLinies: Categoria[] = [
+  { id: '1', tipus: 'linia_obra', valor: 'obra_nova', etiqueta: 'Obra nova', ordre: 1, created_at: '2026-01-01T00:00:00Z' },
+  { id: '2', tipus: 'linia_obra', valor: 'rehabilitacio', etiqueta: 'Rehabilitació', ordre: 2, created_at: '2026-01-01T00:00:00Z' },
+  { id: '3', tipus: 'linia_obra', valor: 'ascensors', etiqueta: 'Ascensors', ordre: 3, created_at: '2026-01-01T00:00:00Z' },
+  { id: '4', tipus: 'linia_obra', valor: 'altres', etiqueta: 'Altres', ordre: 4, created_at: '2026-01-01T00:00:00Z' },
+]
+
+const mockEstats: Categoria[] = [
+  { id: '5', tipus: 'estat_obra', valor: 'activa', etiqueta: 'Activa', ordre: 1, created_at: '2026-01-01T00:00:00Z' },
+  { id: '6', tipus: 'estat_obra', valor: 'pausada', etiqueta: 'Pausada', ordre: 2, created_at: '2026-01-01T00:00:00Z' },
+  { id: '7', tipus: 'estat_obra', valor: 'finalitzada', etiqueta: 'Finalitzada', ordre: 3, created_at: '2026-01-01T00:00:00Z' },
+]
 
 const obraExistent: Obra = {
   id: 'obra-uuid-1',
@@ -37,7 +50,7 @@ describe('ObraForm — mode creació', () => {
   })
 
   it('renderitza tots els camps necessaris', () => {
-    render(<ObraForm />)
+    render(<ObraForm linies={mockLinies} estats={mockEstats} />)
     expect(screen.getByLabelText(/nom de l'obra/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/client/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/línia/i)).toBeInTheDocument()
@@ -47,7 +60,7 @@ describe('ObraForm — mode creació', () => {
   })
 
   it('els selects de línia contenen les 4 opcions', () => {
-    render(<ObraForm />)
+    render(<ObraForm linies={mockLinies} estats={mockEstats} />)
     const select = screen.getByLabelText(/línia/i)
     expect(select).toContainElement(screen.getByText('Obra nova'))
     expect(select).toContainElement(screen.getByText('Rehabilitació'))
@@ -56,7 +69,7 @@ describe('ObraForm — mode creació', () => {
   })
 
   it('els selects d\'estat contenen les 3 opcions', () => {
-    render(<ObraForm />)
+    render(<ObraForm linies={mockLinies} estats={mockEstats} />)
     const select = screen.getByLabelText(/estat/i)
     expect(select).toContainElement(screen.getByText('Activa'))
     expect(select).toContainElement(screen.getByText('Pausada'))
@@ -71,7 +84,7 @@ describe('ObraForm — mode creació', () => {
     })
     vi.mocked(createObra).mockRejectedValue(NEXT_REDIRECT_ERR)
 
-    render(<ObraForm />)
+    render(<ObraForm linies={mockLinies} estats={mockEstats} />)
 
     fireEvent.change(screen.getByLabelText(/nom de l'obra/i), {
       target: { value: 'Test Obra' },
@@ -92,7 +105,7 @@ describe('ObraForm — mode creació', () => {
   it('mostra missatge d\'error si createObra llança error real', async () => {
     vi.mocked(createObra).mockRejectedValue(new Error('DB connection failed'))
 
-    render(<ObraForm />)
+    render(<ObraForm linies={mockLinies} estats={mockEstats} />)
 
     fireEvent.change(screen.getByLabelText(/nom de l'obra/i), {
       target: { value: 'Test' },
@@ -116,7 +129,7 @@ describe('ObraForm — mode edició', () => {
   })
 
   it('pre-omple els camps amb les dades de l\'obra existent', () => {
-    render(<ObraForm obra={obraExistent} />)
+    render(<ObraForm obra={obraExistent} linies={mockLinies} estats={mockEstats} />)
     expect(screen.getByLabelText(/nom de l'obra/i)).toHaveValue('Casa Test')
     expect(screen.getByLabelText(/client/i)).toHaveValue('Client Test')
     expect(screen.getByLabelText(/notes/i)).toHaveValue('Nota de prova')
@@ -124,7 +137,7 @@ describe('ObraForm — mode edició', () => {
   })
 
   it('permet modificar el nom i reflecteix el canvi', async () => {
-    render(<ObraForm obra={obraExistent} />)
+    render(<ObraForm obra={obraExistent} linies={mockLinies} estats={mockEstats} />)
     const user = userEvent.setup()
     const nomInput = screen.getByLabelText(/nom de l'obra/i)
     await user.clear(nomInput)
@@ -135,7 +148,7 @@ describe('ObraForm — mode edició', () => {
   it('crida updateObra en mode edició i navega a la pàgina de l\'obra', async () => {
     vi.mocked(updateObra).mockResolvedValue(undefined)
 
-    render(<ObraForm obra={obraExistent} />)
+    render(<ObraForm obra={obraExistent} linies={mockLinies} estats={mockEstats} />)
 
     fireEvent.click(screen.getByRole('button', { name: /guardar canvis/i }))
 
