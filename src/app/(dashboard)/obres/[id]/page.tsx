@@ -5,6 +5,7 @@ import ObraDetailHeader from '@/components/obres/ObraDetailHeader'
 import DocumentUpload from '@/components/obres/DocumentUpload'
 import ActaHistorial from '@/components/actes/ActaHistorial'
 import ObraFotosPreview from '@/components/obres/ObraFotosPreview'
+import EliminarObraButton from '@/components/obres/EliminarObraButton'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -22,6 +23,15 @@ export default async function ObraDetailPage({ params }: Props) {
     .single()
 
   if (error || !obra) notFound()
+
+  // Carregar altres obres (per al traspàs en cas d'eliminar)
+  const { data: altresObresRaw } = await supabase
+    .from('obres')
+    .select('id, nom')
+    .neq('id', id)
+    .order('nom')
+
+  const altresObres = (altresObresRaw ?? []) as { id: string; nom: string }[]
 
   // Carregar les 4 últimes fotos de l'obra per al preview
   const { data: fotosPreviewRaw } = await supabase
@@ -113,6 +123,17 @@ export default async function ObraDetailPage({ params }: Props) {
         </div>
 
         <ActaHistorial actes={actes} obraId={id} />
+      </section>
+
+      {/* Zona de perill */}
+      <section className="rounded-xl border border-red-100 bg-white p-5">
+        <h2 className="mb-3 text-sm font-semibold text-red-700">Zona de perill</h2>
+        <EliminarObraButton
+          obraId={id}
+          obraName={obra.nom}
+          teActes={actes.length > 0}
+          altresObres={altresObres}
+        />
       </section>
     </div>
   )
