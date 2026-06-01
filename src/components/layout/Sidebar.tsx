@@ -34,26 +34,34 @@ export default function Sidebar() {
           style={{ background: 'var(--brand-red)' }}
           className="inline-block h-7 w-1"
         />
-        <div className="flex items-baseline gap-1">
+        <div className="flex flex-col gap-0">
+          <div className="flex items-baseline gap-1">
+            <span
+              className="text-lg font-medium uppercase"
+              style={{
+                fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
+                color: 'var(--brand-red)',
+                letterSpacing: '0.14em',
+              }}
+            >
+              Nandu
+            </span>
+            <span
+              className="text-lg font-medium uppercase"
+              style={{
+                fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
+                color: 'var(--text-primary)',
+                letterSpacing: '0.14em',
+              }}
+            >
+              Obres
+            </span>
+          </div>
           <span
-            className="text-lg font-medium uppercase"
-            style={{
-              fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
-              color: 'var(--brand-red)',
-              letterSpacing: '0.14em',
-            }}
+            className="text-xs font-medium"
+            style={{ color: 'var(--sidebar-inactive-text)', letterSpacing: '0.04em' }}
           >
-            Nandu
-          </span>
-          <span
-            className="text-lg font-medium uppercase"
-            style={{
-              fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
-              color: 'var(--text-primary)',
-              letterSpacing: '0.14em',
-            }}
-          >
-            Obres
+            Marc &amp; Jou
           </span>
         </div>
       </div>
