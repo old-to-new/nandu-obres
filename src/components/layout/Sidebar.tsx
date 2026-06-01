@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { HardHat, Users, CalendarDays, Truck, Settings, LogOut } from 'lucide-react'
 import { signOut } from '@/app/(auth)/login/actions'
@@ -28,16 +27,31 @@ export default function Sidebar() {
       {/* Logo area */}
       <div
         style={{ borderBottom: '1px solid var(--sidebar-border)' }}
-        className="flex h-20 items-center justify-center px-4"
+        className="flex h-16 items-center gap-2 px-4"
       >
-        <Image
-          src="/logo-marcijou.jpg"
-          alt="Construccions Marc i Jou"
-          width={140}
-          height={60}
-          className="object-contain"
-          priority
+        <span
+          aria-hidden="true"
+          style={{ background: 'var(--brand-red)' }}
+          className="inline-block h-7 w-1 shrink-0"
         />
+        <div className="flex flex-col leading-tight">
+          <span
+            className="text-base font-semibold uppercase"
+            style={{
+              fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
+              color: 'var(--brand-red)',
+              letterSpacing: '0.12em',
+            }}
+          >
+            Marc i Jou
+          </span>
+          <span
+            className="text-xs font-normal"
+            style={{ color: 'var(--sidebar-inactive-text)', letterSpacing: '0.04em' }}
+          >
+            Construccions
+          </span>
+        </div>
       </div>
 
       {/* Navigation */}
