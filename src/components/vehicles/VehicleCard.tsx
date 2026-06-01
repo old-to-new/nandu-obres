@@ -9,7 +9,12 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   return (
     <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
       <div className="min-w-0 flex-1">
-        <p className="truncate text-base font-semibold text-gray-900">{vehicle.nom}</p>
+        <Link
+          href={`/vehicles/${vehicle.id}`}
+          className="truncate text-base font-semibold text-gray-900 hover:text-red-600 hover:underline"
+        >
+          {vehicle.nom}
+        </Link>
         <p className="mt-0.5 text-sm text-gray-500">{vehicle.matricula}</p>
       </div>
       <div className="ml-4 flex items-center gap-3">
