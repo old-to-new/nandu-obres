@@ -17,7 +17,7 @@ const openSans = Open_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Construccions Marc i Jou",
+  title: "Marc i Jou",
   description: "Gestió d'obres de construcció",
 };
 
