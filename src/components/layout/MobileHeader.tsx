@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { signOut } from '@/app/(auth)/login/actions'
 
@@ -22,36 +23,14 @@ export default function MobileHeader() {
       style={{ borderColor: 'var(--sidebar-border)' }}
     >
       {/* Logo */}
-      <div className="flex flex-col gap-0">
-        <div className="flex items-baseline gap-1">
-          <span
-            className="text-base font-bold uppercase"
-            style={{
-              fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
-              color: 'var(--brand-red)',
-              letterSpacing: '0.12em',
-            }}
-          >
-            Nandu
-          </span>
-          <span
-            className="text-base font-bold uppercase"
-            style={{
-              fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
-              color: 'var(--text-primary)',
-              letterSpacing: '0.12em',
-            }}
-          >
-            Obres
-          </span>
-        </div>
-        <span
-          className="text-xs font-medium leading-none"
-          style={{ color: 'var(--sidebar-inactive-text)', letterSpacing: '0.04em' }}
-        >
-          Marc &amp; Jou
-        </span>
-      </div>
+      <Image
+        src="/logo-marcijou.jpg"
+        alt="Construccions Marc i Jou"
+        width={110}
+        height={44}
+        className="object-contain"
+        priority
+      />
 
       <button
         onClick={() => setOpen(!open)}

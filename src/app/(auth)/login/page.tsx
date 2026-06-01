@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import LoginForm from '@/components/auth/LoginForm'
 
 interface Props {
@@ -10,9 +11,16 @@ export default async function LoginPage({ searchParams }: Props) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm space-y-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Gestió d&apos;Obres</h1>
-          <p className="mt-1 text-sm text-gray-500">Accés per a encarregats</p>
+        <div className="flex flex-col items-center gap-3">
+          <Image
+            src="/logo-marcijou.jpg"
+            alt="Construccions Marc i Jou"
+            width={180}
+            height={80}
+            className="object-contain"
+            priority
+          />
+          <p className="text-sm text-gray-500">Accés per a encarregats</p>
         </div>
 
         {error === 'invalid_credentials' && (

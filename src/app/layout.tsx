@@ -17,7 +17,7 @@ const openSans = Open_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Nandu Obres",
+  title: "Construccions Marc i Jou",
   description: "Gestió d'obres de construcció",
 };
 

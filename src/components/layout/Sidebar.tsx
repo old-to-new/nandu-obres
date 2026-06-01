@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { HardHat, Users, CalendarDays, Truck, Settings, LogOut } from 'lucide-react'
 import { signOut } from '@/app/(auth)/login/actions'
@@ -27,43 +28,16 @@ export default function Sidebar() {
       {/* Logo area */}
       <div
         style={{ borderBottom: '1px solid var(--sidebar-border)' }}
-        className="flex h-16 items-center gap-2 px-4"
+        className="flex h-20 items-center justify-center px-4"
       >
-        <span
-          aria-hidden="true"
-          style={{ background: 'var(--brand-red)' }}
-          className="inline-block h-7 w-1"
+        <Image
+          src="/logo-marcijou.jpg"
+          alt="Construccions Marc i Jou"
+          width={140}
+          height={60}
+          className="object-contain"
+          priority
         />
-        <div className="flex flex-col gap-0">
-          <div className="flex items-baseline gap-1">
-            <span
-              className="text-lg font-medium uppercase"
-              style={{
-                fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
-                color: 'var(--brand-red)',
-                letterSpacing: '0.14em',
-              }}
-            >
-              Nandu
-            </span>
-            <span
-              className="text-lg font-medium uppercase"
-              style={{
-                fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
-                color: 'var(--text-primary)',
-                letterSpacing: '0.14em',
-              }}
-            >
-              Obres
-            </span>
-          </div>
-          <span
-            className="text-xs font-medium"
-            style={{ color: 'var(--sidebar-inactive-text)', letterSpacing: '0.04em' }}
-          >
-            Marc &amp; Jou
-          </span>
-        </div>
       </div>
 
       {/* Navigation */}
