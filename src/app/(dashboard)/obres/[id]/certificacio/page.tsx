@@ -55,6 +55,7 @@ export default async function CertificacioObraPage({
        acta:actes!inner(data, obra_id)`
     )
     .eq('actes.obra_id', id)
+    .is('actes.deleted_at', null)
     .gte('actes.data', dataInici)
     .lte('actes.data', dataFi)
     .order('data', { referencedTable: 'actes', ascending: true })

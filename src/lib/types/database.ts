@@ -48,6 +48,7 @@ export interface Acta {
   obra_id: string
   data: string
   comentari_general: string | null
+  deleted_at: string | null
   created_at: string
 }
 

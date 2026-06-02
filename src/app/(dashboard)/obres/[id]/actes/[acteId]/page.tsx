@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import ActaDetailView from '@/components/actes/ActaDetailView'
 import ActaFotosUpload from '@/components/actes/ActaFotosUpload'
+import EliminarActaButton from '@/components/actes/EliminarActaButton'
 
 interface Props {
   params: Promise<{ id: string; acteId: string }>
@@ -25,6 +27,7 @@ export default async function ActaDetailPage({ params }: Props) {
       `)
       .eq('id', acteId)
       .eq('obra_id', obraId)
+      .is('deleted_at', null)
       .single(),
     supabase.from('obres').select('nom').eq('id', obraId).single(),
   ])
@@ -34,14 +37,34 @@ export default async function ActaDetailPage({ params }: Props) {
   const treballadors = acta.acte_treballadors ?? []
   const imatges = acta.acte_imatges ?? []
 
+  const dataFormated = new Date(acta.data + 'T12:00:00').toLocaleDateString('ca-ES', {
+    day: 'numeric', month: 'long', year: 'numeric',
+  })
+
   return (
     <div className="space-y-6">
+      {/* Botons d'acció */}
+      <div className="flex items-center justify-end gap-2">
+        <Link
+          href={`/obres/${obraId}/actes/${acteId}/editar`}
+          className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          Editar acta
+        </Link>
+        <EliminarActaButton
+          acteId={acteId}
+          obraId={obraId}
+          data={dataFormated}
+        />
+      </div>
+
       <ActaDetailView
         acta={{
           id: acta.id,
           obra_id: acta.obra_id,
           data: acta.data,
           comentari_general: acta.comentari_general,
+          deleted_at: acta.deleted_at ?? null,
           created_at: acta.created_at,
         }}
         treballadors={treballadors}

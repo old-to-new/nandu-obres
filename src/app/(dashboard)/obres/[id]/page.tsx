@@ -67,6 +67,7 @@ export default async function ObraDetailPage({ params }: Props) {
       acte_treballadors(hores)
     `)
     .eq('obra_id', id)
+    .is('deleted_at', null)
     .order('data', { ascending: false })
 
   const actes = (actesRaw ?? []).map((acta) => ({
@@ -74,6 +75,7 @@ export default async function ObraDetailPage({ params }: Props) {
     obra_id: acta.obra_id,
     data: acta.data,
     comentari_general: acta.comentari_general,
+    deleted_at: null as string | null,
     created_at: acta.created_at,
     num_treballadors: acta.acte_treballadors?.length ?? 0,
     total_hores: (acta.acte_treballadors ?? []).reduce(

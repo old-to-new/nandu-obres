@@ -64,6 +64,7 @@ export async function GET(request: NextRequest) {
       .select('id')
       .eq('obra_id', obra_id)
       .eq('data', dataAvui)
+      .is('deleted_at', null)
       .maybeSingle()
 
     if (checkError) {
