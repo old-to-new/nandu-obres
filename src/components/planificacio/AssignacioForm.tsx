@@ -1,9 +1,10 @@
 'use client'
 
+import { useActionState } from 'react'
 import type { Obra, Treballador, Vehicle } from '@/lib/types/database'
 
 interface AssignacioFormProps {
-  action: (formData: FormData) => Promise<void>
+  action: (prevState: { error: string | null }, formData: FormData) => Promise<{ error: string | null }>
   data: string
   obres: Obra[]
   treballadors: Treballador[]
@@ -19,11 +20,19 @@ export function AssignacioForm({
   vehicles,
   treballadorsJaAssignats,
 }: AssignacioFormProps) {
+  const [state, formAction, isPending] = useActionState(action, { error: null })
+
   return (
-    <form action={action} className="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+    <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
       <h3 className="text-sm font-semibold text-gray-700">Afegir assignació</h3>
 
       <input type="hidden" name="data" value={data} />
+
+      {state.error && (
+        <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          Error: {state.error}
+        </p>
+      )}
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
@@ -122,9 +131,10 @@ export function AssignacioForm({
         </label>
         <button
           type="submit"
-          className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+          disabled={isPending}
+          className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
         >
-          Afegir
+          {isPending ? 'Afegint...' : 'Afegir'}
         </button>
       </div>
     </form>

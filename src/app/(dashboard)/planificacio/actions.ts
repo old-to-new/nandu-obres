@@ -3,7 +3,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-export async function createAssignacio(formData: FormData) {
+export async function createAssignacio(
+  _prevState: { error: string | null },
+  formData: FormData
+): Promise<{ error: string | null }> {
   const supabase = await createClient()
 
   const data = formData.get('data') as string
@@ -22,9 +25,10 @@ export async function createAssignacio(formData: FormData) {
     crear_acta_auto,
   })
 
-  if (error) throw new Error(error.message)
+  if (error) return { error: error.message }
 
   revalidatePath('/planificacio')
+  return { error: null }
 }
 
 export async function deleteAssignacio(id: string, _data: string) {

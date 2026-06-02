@@ -35,7 +35,7 @@ describe('createAssignacio', () => {
     formData.set('vehicle_id', 'vehicle-uuid-1')
     formData.set('tasca', 'Paleta')
 
-    await createAssignacio(formData)
+    await createAssignacio({ error: null }, formData)
 
     expect(mockFrom).toHaveBeenCalledWith('planificacio')
     expect(mockInsert).toHaveBeenCalledWith({
@@ -57,21 +57,22 @@ describe('createAssignacio', () => {
     formData.set('vehicle_id', '')
     formData.set('tasca', '')
 
-    await createAssignacio(formData)
+    await createAssignacio({ error: null }, formData)
 
     expect(mockInsert).toHaveBeenCalledWith(
       expect.objectContaining({ vehicle_id: null, tasca: null })
     )
   })
 
-  it('llenca error si Supabase falla', async () => {
+  it('retorna error si Supabase falla', async () => {
     mockInsert.mockResolvedValue({ error: { message: 'FK violation' } })
     const formData = new FormData()
     formData.set('data', '2026-04-20')
     formData.set('obra_id', 'x')
     formData.set('treballador_id', 'y')
 
-    await expect(createAssignacio(formData)).rejects.toThrow('FK violation')
+    const result = await createAssignacio({ error: null }, formData)
+    expect(result).toEqual({ error: 'FK violation' })
   })
 })
 
