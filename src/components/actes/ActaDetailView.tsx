@@ -9,9 +9,10 @@ interface Props {
   imatges: ActeImatge[]
   obraId: string
   obraNom: string
+  generadaAuto?: boolean
 }
 
-export default function ActaDetailView({ acta, treballadors, imatges, obraId, obraNom }: Props) {
+export default function ActaDetailView({ acta, treballadors, imatges, obraId, obraNom, generadaAuto }: Props) {
   const dataFormatedRaw = new Date(acta.data + 'T12:00:00').toLocaleDateString('ca-ES', {
     weekday: 'long',
     day: 'numeric',
@@ -35,7 +36,14 @@ export default function ActaDetailView({ acta, treballadors, imatges, obraId, ob
             <span>/</span>
             <span className="text-gray-900">{dataFormated}</span>
           </nav>
-          <h1 className="text-xl font-semibold text-gray-900">{dataFormated}</h1>
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-xl font-semibold text-gray-900">{dataFormated}</h1>
+            {generadaAuto && (
+              <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600">
+                Generada automàticament
+              </span>
+            )}
+          </div>
           <p className="mt-0.5 text-sm text-gray-500">
             {treballadors.length} treballadors · {totalHores}h total
           </p>

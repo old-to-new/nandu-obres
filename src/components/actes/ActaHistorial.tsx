@@ -4,6 +4,7 @@ import type { Acta } from '@/lib/types/database'
 interface ActaAmbResum extends Acta {
   num_treballadors: number
   total_hores: number
+  generada_auto?: boolean
 }
 
 interface Props {
@@ -53,6 +54,11 @@ export default function ActaHistorial({ actes, obraId }: Props) {
             </div>
 
             <div className="flex flex-shrink-0 items-center gap-3 text-sm text-gray-500">
+              {acta.generada_auto && (
+                <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+                  Auto
+                </span>
+              )}
               <span>{acta.num_treballadors} treballadors</span>
               <span>{acta.total_hores}h</span>
               <span className="text-gray-300">›</span>

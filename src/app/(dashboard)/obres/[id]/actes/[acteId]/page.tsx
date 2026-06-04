@@ -36,6 +36,9 @@ export default async function ActaDetailPage({ params }: Props) {
 
   const treballadors = acta.acte_treballadors ?? []
   const imatges = acta.acte_imatges ?? []
+  const generadaAuto =
+    treballadors.length > 0 &&
+    treballadors.every((t: { planificat: boolean }) => t.planificat)
 
   const dataFormated = new Date(acta.data + 'T12:00:00').toLocaleDateString('ca-ES', {
     day: 'numeric', month: 'long', year: 'numeric',
@@ -71,6 +74,7 @@ export default async function ActaDetailPage({ params }: Props) {
         imatges={imatges}
         obraId={obraId}
         obraNom={obra?.nom ?? 'Obra'}
+        generadaAuto={generadaAuto}
       />
 
       {/* Secció upload de fotos (client component) */}

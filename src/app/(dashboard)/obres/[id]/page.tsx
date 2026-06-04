@@ -64,25 +64,26 @@ export default async function ObraDetailPage({ params }: Props) {
     .from('actes')
     .select(`
       *,
-      acte_treballadors(hores)
+      acte_treballadors(hores, planificat)
     `)
     .eq('obra_id', id)
     .is('deleted_at', null)
     .order('data', { ascending: false })
 
-  const actes = (actesRaw ?? []).map((acta) => ({
-    id: acta.id,
-    obra_id: acta.obra_id,
-    data: acta.data,
-    comentari_general: acta.comentari_general,
-    deleted_at: null as string | null,
-    created_at: acta.created_at,
-    num_treballadors: acta.acte_treballadors?.length ?? 0,
-    total_hores: (acta.acte_treballadors ?? []).reduce(
-      (sum: number, t: { hores: number }) => sum + Number(t.hores),
-      0
-    ),
-  }))
+  const actes = (actesRaw ?? []).map((acta) => {
+    const trebs = (acta.acte_treballadors ?? []) as { hores: number; planificat: boolean }[]
+    return {
+      id: acta.id,
+      obra_id: acta.obra_id,
+      data: acta.data,
+      comentari_general: acta.comentari_general,
+      deleted_at: null as string | null,
+      created_at: acta.created_at,
+      num_treballadors: trebs.length,
+      total_hores: trebs.reduce((sum, t) => sum + Number(t.hores), 0),
+      generada_auto: trebs.length > 0 && trebs.every((t) => t.planificat),
+    }
+  })
 
   return (
     <div className="space-y-6">
