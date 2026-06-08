@@ -40,6 +40,8 @@ const obraExistent: Obra = {
   pressupost_pdf_url: null,
   projecte_pdf_url: null,
   notes: 'Nota de prova',
+  matterport_model_id: null,
+  matterport_estat: null,
   created_at: '2026-04-18T10:00:00Z',
 }
 

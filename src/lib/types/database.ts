@@ -31,6 +31,8 @@ export interface Vehicle {
   created_at: string
 }
 
+export type MatterportEstat = 'pendent' | 'en_estudi' | 'actiu'
+
 export interface Obra {
   id: string
   nom: string
@@ -40,6 +42,8 @@ export interface Obra {
   pressupost_pdf_url: string | null
   projecte_pdf_url: string | null
   notes: string | null
+  matterport_model_id: string | null
+  matterport_estat: MatterportEstat | null
   created_at: string
 }
 

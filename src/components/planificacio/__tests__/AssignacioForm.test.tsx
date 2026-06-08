@@ -6,8 +6,8 @@ import type { Obra, Treballador, Vehicle } from '@/lib/types/database'
 const mockAction = vi.fn()
 
 const obres: Obra[] = [
-  { id: 'o1', nom: 'Obra Sarria', client_nom: 'Client A', linia: 'obra_nova', estat: 'activa', pressupost_pdf_url: null, projecte_pdf_url: null, notes: null, created_at: '' },
-  { id: 'o2', nom: 'Gracia', client_nom: 'Client B', linia: 'rehabilitacio', estat: 'activa', pressupost_pdf_url: null, projecte_pdf_url: null, notes: null, created_at: '' },
+  { id: 'o1', nom: 'Obra Sarria', client_nom: 'Client A', linia: 'obra_nova', estat: 'activa', pressupost_pdf_url: null, projecte_pdf_url: null, notes: null, matterport_model_id: null, matterport_estat: null, created_at: '' },
+  { id: 'o2', nom: 'Gracia', client_nom: 'Client B', linia: 'rehabilitacio', estat: 'activa', pressupost_pdf_url: null, projecte_pdf_url: null, notes: null, matterport_model_id: null, matterport_estat: null, created_at: '' },
 ]
 
 const treballadors: Treballador[] = [
