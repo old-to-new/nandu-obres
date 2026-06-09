@@ -5,9 +5,9 @@ import ActaTreballadorsEditor from '../ActaTreballadorsEditor'
 import type { Treballador } from '@/lib/types/database'
 
 const treballadorsDisponibles: Treballador[] = [
-  { id: 'treb-1', nom: 'Joan Martí', tipus: 'oficial', actiu: true, telefon: null, notes: null, encarregat: null, created_at: '2026-01-01' },
-  { id: 'treb-2', nom: 'Pau Ferrer', tipus: 'oficial_2a', actiu: true, telefon: null, notes: null, encarregat: null, created_at: '2026-01-01' },
-  { id: 'treb-3', nom: 'Marc Soler', tipus: 'peo', actiu: true, telefon: null, notes: null, encarregat: null, created_at: '2026-01-01' },
+  { id: 'treb-1', nom: 'Joan Martí', tipus: 'oficial', actiu: true, telefon: null, notes: null, encarregat: null, empresa_id: 'emp-1', created_at: '2026-01-01' },
+  { id: 'treb-2', nom: 'Pau Ferrer', tipus: 'oficial_2a', actiu: true, telefon: null, notes: null, encarregat: null, empresa_id: 'emp-1', created_at: '2026-01-01' },
+  { id: 'treb-3', nom: 'Marc Soler', tipus: 'peo', actiu: true, telefon: null, notes: null, encarregat: null, empresa_id: 'emp-1', created_at: '2026-01-01' },
 ]
 
 const initialTreballadors = [

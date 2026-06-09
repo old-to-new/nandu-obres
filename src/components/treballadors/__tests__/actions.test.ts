@@ -14,6 +14,15 @@ vi.mock('@/lib/supabase/server', () => ({
   }),
 }))
 
+vi.mock('@/lib/empresa', () => ({
+  getEmpresaContext: vi.fn().mockResolvedValue({
+    supabase: { from: mockFrom },
+    empresaId: 'emp-1',
+    rol: 'admin',
+    empresa: { id: 'emp-1', nom: 'Test', subtitol: null, logo_url: null, created_at: '' },
+  }),
+}))
+
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 vi.mock('next/navigation', () => ({ redirect: vi.fn() }))
 
@@ -48,6 +57,7 @@ describe('createTreballador', () => {
       telefon: '600111222',
       notes: 'Conductor oficial',
       encarregat: null,
+      empresa_id: 'emp-1',
     })
     expect(revalidatePath).toHaveBeenCalledWith('/treballadors')
     expect(redirect).toHaveBeenCalledWith('/treballadors')
@@ -62,7 +72,7 @@ describe('createTreballador', () => {
     await createTreballador(formData)
 
     expect(mockInsert).toHaveBeenCalledWith(
-      expect.objectContaining({ telefon: null, notes: null })
+      expect.objectContaining({ telefon: null, notes: null, empresa_id: 'emp-1' })
     )
   })
 
@@ -75,7 +85,7 @@ describe('createTreballador', () => {
     await createTreballador(formData)
 
     expect(mockInsert).toHaveBeenCalledWith(
-      expect.objectContaining({ encarregat: 'nandu' })
+      expect.objectContaining({ encarregat: 'nandu', empresa_id: 'emp-1' })
     )
   })
 
@@ -88,7 +98,7 @@ describe('createTreballador', () => {
     await createTreballador(formData)
 
     expect(mockInsert).toHaveBeenCalledWith(
-      expect.objectContaining({ encarregat: null })
+      expect.objectContaining({ encarregat: null, empresa_id: 'emp-1' })
     )
   })
 

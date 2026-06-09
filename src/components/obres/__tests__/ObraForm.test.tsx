@@ -19,16 +19,16 @@ vi.mock('@/app/(dashboard)/obres/actions', () => ({
 import { createObra, updateObra } from '@/app/(dashboard)/obres/actions'
 
 const mockLinies: Categoria[] = [
-  { id: '1', tipus: 'linia_obra', valor: 'obra_nova', etiqueta: 'Obra nova', ordre: 1, created_at: '2026-01-01T00:00:00Z' },
-  { id: '2', tipus: 'linia_obra', valor: 'rehabilitacio', etiqueta: 'Rehabilitació', ordre: 2, created_at: '2026-01-01T00:00:00Z' },
-  { id: '3', tipus: 'linia_obra', valor: 'ascensors', etiqueta: 'Ascensors', ordre: 3, created_at: '2026-01-01T00:00:00Z' },
-  { id: '4', tipus: 'linia_obra', valor: 'altres', etiqueta: 'Altres', ordre: 4, created_at: '2026-01-01T00:00:00Z' },
+  { id: '1', tipus: 'linia_obra', valor: 'obra_nova', etiqueta: 'Obra nova', ordre: 1, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
+  { id: '2', tipus: 'linia_obra', valor: 'rehabilitacio', etiqueta: 'Rehabilitació', ordre: 2, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
+  { id: '3', tipus: 'linia_obra', valor: 'ascensors', etiqueta: 'Ascensors', ordre: 3, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
+  { id: '4', tipus: 'linia_obra', valor: 'altres', etiqueta: 'Altres', ordre: 4, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
 ]
 
 const mockEstats: Categoria[] = [
-  { id: '5', tipus: 'estat_obra', valor: 'activa', etiqueta: 'Activa', ordre: 1, created_at: '2026-01-01T00:00:00Z' },
-  { id: '6', tipus: 'estat_obra', valor: 'pausada', etiqueta: 'Pausada', ordre: 2, created_at: '2026-01-01T00:00:00Z' },
-  { id: '7', tipus: 'estat_obra', valor: 'finalitzada', etiqueta: 'Finalitzada', ordre: 3, created_at: '2026-01-01T00:00:00Z' },
+  { id: '5', tipus: 'estat_obra', valor: 'activa', etiqueta: 'Activa', ordre: 1, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
+  { id: '6', tipus: 'estat_obra', valor: 'pausada', etiqueta: 'Pausada', ordre: 2, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
+  { id: '7', tipus: 'estat_obra', valor: 'finalitzada', etiqueta: 'Finalitzada', ordre: 3, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
 ]
 
 const obraExistent: Obra = {
@@ -40,6 +40,9 @@ const obraExistent: Obra = {
   pressupost_pdf_url: null,
   projecte_pdf_url: null,
   notes: 'Nota de prova',
+  matterport_model_id: null,
+  matterport_estat: null,
+  empresa_id: 'emp-1',
   created_at: '2026-04-18T10:00:00Z',
 }
 

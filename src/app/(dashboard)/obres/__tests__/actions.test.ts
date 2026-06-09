@@ -3,17 +3,28 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 vi.mock('next/navigation', () => ({ redirect: vi.fn() }))
 
-const mockSelect = vi.fn()
-const mockInsert = vi.fn()
-const mockUpdate = vi.fn()
-const mockEq = vi.fn()
-const mockSingle = vi.fn()
-const mockFrom = vi.fn()
+const { mockSelect, mockInsert, mockUpdate, mockEq, mockSingle, mockFrom } = vi.hoisted(() => ({
+  mockSelect: vi.fn(),
+  mockInsert: vi.fn(),
+  mockUpdate: vi.fn(),
+  mockEq: vi.fn(),
+  mockSingle: vi.fn(),
+  mockFrom: vi.fn(),
+}))
 
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(() => ({
     from: mockFrom,
   })),
+}))
+
+vi.mock('@/lib/empresa', () => ({
+  getEmpresaContext: vi.fn().mockResolvedValue({
+    supabase: { from: mockFrom },
+    empresaId: 'emp-1',
+    rol: 'admin',
+    empresa: { id: 'emp-1', nom: 'Test', subtitol: null, logo_url: null, created_at: '' },
+  }),
 }))
 
 import { createObra, updateObra } from '../actions'
@@ -50,6 +61,7 @@ describe('createObra', () => {
       linia: 'obra_nova',
       estat: 'activa',
       notes: null,
+      empresa_id: 'emp-1',
     })
     expect(revalidatePath).toHaveBeenCalledWith('/obres')
     expect(redirect).toHaveBeenCalledWith('/obres/obra-uuid-1')

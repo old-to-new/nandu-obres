@@ -13,6 +13,7 @@ const treballadors: Treballador[] = [
     telefon: '600111222',
     notes: null,
     encarregat: 'nandu',
+    empresa_id: 'emp-1',
     created_at: '2026-01-01T00:00:00Z',
   },
   {
@@ -23,6 +24,7 @@ const treballadors: Treballador[] = [
     telefon: null,
     notes: null,
     encarregat: 'pare',
+    empresa_id: 'emp-1',
     created_at: '2026-01-02T00:00:00Z',
   },
   {
@@ -33,6 +35,7 @@ const treballadors: Treballador[] = [
     telefon: '611000111',
     notes: null,
     encarregat: 'nandu',
+    empresa_id: 'emp-1',
     created_at: '2026-01-03T00:00:00Z',
   },
   {
@@ -43,6 +46,7 @@ const treballadors: Treballador[] = [
     telefon: null,
     notes: null,
     encarregat: null,
+    empresa_id: 'emp-1',
     created_at: '2026-01-04T00:00:00Z',
   },
 ]

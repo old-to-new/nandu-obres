@@ -1,19 +1,25 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { HardHat, Users, CalendarDays, Truck, Settings, LogOut } from 'lucide-react'
 import { signOut } from '@/app/(auth)/login/actions'
+import type { Empresa } from '@/lib/types/database'
 
 const navItems = [
-  { href: '/obres', label: 'Obres', Icon: HardHat },
+  { href: '/obres',       label: 'Obres',       Icon: HardHat },
   { href: '/treballadors', label: 'Treballadors', Icon: Users },
   { href: '/planificacio', label: 'Planificació', Icon: CalendarDays },
-  { href: '/vehicles', label: 'Vehicles', Icon: Truck },
-  { href: '/ajustos', label: 'Ajustos', Icon: Settings },
+  { href: '/vehicles',    label: 'Vehicles',     Icon: Truck },
+  { href: '/ajustos',     label: 'Ajustos',      Icon: Settings },
 ] as const
 
-export default function Sidebar() {
+interface SidebarProps {
+  empresa?: Empresa | null
+}
+
+export default function Sidebar({ empresa = null }: SidebarProps) {
   const pathname = usePathname()
 
   return (
@@ -24,34 +30,48 @@ export default function Sidebar() {
       }}
       className="flex h-full w-56 flex-col"
     >
-      {/* Logo area */}
+      {/* Logo / nom empresa */}
       <div
         style={{ borderBottom: '1px solid var(--sidebar-border)' }}
         className="flex h-16 items-center gap-2 px-4"
       >
-        <span
-          aria-hidden="true"
-          style={{ background: 'var(--brand-red)' }}
-          className="inline-block h-7 w-1 shrink-0"
-        />
-        <div className="flex flex-col leading-tight">
-          <span
-            className="text-base font-semibold uppercase"
-            style={{
-              fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
-              color: 'var(--brand-red)',
-              letterSpacing: '0.12em',
-            }}
-          >
-            Marc i Jou
-          </span>
-          <span
-            className="text-xs font-normal"
-            style={{ color: 'var(--sidebar-inactive-text)', letterSpacing: '0.04em' }}
-          >
-            Construccions
-          </span>
-        </div>
+        {empresa?.logo_url ? (
+          <Image
+            src={empresa.logo_url}
+            alt={empresa.nom}
+            width={120}
+            height={40}
+            className="object-contain"
+          />
+        ) : (
+          <>
+            <span
+              aria-hidden="true"
+              style={{ background: 'var(--brand-red)' }}
+              className="inline-block h-7 w-1 shrink-0"
+            />
+            <div className="flex flex-col leading-tight min-w-0">
+              <span
+                className="truncate text-base font-semibold uppercase"
+                style={{
+                  fontFamily: 'var(--font-heading, Oswald, Arial, sans-serif)',
+                  color: 'var(--brand-red)',
+                  letterSpacing: '0.12em',
+                }}
+              >
+                {empresa?.nom ?? 'Nandu Obres'}
+              </span>
+              {empresa?.subtitol && (
+                <span
+                  className="truncate text-xs font-normal"
+                  style={{ color: 'var(--sidebar-inactive-text)', letterSpacing: '0.04em' }}
+                >
+                  {empresa.subtitol}
+                </span>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Navigation */}
@@ -80,14 +100,10 @@ export default function Sidebar() {
                     }
               }
               onMouseEnter={(e) => {
-                if (!isActive) {
-                  e.currentTarget.style.background = 'var(--sidebar-hover-bg)'
-                }
+                if (!isActive) e.currentTarget.style.background = 'var(--sidebar-hover-bg)'
               }}
               onMouseLeave={(e) => {
-                if (!isActive) {
-                  e.currentTarget.style.background = 'transparent'
-                }
+                if (!isActive) e.currentTarget.style.background = 'transparent'
               }}
             >
               <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
@@ -98,21 +114,14 @@ export default function Sidebar() {
       </nav>
 
       {/* Sign out */}
-      <div
-        style={{ borderTop: '1px solid var(--sidebar-border)' }}
-        className="p-2"
-      >
+      <div style={{ borderTop: '1px solid var(--sidebar-border)' }} className="p-2">
         <form action={signOut}>
           <button
             type="submit"
             className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium transition-colors duration-150"
             style={{ color: 'var(--sidebar-inactive-text)' }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--sidebar-hover-bg)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent'
-            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--sidebar-hover-bg)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
           >
             <LogOut size={18} strokeWidth={1.75} aria-hidden="true" />
             Tancar sessió

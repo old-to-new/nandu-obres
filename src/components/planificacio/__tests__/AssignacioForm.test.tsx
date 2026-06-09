@@ -6,17 +6,17 @@ import type { Obra, Treballador, Vehicle } from '@/lib/types/database'
 const mockAction = vi.fn()
 
 const obres: Obra[] = [
-  { id: 'o1', nom: 'Obra Sarria', client_nom: 'Client A', linia: 'obra_nova', estat: 'activa', pressupost_pdf_url: null, projecte_pdf_url: null, notes: null, created_at: '' },
-  { id: 'o2', nom: 'Gracia', client_nom: 'Client B', linia: 'rehabilitacio', estat: 'activa', pressupost_pdf_url: null, projecte_pdf_url: null, notes: null, created_at: '' },
+  { id: 'o1', nom: 'Obra Sarria', client_nom: 'Client A', linia: 'obra_nova', estat: 'activa', pressupost_pdf_url: null, projecte_pdf_url: null, notes: null, matterport_model_id: null, matterport_estat: null, empresa_id: 'emp-1', created_at: '' },
+  { id: 'o2', nom: 'Gracia', client_nom: 'Client B', linia: 'rehabilitacio', estat: 'activa', pressupost_pdf_url: null, projecte_pdf_url: null, notes: null, matterport_model_id: null, matterport_estat: null, empresa_id: 'emp-1', created_at: '' },
 ]
 
 const treballadors: Treballador[] = [
-  { id: 't1', nom: 'Pere Garriga', tipus: 'oficial', actiu: true, telefon: null, notes: null, encarregat: null, created_at: '' },
-  { id: 't2', nom: 'Joan Mas', tipus: 'peo', actiu: true, telefon: null, notes: null, encarregat: null, created_at: '' },
+  { id: 't1', nom: 'Pere Garriga', tipus: 'oficial', actiu: true, telefon: null, notes: null, encarregat: null, empresa_id: 'emp-1', created_at: '' },
+  { id: 't2', nom: 'Joan Mas', tipus: 'peo', actiu: true, telefon: null, notes: null, encarregat: null, empresa_id: 'emp-1', created_at: '' },
 ]
 
 const vehicles: Vehicle[] = [
-  { id: 'v1', nom: 'Furgoneta Gran', matricula: 'B-1234-XY', actiu: true, created_at: '' },
+  { id: 'v1', nom: 'Furgoneta Gran', matricula: 'B-1234-XY', actiu: true, empresa_id: 'emp-1', created_at: '' },
 ]
 
 const treballadorsJaAssignats = ['t1']

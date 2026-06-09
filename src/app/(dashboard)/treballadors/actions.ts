@@ -4,9 +4,10 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import type { TipusTreballador, EncarregatTreballador } from '@/lib/types/database'
+import { getEmpresaContext } from '@/lib/empresa'
 
 export async function createTreballador(formData: FormData) {
-  const supabase = await createClient()
+  const { supabase, empresaId } = await getEmpresaContext()
 
   const nom = formData.get('nom') as string
   const tipus = formData.get('tipus') as TipusTreballador
@@ -21,6 +22,7 @@ export async function createTreballador(formData: FormData) {
     telefon,
     notes,
     encarregat,
+    empresa_id: empresaId,
   })
 
   if (error) throw new Error(error.message)

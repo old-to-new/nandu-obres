@@ -6,6 +6,7 @@ import DocumentUpload from '@/components/obres/DocumentUpload'
 import ActaHistorial from '@/components/actes/ActaHistorial'
 import ObraFotosPreview from '@/components/obres/ObraFotosPreview'
 import EliminarObraButton from '@/components/obres/EliminarObraButton'
+import MatterportSection from '@/components/obres/MatterportSection'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -110,6 +111,13 @@ export default async function ObraDetailPage({ params }: Props) {
 
       {/* Secció Últimes fotos */}
       <ObraFotosPreview obraId={obra.id} fotos={fotosPreview} />
+
+      {/* Secció Plànol 3D Matterport */}
+      <MatterportSection
+        obraId={obra.id}
+        modelId={obra.matterport_model_id ?? null}
+        estat={obra.matterport_estat ?? null}
+      />
 
       {/* Secció Actes */}
       <section>
