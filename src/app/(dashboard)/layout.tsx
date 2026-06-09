@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
 import { getEmpresaActual } from '@/lib/empresa'
 import Sidebar from '@/components/layout/Sidebar'
 import MobileHeader from '@/components/layout/MobileHeader'
@@ -6,7 +7,13 @@ import MobileHeader from '@/components/layout/MobileHeader'
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const ctx = await getEmpresaActual()
 
-  if (!ctx) redirect('/login')
+  if (!ctx) {
+    // Comprova si té sessió activa (sense empresa → potser és super-admin)
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) redirect('/super-admin')
+    redirect('/login')
+  }
 
   const { empresa } = ctx
 
