@@ -2,6 +2,24 @@ export type TipusTreballador = string
 export type EncarregatTreballador = 'nandu' | 'pare'
 export type LiniaObra = string
 export type EstatObra = string
+export type RolEmpresa = 'admin' | 'membre'
+
+export interface Empresa {
+  id: string
+  nom: string
+  subtitol: string | null
+  logo_url: string | null
+  created_at: string
+}
+
+export interface EmpresaMembre {
+  id: string
+  empresa_id: string
+  user_id: string
+  rol: RolEmpresa
+  email: string | null
+  created_at: string
+}
 
 export interface Categoria {
   id: string
@@ -9,6 +27,7 @@ export interface Categoria {
   valor: string
   etiqueta: string
   ordre: number
+  empresa_id: string
   created_at: string
 }
 
@@ -20,6 +39,7 @@ export interface Treballador {
   telefon: string | null
   notes: string | null
   encarregat: EncarregatTreballador | null
+  empresa_id: string
   created_at: string
 }
 
@@ -28,6 +48,7 @@ export interface Vehicle {
   nom: string
   matricula: string
   actiu: boolean
+  empresa_id: string
   created_at: string
 }
 
@@ -44,6 +65,7 @@ export interface Obra {
   notes: string | null
   matterport_model_id: string | null
   matterport_estat: MatterportEstat | null
+  empresa_id: string
   created_at: string
 }
 

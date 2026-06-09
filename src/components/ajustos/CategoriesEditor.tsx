@@ -33,6 +33,7 @@ export default function CategoriesEditor({ tipus, titol, categoriesInicials }: P
           valor: etiqueta.toLowerCase().replace(/\s+/g, '_'),
           etiqueta,
           ordre: prev.length,
+          empresa_id: '',
           created_at: new Date().toISOString(),
         },
       ])

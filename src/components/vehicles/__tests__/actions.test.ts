@@ -10,6 +10,16 @@ const { mockInsert, mockUpdate, mockEq, mockFrom } = vi.hoisted(() => ({
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn().mockResolvedValue({ from: mockFrom }),
 }))
+
+vi.mock('@/lib/empresa', () => ({
+  getEmpresaContext: vi.fn().mockResolvedValue({
+    supabase: { from: mockFrom },
+    empresaId: 'emp-1',
+    rol: 'admin',
+    empresa: { id: 'emp-1', nom: 'Test', subtitol: null, logo_url: null, created_at: '' },
+  }),
+}))
+
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 vi.mock('next/navigation', () => ({ redirect: vi.fn() }))
 
@@ -35,6 +45,7 @@ describe('createVehicle', () => {
     expect(mockInsert).toHaveBeenCalledWith({
       nom: 'Furgoneta Gran',
       matricula: 'B-1234-XY',
+      empresa_id: 'emp-1',
     })
     expect(revalidatePath).toHaveBeenCalledWith('/vehicles')
     expect(redirect).toHaveBeenCalledWith('/vehicles')

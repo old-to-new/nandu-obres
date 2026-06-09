@@ -3,9 +3,10 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { getEmpresaContext } from '@/lib/empresa'
 
 export async function createObra(formData: FormData) {
-  const supabase = await createClient()
+  const { supabase, empresaId } = await getEmpresaContext()
 
   const nom = formData.get('nom') as string
   const client_nom = formData.get('client_nom') as string
@@ -15,7 +16,7 @@ export async function createObra(formData: FormData) {
 
   const { data, error } = await supabase
     .from('obres')
-    .insert({ nom, client_nom, linia, estat, notes })
+    .insert({ nom, client_nom, linia, estat, notes, empresa_id: empresaId })
     .select()
     .single()
 

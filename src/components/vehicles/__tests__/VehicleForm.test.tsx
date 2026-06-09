@@ -7,7 +7,7 @@ const mockAction = vi.fn()
 
 const vehicleExistent: Vehicle = {
   id: 'uuid-v1', nom: 'Furgoneta Gran', matricula: 'B-1234-XY',
-  actiu: true, created_at: '2026-01-01T00:00:00Z',
+  actiu: true, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z',
 }
 
 describe('VehicleForm — mode creacio', () => {

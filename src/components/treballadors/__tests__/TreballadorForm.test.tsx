@@ -6,10 +6,10 @@ import type { Treballador, Categoria } from '@/lib/types/database'
 const mockAction = vi.fn()
 
 const mockTipusTreballador: Categoria[] = [
-  { id: '1', tipus: 'tipus_treballador', valor: 'oficial', etiqueta: 'Oficial', ordre: 1, created_at: '2026-01-01T00:00:00Z' },
-  { id: '2', tipus: 'tipus_treballador', valor: 'oficial_2a', etiqueta: 'Oficial 2a', ordre: 2, created_at: '2026-01-01T00:00:00Z' },
-  { id: '3', tipus: 'tipus_treballador', valor: 'peo', etiqueta: 'Peó', ordre: 3, created_at: '2026-01-01T00:00:00Z' },
-  { id: '4', tipus: 'tipus_treballador', valor: 'altre', etiqueta: 'Altre', ordre: 4, created_at: '2026-01-01T00:00:00Z' },
+  { id: '1', tipus: 'tipus_treballador', valor: 'oficial', etiqueta: 'Oficial', ordre: 1, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
+  { id: '2', tipus: 'tipus_treballador', valor: 'oficial_2a', etiqueta: 'Oficial 2a', ordre: 2, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
+  { id: '3', tipus: 'tipus_treballador', valor: 'peo', etiqueta: 'Peó', ordre: 3, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
+  { id: '4', tipus: 'tipus_treballador', valor: 'altre', etiqueta: 'Altre', ordre: 4, empresa_id: 'emp-1', created_at: '2026-01-01T00:00:00Z' },
 ]
 
 const treballadorExistent: Treballador = {
@@ -20,6 +20,7 @@ const treballadorExistent: Treballador = {
   telefon: '600111222',
   notes: 'Bon conductor',
   encarregat: 'nandu',
+  empresa_id: 'emp-1',
   created_at: '2026-01-01T00:00:00Z',
 }
 
