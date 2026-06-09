@@ -133,6 +133,23 @@ export async function inviteToEmpresa(
   }
 }
 
+// ── Eliminar membre d'empresa ─────────────────────────────
+
+export async function removeMemberFromEmpresa(membreId: string): Promise<{ error: string | null }> {
+  try {
+    if (!(await isSuperAdmin())) return { error: 'No autoritzat' }
+
+    const service = createServiceClient()
+    const { error } = await service.from('empresa_membres').delete().eq('id', membreId)
+    if (error) return { error: error.message }
+
+    revalidatePath('/super-admin')
+    return { error: null }
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Error desconegut' }
+  }
+}
+
 // ── Eliminar empresa ──────────────────────────────────────
 
 export async function deleteEmpresa(empresaId: string): Promise<{ error: string | null }> {

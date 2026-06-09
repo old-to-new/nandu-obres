@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createServiceClient } from '@/lib/supabase/service'
-import { isSuperAdmin } from './actions'
+import { isSuperAdmin, removeMemberFromEmpresa } from './actions'
 import type { Empresa, EmpresaMembre } from '@/lib/types/database'
 import NovaEmpresaForm from './NovaEmpresaForm'
 import InviteToEmpresaForm from './InviteToEmpresaForm'
@@ -84,9 +84,19 @@ export default async function SuperAdminPage() {
                       {emp.membres.map((m) => (
                         <div key={m.id} className="flex items-center justify-between px-3 py-2 text-sm">
                           <span className="text-gray-700">{m.email ?? m.user_id}</span>
-                          <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${ROL_BADGE[m.rol] ?? 'bg-gray-100 text-gray-600'}`}>
-                            {m.rol}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${ROL_BADGE[m.rol] ?? 'bg-gray-100 text-gray-600'}`}>
+                              {m.rol}
+                            </span>
+                            <form action={async () => { 'use server'; await removeMemberFromEmpresa(m.id) }}>
+                              <button
+                                type="submit"
+                                className="text-xs text-red-400 hover:text-red-600"
+                              >
+                                Eliminar
+                              </button>
+                            </form>
+                          </div>
                         </div>
                       ))}
                     </div>
