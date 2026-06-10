@@ -10,11 +10,15 @@ interface Props {
   categoriesInicials: Categoria[]
 }
 
+const DEFAULT_COLOR = '#6b7280'
+
 export default function CategoriesEditor({ tipus, titol, categoriesInicials }: Props) {
   const [categories, setCategories] = useState<Categoria[]>(categoriesInicials)
   const [nouText, setNouText] = useState('')
+  const [nouColor, setNouColor] = useState(DEFAULT_COLOR)
   const [editId, setEditId] = useState<string | null>(null)
   const [editText, setEditText] = useState('')
+  const [editColor, setEditColor] = useState(DEFAULT_COLOR)
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
 
@@ -23,7 +27,7 @@ export default function CategoriesEditor({ tipus, titol, categoriesInicials }: P
     setError(null)
     const etiqueta = nouText.trim()
     startTransition(async () => {
-      const result = await createCategoria(tipus, etiqueta)
+      const result = await createCategoria(tipus, etiqueta, nouColor)
       if (result.error) { setError(result.error); return }
       setCategories((prev) => [
         ...prev,
@@ -33,12 +37,20 @@ export default function CategoriesEditor({ tipus, titol, categoriesInicials }: P
           valor: etiqueta.toLowerCase().replace(/\s+/g, '_'),
           etiqueta,
           ordre: prev.length,
+          color: nouColor,
           empresa_id: '',
           created_at: new Date().toISOString(),
         },
       ])
       setNouText('')
+      setNouColor(DEFAULT_COLOR)
     })
+  }
+
+  function handleStartEdit(cat: Categoria) {
+    setEditId(cat.id)
+    setEditText(cat.etiqueta)
+    setEditColor(cat.color ?? DEFAULT_COLOR)
   }
 
   function handleGuardarEdit(cat: Categoria) {
@@ -46,10 +58,10 @@ export default function CategoriesEditor({ tipus, titol, categoriesInicials }: P
     setError(null)
     const etiqueta = editText.trim()
     startTransition(async () => {
-      const result = await updateCategoria(cat.id, etiqueta)
+      const result = await updateCategoria(cat.id, etiqueta, editColor)
       if (result.error) { setError(result.error); return }
       setCategories((prev) =>
-        prev.map((c) => (c.id === cat.id ? { ...c, etiqueta } : c))
+        prev.map((c) => (c.id === cat.id ? { ...c, etiqueta, color: editColor } : c))
       )
       setEditId(null)
     })
@@ -80,6 +92,15 @@ export default function CategoriesEditor({ tipus, titol, categoriesInicials }: P
           <li key={cat.id} className="flex items-center gap-2 px-4 py-2.5">
             {editId === cat.id ? (
               <>
+                {/* Color picker en edició */}
+                <input
+                  type="color"
+                  value={editColor}
+                  onChange={(e) => setEditColor(e.target.value)}
+                  disabled={isPending}
+                  className="h-7 w-7 shrink-0 cursor-pointer rounded border-0 p-0.5 disabled:opacity-50"
+                  title="Triar color"
+                />
                 <input
                   value={editText}
                   onChange={(e) => setEditText(e.target.value)}
@@ -107,10 +128,15 @@ export default function CategoriesEditor({ tipus, titol, categoriesInicials }: P
               </>
             ) : (
               <>
+                {/* Pastilla de color */}
+                <span
+                  className="h-4 w-4 shrink-0 rounded-full border border-white shadow-sm"
+                  style={{ background: cat.color ?? DEFAULT_COLOR }}
+                />
                 <span className="min-w-0 flex-1 text-sm text-gray-700">{cat.etiqueta}</span>
                 <span className="shrink-0 font-mono text-xs text-gray-300">{cat.valor}</span>
                 <button
-                  onClick={() => { setEditId(cat.id); setEditText(cat.etiqueta) }}
+                  onClick={() => handleStartEdit(cat)}
                   className="text-xs text-blue-500 hover:text-blue-700"
                 >
                   Editar
@@ -130,6 +156,14 @@ export default function CategoriesEditor({ tipus, titol, categoriesInicials }: P
 
       {/* Afegir nova */}
       <div className="flex gap-2">
+        <input
+          type="color"
+          value={nouColor}
+          onChange={(e) => setNouColor(e.target.value)}
+          disabled={isPending}
+          className="h-9 w-9 shrink-0 cursor-pointer rounded-lg border border-gray-300 p-1 disabled:opacity-50"
+          title="Triar color"
+        />
         <input
           value={nouText}
           onChange={(e) => setNouText(e.target.value)}

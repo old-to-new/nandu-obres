@@ -112,7 +112,8 @@ export async function removeMembre(membreId: string): Promise<{ error: string | 
 
 export async function createCategoria(
   tipus: string,
-  etiqueta: string
+  etiqueta: string,
+  color?: string | null
 ): Promise<{ error: string | null }> {
   try {
     const { supabase, empresaId } = await getEmpresaContext()
@@ -123,6 +124,7 @@ export async function createCategoria(
       .from('categories')
       .select('ordre')
       .eq('tipus', tipus)
+      .eq('empresa_id', empresaId)
       .order('ordre', { ascending: false })
       .limit(1)
       .maybeSingle()
@@ -131,9 +133,15 @@ export async function createCategoria(
 
     const { error } = await supabase
       .from('categories')
-      .insert({ tipus, valor, etiqueta: etiqueta.trim(), ordre, empresa_id: empresaId })
+      .insert({ tipus, valor, etiqueta: etiqueta.trim(), ordre, empresa_id: empresaId, color: color ?? null })
 
-    if (error) return { error: error.message }
+    if (error) {
+      // Constraint única per empresa: categories_empresa_tipus_valor_key
+      if (error.code === '23505') {
+        return { error: `Ja existeix una categoria amb el nom "${etiqueta.trim()}"` }
+      }
+      return { error: error.message }
+    }
     revalidatePath('/ajustos')
     return { error: null }
   } catch (e) {
@@ -143,13 +151,14 @@ export async function createCategoria(
 
 export async function updateCategoria(
   id: string,
-  etiqueta: string
+  etiqueta: string,
+  color?: string | null
 ): Promise<{ error: string | null }> {
   try {
     const supabase = await createClient()
     const { error } = await supabase
       .from('categories')
-      .update({ etiqueta: etiqueta.trim() })
+      .update({ etiqueta: etiqueta.trim(), color: color ?? null })
       .eq('id', id)
 
     if (error) return { error: error.message }

@@ -4,6 +4,33 @@ import { revalidatePath } from 'next/cache'
 import { createServiceClient } from '@/lib/supabase/service'
 import { createClient } from '@/lib/supabase/server'
 
+// ── Categories per defecte ────────────────────────────────
+
+interface CategoriaDefecte {
+  tipus: string
+  valor: string
+  etiqueta: string
+  ordre: number
+  color: string
+}
+
+const CATEGORIES_DEFECTE: CategoriaDefecte[] = [
+  // Línies d'obra
+  { tipus: 'linia_obra', valor: 'construccio', etiqueta: 'Construcció', ordre: 0, color: '#3b82f6' },
+  { tipus: 'linia_obra', valor: 'rehabilitacio', etiqueta: 'Rehabilitació', ordre: 1, color: '#8b5cf6' },
+  { tipus: 'linia_obra', valor: 'obra_nova', etiqueta: 'Obra nova', ordre: 2, color: '#10b981' },
+  { tipus: 'linia_obra', valor: 'reforma', etiqueta: 'Reforma', ordre: 3, color: '#f59e0b' },
+  // Estats d'obra
+  { tipus: 'estat_obra', valor: 'activa', etiqueta: 'Activa', ordre: 0, color: '#22c55e' },
+  { tipus: 'estat_obra', valor: 'acabada', etiqueta: 'Acabada', ordre: 1, color: '#6b7280' },
+  { tipus: 'estat_obra', valor: 'pendent', etiqueta: 'Pendent', ordre: 2, color: '#f59e0b' },
+  { tipus: 'estat_obra', valor: 'paralitzada', etiqueta: 'Paralitzada', ordre: 3, color: '#ef4444' },
+  // Tipus treballador
+  { tipus: 'tipus_treballador', valor: 'oficial', etiqueta: 'Oficial', ordre: 0, color: '#3b82f6' },
+  { tipus: 'tipus_treballador', valor: 'peo', etiqueta: 'Peó', ordre: 1, color: '#6b7280' },
+  { tipus: 'tipus_treballador', valor: 'encarregat', etiqueta: 'Encarregat', ordre: 2, color: '#f59e0b' },
+]
+
 // ── Helpers ───────────────────────────────────────────────
 
 export async function isSuperAdmin(): Promise<boolean> {
@@ -76,6 +103,13 @@ export async function createEmpresa(
         success: null,
       }
     }
+
+    // Inserir categories per defecte
+    const categoriesAmbEmpresa = CATEGORIES_DEFECTE.map((c) => ({
+      ...c,
+      empresa_id: empresa.id,
+    }))
+    await service.from('categories').insert(categoriesAmbEmpresa)
 
     revalidatePath('/super-admin')
     return { error: null, success: `Empresa "${nom}" creada i invitació enviada a ${email_admin}` }

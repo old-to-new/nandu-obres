@@ -27,6 +27,7 @@ export interface Categoria {
   valor: string
   etiqueta: string
   ordre: number
+  color: string | null
   empresa_id: string
   created_at: string
 }
